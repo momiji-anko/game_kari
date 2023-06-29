@@ -188,6 +188,7 @@
   <ItemGroup>
     <ClInclude Include="DeviceResources.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Game\GameContext\GameContext.h" />
     <ClInclude Include="Game\GameMain.h" />
     <ClInclude Include="Game\GameObject\Actor\Actor.h" />
     <ClInclude Include="Game\GameObject\Actor\IActor.h" />
@@ -212,6 +213,7 @@
   <ItemGroup>
     <ClCompile Include="DeviceResources.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Game\GameContext\GameContext.cpp" />
     <ClCompile Include="Game\GameMain.cpp" />
     <ClCompile Include="Game\GameObject\Actor\Actor.cpp" />
     <ClCompile Include="Game\GameObject\Actor\IActor.cpp" />

@@ -3,6 +3,19 @@
 
 #include"pch.h"
 
+Actor::Actor()
+	:
+	m_position(DirectX::SimpleMath::Vector3::Zero),
+	m_velocity(DirectX::SimpleMath::Vector3::Zero),
+	m_model(nullptr),
+	m_active(true),
+	m_AABBObject(nullptr),
+	m_capsule(nullptr),
+	m_rotation{},
+	m_world(DirectX::SimpleMath::Matrix::Identity)
+{
+}
+
 /// <summary>
 /// èâä˙âª	
 /// </summary>

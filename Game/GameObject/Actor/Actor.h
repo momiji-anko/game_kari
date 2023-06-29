@@ -108,7 +108,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	Actor() = default;
+	Actor();
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
