@@ -87,6 +87,17 @@ public:
 	virtual Capsule* GetCapsule() const = 0;
 
 	/// <summary>
+	/// ワールド行列の設定
+	/// </summary>
+	/// <param name="world">ワールド行列</param>
+	virtual void SetWorldMatrix(const DirectX::SimpleMath::Matrix& world) = 0;
+	/// <summary>
+	/// ワールド行列の取得
+	/// </summary>
+	/// <returns>ワールド行列</returns>
+	virtual DirectX::SimpleMath::Matrix GetWorldMatrix()const = 0;
+
+	/// <summary>
 	/// 拡縮の設定
 	/// </summary>
 	/// <param name="scale">拡縮</param>

@@ -1,7 +1,9 @@
 
-#include "Actor.h"
-
 #include"pch.h"
+#include "Actor.h"
+#include"DeviceResources.h"
+#include"Game/GameContext/GameContext.h"
+#include"Game/Shader/ShadowMap.h"
 
 Actor::Actor()
 	:
@@ -20,13 +22,28 @@ Actor::Actor()
 /// 初期化	
 /// </summary>
 /// <param name="position">座標</param>
-/// <param name="velcity">移動量</param>
+/// <param name="velocity">移動量</param>
 /// <param name="scale">拡縮</param>
-/// <param name="rotataion">スケール</param>
+/// <param name="rotation">回転</param>
 /// <param name="model">モデル</param>
 /// <param name="active">アクティブ</param>
-void Actor::Initialize(const DirectX::SimpleMath::Vector3& position, const DirectX::SimpleMath::Vector3& velcity, const DirectX::SimpleMath::Vector3& scale, const DirectX::SimpleMath::Vector3& rotataion, DirectX::Model* model, bool active)
+void Actor::Initialize(const DirectX::SimpleMath::Vector3& position, const DirectX::SimpleMath::Vector3& velocity, const DirectX::SimpleMath::Vector3& scale, const DirectX::SimpleMath::Vector3& rotation, DirectX::Model* model, bool active)
 {
+	//パラメータを初期化
+	//座標
+	m_position = position;
+	//移動量
+	m_velocity = velocity;
+	//拡縮
+	m_scale = scale;
+	//回転
+	m_rotation = DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(rotation.y, rotation.z, rotation.x);
+	//モデル
+	m_model = model;
+	//アクティブ
+	m_active = active;
+
+
 }
 
 /// <summary>
@@ -34,6 +51,53 @@ void Actor::Initialize(const DirectX::SimpleMath::Vector3& position, const Direc
 /// </summary>
 /// <param name="timer">タイマー</param>
 void Actor::Update(const DX::StepTimer& timer)
+{
+	//警告避け
+	UNREFERENCED_PARAMETER(timer);
+	
+}
+
+/// <summary>
+/// 描画
+/// </summary>
+/// <param name="camera">カメラの生ポインタ</param>
+void Actor::Render(const Camera* camera)
+{
+	//警告避け
+	UNREFERENCED_PARAMETER(camera);
+	
+}
+
+/// <summary>
+/// 終了処理
+/// </summary>
+void Actor::Finalize()
+{
+
+}
+
+/// <summary>
+/// ワールド行列計算
+/// </summary>
+void Actor::CalculateWorldMatrix()
+{
+	//ワールド行列に単位行列を入れる
+	m_world = DirectX::SimpleMath::Matrix::Identity;
+	//移動
+	DirectX::SimpleMath::Matrix translation = DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
+	//回転
+	DirectX::SimpleMath::Matrix rotation = DirectX::SimpleMath::Matrix::CreateFromQuaternion(m_rotation);
+	//拡縮
+	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_scale);
+	//ワールド行列の計算
+	m_world *= scale * rotation * translation;
+
+}
+
+/// <summary>
+/// リセット
+/// </summary>
+void Actor::Reset()
 {
 }
 
@@ -45,4 +109,23 @@ void Actor::Update(const DX::StepTimer& timer)
 /// <param name="projection">プロジェクション行列</param>
 void Actor::CreateShadow(ShadowMap* shadow, const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& projection)
 {
+	//デバイスリソース取得
+	DX::DeviceResources* pDR = DX::DeviceResources::GetInstance();
+	//デバイスコンテキスト取得
+	ID3D11DeviceContext1* context = pDR->GetD3DDeviceContext();
+
+	//モデルがあれば影を生成する
+	if (GetModel() != nullptr)
+	{
+		//ワールド行列を計算する
+		CalculateWorldMatrix();
+
+		//影生成
+		GetModel()->Draw(context, *GameContext::GetInstance().GetCommonState(), GetWorldMatrix(), view, projection, false, [&]()
+			{
+				shadow->DrawShadowMap(context);
+			}
+		);
+	}
+
 }

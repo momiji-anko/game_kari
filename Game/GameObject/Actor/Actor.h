@@ -79,6 +79,18 @@ public:
 	Capsule* GetCapsule() const override final { return m_capsule.get(); }
 
 	/// <summary>
+	/// ワールド行列の設定
+	/// </summary>
+	/// <param name="world">ワールド行列</param>
+	void SetWorldMatrix(const DirectX::SimpleMath::Matrix& world)override final { m_world = world; }
+	/// <summary>
+	/// ワールド行列の取得
+	/// </summary>
+	/// <returns>ワールド行列</returns>
+	 DirectX::SimpleMath::Matrix GetWorldMatrix()const override final { return m_world; }
+
+
+	/// <summary>
 	/// 拡縮の設定
 	/// </summary>
 	/// <param name="scale">拡縮</param>
@@ -118,16 +130,16 @@ public:
 	/// 初期化	
 	/// </summary>
 	/// <param name="position">座標</param>
-	/// <param name="velcity">移動量</param>
+	/// <param name="velocity">移動量</param>
 	/// <param name="scale">拡縮</param>
-	/// <param name="rotataion">スケール</param>
+	/// <param name="rotation">スケール</param>
 	/// <param name="model">モデル</param>
 	/// <param name="active">アクティブ</param>
 	virtual void Initialize(
 		const DirectX::SimpleMath::Vector3& position,
-		const DirectX::SimpleMath::Vector3& velcity,
+		const DirectX::SimpleMath::Vector3& velocity,
 		const DirectX::SimpleMath::Vector3& scale,
-		const DirectX::SimpleMath::Vector3& rotataion,
+		const DirectX::SimpleMath::Vector3& rotation,
 		DirectX::Model* model,
 		bool active
 	);

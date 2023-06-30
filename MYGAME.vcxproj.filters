@@ -59,6 +59,15 @@
     <Filter Include="Game\GameObject\Collider\PolygonToLineSegment">
       <UniqueIdentifier>{4074f6a1-522d-4e91-889b-ec61c30a7267}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Shader">
+      <UniqueIdentifier>{86aa0b50-7da5-4302-8713-a1c7e08df45a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Shader\HLSL">
+      <UniqueIdentifier>{6e70c0be-cb02-4214-9108-e233d7d92b73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObject\Player">
+      <UniqueIdentifier>{7cc49d25-2e9d-4395-b727-f32ce454e6d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -126,6 +135,30 @@
     <ClInclude Include="Game\GameContext\GameContext.h">
       <Filter>Game\GameContext</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Shader\BinaryFile.h">
+      <Filter>Game\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Shader\Fade.h">
+      <Filter>Game\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Shader\FireEffectManager.h">
+      <Filter>Game\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Shader\FireShader.h">
+      <Filter>Game\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Shader\PlayerDeath.h">
+      <Filter>Game\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Shader\ShadowMap.h">
+      <Filter>Game\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\MyLibraries\MyRandom.h">
+      <Filter>Libraries\MyLibraries</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameObject\Player\Player.h">
+      <Filter>Game\GameObject\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -172,6 +205,30 @@
     </ClCompile>
     <ClCompile Include="Game\GameContext\GameContext.cpp">
       <Filter>Game\GameContext</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Shader\BinaryFile.cpp">
+      <Filter>Game\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Shader\Fade.cpp">
+      <Filter>Game\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Shader\FireEffectManager.cpp">
+      <Filter>Game\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Shader\FireShader.cpp">
+      <Filter>Game\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Shader\PlayerDeath.cpp">
+      <Filter>Game\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Shader\ShadowMap.cpp">
+      <Filter>Game\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\MyLibraries\MyRandom.cpp">
+      <Filter>Libraries\MyLibraries</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameObject\Player\Player.cpp">
+      <Filter>Game\GameObject\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

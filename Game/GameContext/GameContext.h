@@ -42,6 +42,16 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	DirectX::Keyboard::KeyboardStateTracker* GetKeyBoardStateTracker() { return m_keyboardTracker; }
+
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	GameContext();
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~GameContext();
+
 private:
 	//スプライトバッチ
 	DirectX::SpriteBatch* m_spriteBath;
