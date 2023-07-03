@@ -17,7 +17,7 @@ const float Camera::DEFAULT_CAMERA_DISTANCE = 5.0f;
 //-------------------------------------------------------------------
 Camera::Camera()
 	: m_view(DirectX::SimpleMath::Matrix::Identity)
-	, m_eye(0.0f, 2.0f, 10.0f)
+	, m_eye(0.0f, 10.0f, 10.0f)
 	, m_target(0.0f, 0.0f, 0.0f)
 	, m_up(0.0f, 1.0f, 0.0f)
 {

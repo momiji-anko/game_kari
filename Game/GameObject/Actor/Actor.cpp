@@ -16,6 +16,9 @@ Actor::Actor()
 	m_rotation{},
 	m_world(DirectX::SimpleMath::Matrix::Identity)
 {
+	CreateAABB();
+	CreateCapsule();
+
 }
 
 /// <summary>
@@ -129,3 +132,33 @@ void Actor::CreateShadow(ShadowMap* shadow, const DirectX::SimpleMath::Matrix& v
 	}
 
 }
+
+/// <summary>
+/// AABBの作成
+/// </summary>
+void Actor::CreateAABB()
+{
+	//AABB当たり判定作成
+	m_AABBObject = std::make_unique<AABBFor3D>();
+	//AABB初期化
+	m_AABBObject->Initialize();
+
+	DirectX::SimpleMath::Vector3 length = { 0.5f,0.5f,0.5f };
+
+	//AABBの当たり判定を設定
+	m_AABBObject->SetData(DirectX::SimpleMath::Vector3::Zero, DirectX::SimpleMath::Vector3::Zero);
+
+
+}
+
+/// <summary>
+/// カプセルの生成
+/// </summary>
+void Actor::CreateCapsule()
+{
+	//カプセルの作成
+	m_capsule = std::make_unique<Capsule>();
+	//半径設定
+	m_capsule->r = 1.0f;
+}
+

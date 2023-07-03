@@ -110,7 +110,7 @@ public:
 	/// 角度の設定
 	/// </summary>
 	/// <param name="rotation">角度(Vector3)</param>
-	void SetRotation(const DirectX::SimpleMath::Vector3& rotation) override final { m_rotation = DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(rotation.y, rotation.x, rotation.z); }
+	void SetRotation(const DirectX::SimpleMath::Vector3& rotation) override final { m_rotation = DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(rotation); }
 	/// <summary>
 	/// 角度の取得
 	/// </summary>
@@ -162,14 +162,14 @@ public:
 	virtual void Finalize();
 
 	/// <summary>
-	/// ワールド行列計算
-	/// </summary>
-	void CalculateWorldMatrix();
-
-	/// <summary>
 	/// リセット
 	/// </summary>
 	virtual void Reset();
+
+	/// <summary>
+	/// ワールド行列計算
+	/// </summary>
+	void CalculateWorldMatrix();
 
 	/// <summary>
 	/// 影生成
@@ -178,6 +178,17 @@ public:
 	/// <param name="view">ビュー行列</param>
 	/// <param name="projection">プロジェクション行列</param>
 	virtual void CreateShadow(ShadowMap * shadow, const DirectX::SimpleMath::Matrix & view, const DirectX::SimpleMath::Matrix & projection);
+	
+private:
+		/// <summary>
+		/// AABBの作成
+		/// </summary>
+		void CreateAABB();
+
+		/// <summary>
+		/// カプセルの生成
+		/// </summary>
+		void CreateCapsule();
 
 private:
 	//座標

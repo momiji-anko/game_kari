@@ -195,6 +195,7 @@
     <ClInclude Include="Game\GameObject\Collider\AABBFor3D\AABBFor3D.h" />
     <ClInclude Include="Game\GameObject\Collider\Capsule\Capsule.h" />
     <ClInclude Include="Game\GameObject\Collider\PolygonToLineSegment\PolygonToLineSegment.h" />
+    <ClInclude Include="Game\GameObject\Goal\Goal.h" />
     <ClInclude Include="Game\GameObject\Player\Player.h" />
     <ClInclude Include="Game\IScene.h" />
     <ClInclude Include="Game\PlayScene\PlayScene.h" />
@@ -226,6 +227,7 @@
     <ClCompile Include="Game\GameObject\Actor\Actor.cpp" />
     <ClCompile Include="Game\GameObject\Actor\IActor.cpp" />
     <ClCompile Include="Game\GameObject\Collider\AABBFor3D\AABBFor3D.cpp" />
+    <ClCompile Include="Game\GameObject\Goal\Goal.cpp" />
     <ClCompile Include="Game\GameObject\Player\Player.cpp" />
     <ClCompile Include="Game\PlayScene\PlayScene.cpp" />
     <ClCompile Include="Game\Shader\BinaryFile.cpp" />
