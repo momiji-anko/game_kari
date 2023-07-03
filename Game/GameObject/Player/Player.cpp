@@ -37,6 +37,7 @@ void Player::Initialize(const DirectX::SimpleMath::Vector3& position, const Dire
 void Player::Update(const DX::StepTimer& timer)
 {
 	PlayerMove(timer);
+	CollisionAreaUpdate();
 }
 
 void Player::Render(const Camera* camera)

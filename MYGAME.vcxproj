@@ -124,7 +124,7 @@
       <PreprocessorDefinitions>_WIN64;WIN64;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -197,6 +197,7 @@
     <ClInclude Include="Game\GameObject\Collider\PolygonToLineSegment\PolygonToLineSegment.h" />
     <ClInclude Include="Game\GameObject\Goal\Goal.h" />
     <ClInclude Include="Game\GameObject\Player\Player.h" />
+    <ClInclude Include="Game\GameObject\Stage\Stage.h" />
     <ClInclude Include="Game\IScene.h" />
     <ClInclude Include="Game\PlayScene\PlayScene.h" />
     <ClInclude Include="Game\Shader\BinaryFile.h" />
@@ -229,6 +230,7 @@
     <ClCompile Include="Game\GameObject\Collider\AABBFor3D\AABBFor3D.cpp" />
     <ClCompile Include="Game\GameObject\Goal\Goal.cpp" />
     <ClCompile Include="Game\GameObject\Player\Player.cpp" />
+    <ClCompile Include="Game\GameObject\Stage\Stage.cpp" />
     <ClCompile Include="Game\PlayScene\PlayScene.cpp" />
     <ClCompile Include="Game\Shader\BinaryFile.cpp" />
     <ClCompile Include="Game\Shader\Fade.cpp" />

@@ -71,6 +71,9 @@
     <Filter Include="Game\GameObject\Goal">
       <UniqueIdentifier>{cb85725c-724d-41b1-98aa-76f8cb499adf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameObject\Stage">
+      <UniqueIdentifier>{b06fb147-5891-417e-9eb6-a6ac7eb69ae4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -165,6 +168,9 @@
     <ClInclude Include="Game\GameObject\Goal\Goal.h">
       <Filter>Game\GameObject\Goal</Filter>
     </ClInclude>
+    <ClInclude Include="Game\GameObject\Stage\Stage.h">
+      <Filter>Game\GameObject\Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -238,6 +244,9 @@
     </ClCompile>
     <ClCompile Include="Game\GameObject\Goal\Goal.cpp">
       <Filter>Game\GameObject\Goal</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameObject\Stage\Stage.cpp">
+      <Filter>Game\GameObject\Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -31,7 +31,7 @@ void Goal::Update(const DX::StepTimer& timer)
 {
 	AABBFor3D* aabb = GetAABB();
 	DirectX::SimpleMath::Vector3 position = GetPosition();
-	DirectX::SimpleMath::Vector3 area{ 1.5 };
+	DirectX::SimpleMath::Vector3 area{ 0.5 };
 	aabb->SetData(position - area, position + area);
 
 	Capsule* capsule = GetCapsule();
