@@ -11,111 +11,111 @@ public:
 	/// 座標を設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetPosition(const DirectX::SimpleMath::Vector3& position)override final { m_position = position; }
+	void SetPosition(const DirectX::SimpleMath::Vector3& position)override  { m_position = position; }
 	/// <summary>
 	/// 座標の取得
 	/// </summary>
 	/// <returns>現在の座標</returns>
-	DirectX::SimpleMath::Vector3 GetPosition() const override final { return m_position; }
+	DirectX::SimpleMath::Vector3 GetPosition() const override  { return m_position; }
 
 	/// <summary>
 	/// 移動量の設定
 	/// </summary>
 	/// <param name="velcity">移動量</param>
-	void SetVelocity(const DirectX::SimpleMath::Vector3& velocity) override final { m_velocity = velocity; }
+	void SetVelocity(const DirectX::SimpleMath::Vector3& velocity) override  { m_velocity = velocity; }
 	/// <summary>
 	/// 移動量の取得
 	/// </summary>
 	/// <returns>移動量</returns>
-	DirectX::SimpleMath::Vector3 GetVelocity() const override final { return m_velocity; }
+	DirectX::SimpleMath::Vector3 GetVelocity() const override  { return m_velocity; }
 
 	/// <summary>
 	/// モデルの設定
 	/// </summary>
 	/// <param name="model">モデルの生ポインタ</param>
-	void SetModel(DirectX::Model* model) override final { m_model = model; }
+	void SetModel(DirectX::Model* model) override  { m_model = model; }
 	/// <summary>
 	/// モデルの取得
 	/// </summary>
 	/// <returns>モデルの生ポインタ</returns>
-	DirectX::Model* GetModel() const override final { return m_model; }
+	DirectX::Model* GetModel() const override  { return m_model; }
 
 	/// <summary>
 	/// アクティブの設定
 	/// </summary>
 	/// <param name="active">true = アクティブ、false = 非アクティブ</param>
-	void SetActive(bool active)override final { m_active = active; }
+	void SetActive(bool active)override  { m_active = active; }
 	/// <summary>
 	/// アクティブ状態の取得
 	/// </summary>
 	/// <returns>true = アクティブ、false = 非アクティブ</returns>
-	bool GetActive() const override final { return m_active; }
+	bool GetActive() const override  { return m_active; }
 	/// <summary>
 	/// アクティブ状態の確認
 	/// </summary>
 	/// <returns>true = アクティブ、false = 非アクティブ</returns>
-	bool IsActive() const override final { return m_active; }
+	bool IsActive() const override  { return m_active; }
 
 	/// <summary>
 	/// 当たり判定AABBの取得
 	/// </summary>
 	/// <param name="AABBobject">AABBのユニークポインタ</param>
-	void SetAABB(std::unique_ptr<AABBFor3D>& AABBObject) override final { m_AABBObject = std::move(AABBObject); }
+	void SetAABB(std::unique_ptr<AABBFor3D>& AABBObject) override  { m_AABBObject = std::move(AABBObject); }
 	/// <summary>
 	/// 当たり判定AABBの設定
 	/// </summary>
 	/// <returns></returns>
-	AABBFor3D* GetAABB() const override final { return m_AABBObject.get(); }
+	AABBFor3D* GetAABB() const override  { return m_AABBObject.get(); }
 
 	/// <summary>
 	/// 当たり判定カプセルの設定
 	/// </summary>
 	/// <param name="capsule">カプセルのユニークポインタ</param>
-	void SetCapsule(std::unique_ptr<Capsule>& capsule) override final { m_capsule = std::move(capsule); }
+	void SetCapsule(std::unique_ptr<Capsule>& capsule) override  { m_capsule = std::move(capsule); }
 	/// <summary>
 	/// 当たり判定カプセルの取得
 	/// </summary>
 	/// <returns>カプセルの生ポインタ</returns>
-	Capsule* GetCapsule() const override final { return m_capsule.get(); }
+	Capsule* GetCapsule() const override  { return m_capsule.get(); }
 
 	/// <summary>
 	/// ワールド行列の設定
 	/// </summary>
 	/// <param name="world">ワールド行列</param>
-	void SetWorldMatrix(const DirectX::SimpleMath::Matrix& world)override final { m_world = world; }
+	void SetWorldMatrix(const DirectX::SimpleMath::Matrix& world)override  { m_world = world; }
 	/// <summary>
 	/// ワールド行列の取得
 	/// </summary>
 	/// <returns>ワールド行列</returns>
-	 DirectX::SimpleMath::Matrix GetWorldMatrix()const override final { return m_world; }
+	 DirectX::SimpleMath::Matrix GetWorldMatrix()const override  { return m_world; }
 
 
 	/// <summary>
 	/// 拡縮の設定
 	/// </summary>
 	/// <param name="scale">拡縮</param>
-	void SetScale(const DirectX::SimpleMath::Vector3& scale) override final { m_scale = scale; }
+	void SetScale(const DirectX::SimpleMath::Vector3& scale) override  { m_scale = scale; }
 	/// <summary>
 	/// 拡縮の取得
 	/// </summary>
 	/// <returns>拡縮</returns>
-	DirectX::SimpleMath::Vector3 GetScale() const override final { return m_scale; }
+	DirectX::SimpleMath::Vector3 GetScale() const override  { return m_scale; }
 
 	/// <summary>
 	/// 角度の設定
 	/// </summary>
 	/// <param name="rotation">角度(クォータニオン)</param>
-	void SetRotation(const DirectX::SimpleMath::Quaternion& rotation) override final { m_rotation = rotation; }
+	void SetRotation(const DirectX::SimpleMath::Quaternion& rotation) override  { m_rotation = rotation; }
 	/// <summary>
 	/// 角度の設定
 	/// </summary>
 	/// <param name="rotation">角度(Vector3)</param>
-	void SetRotation(const DirectX::SimpleMath::Vector3& rotation) override final { m_rotation = DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(rotation); }
+	void SetRotation(const DirectX::SimpleMath::Vector3& rotation) override  { m_rotation = DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(rotation); }
 	/// <summary>
 	/// 角度の取得
 	/// </summary>
 	/// <returns></returns>
-	DirectX::SimpleMath::Quaternion GetRotation() const override final { return m_rotation; }
+	DirectX::SimpleMath::Quaternion GetRotation() const override  { return m_rotation; }
 
 	/// <summary>
 	/// コンストラクタ

@@ -40,7 +40,7 @@ void Actor::Initialize(const DirectX::SimpleMath::Vector3& position, const Direc
 	//拡縮
 	m_scale = scale;
 	//回転
-	m_rotation = DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(rotation.y, rotation.z, rotation.x);
+	m_rotation = DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(rotation);
 	//モデル
 	m_model = model;
 	//アクティブ

@@ -5,5 +5,56 @@
 class Stage : public Actor
 {
 public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	Stage();
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~Stage();
+
+	/// <summary>
+	/// 初期化	
+	/// </summary>
+	/// <param name="position">座標</param>
+	/// <param name="velocity">移動量</param>
+	/// <param name="scale">拡縮</param>
+	/// <param name="rotation">スケール</param>
+	/// <param name="model">モデル</param>
+	/// <param name="active">アクティブ</param>
+	void Initialize(
+		const DirectX::SimpleMath::Vector3& position,
+		const DirectX::SimpleMath::Vector3& velocity,
+		const DirectX::SimpleMath::Vector3& scale,
+		const DirectX::SimpleMath::Vector3& rotation,
+		DirectX::Model* model,
+		bool active
+	)override;
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="timer">タイマー</param>
+	void Update(const DX::StepTimer& timer)override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="camera">カメラの生ポインタ</param>
+	void Render(const Camera* camera)override;
+
+	/// <summary>
+	/// 終了処理
+	/// </summary>
+	void Finalize()override;
+
+	/// <summary>
+	/// リセット
+	/// </summary>
+	void Reset()override;
+
 private:
+
+	std::vector<>
 };
