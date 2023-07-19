@@ -18,7 +18,9 @@ using namespace DirectX;
 /*--------------------------------------------------
 コンストラクタ
 --------------------------------------------------*/
-TitleScene::TitleScene()
+TitleScene::TitleScene(GameMain* parent)
+	:
+	m_parent(parent)
 {
 }
 
@@ -62,7 +64,7 @@ void TitleScene::Initialize()
 更新
 戻り値	:次のシーン番号
 --------------------------------------------------*/
-GAME_SCENE TitleScene::Update(const DX::StepTimer& timer)
+void TitleScene::Update(const DX::StepTimer& timer)
 {
 	// キー入力情報を取得する
 	DirectX::Keyboard::State keyState = DirectX::Keyboard::Get().GetState();
@@ -72,10 +74,10 @@ GAME_SCENE TitleScene::Update(const DX::StepTimer& timer)
 
 	if (keyState.Z || mouseState.leftButton)
 	{
-		return GAME_SCENE::PLAY;
+		
 	}
 
-	return GAME_SCENE::NONE;
+	
 }
 
 /*--------------------------------------------------

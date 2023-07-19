@@ -6,7 +6,8 @@
 #include <Keyboard.h>
 #include <Mouse.h>
 #include "StepTimer.h"
-
+#include"Game/PlayScene/PlayScene.h"
+#include"Game/TitleScene/TitleScene.h"
 // シーンの列挙
 enum class GAME_SCENE : int
 {
@@ -40,6 +41,10 @@ private:
 	// シーン
 	IScene* m_pScene;
 
+    PlayScene m_playScane;
+
+    TitleScene m_titleScane;
+
 public:
     GameMain();
     ~GameMain();
@@ -49,11 +54,12 @@ public:
     void Render();
     void Finalize();
 
-	// シーン関係処理
+	
 
-	// シーンの作成
-	void CreateScene();
+    void ChengeScene(IScene* scene);
+    
+    IScene* GetPlayScene() { return &m_playScane; }
 
-	// シーンの削除
-	void DeleteScene();
+    IScene* GetTitleScene() { return &m_titleScane; }
+
 };

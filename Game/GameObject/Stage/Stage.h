@@ -5,6 +5,13 @@
 class Stage : public Actor
 {
 public:
+
+	void SetVertexPosition(const std::vector<DirectX::SimpleMath::Vector3>& vertexPositon) { m_vertexPosition = vertexPositon; }
+	std::vector<DirectX::SimpleMath::Vector3> GetVertexPosition()const { return m_vertexPosition; }
+
+	void SetIndex(const std::vector<int>& index) { m_index = index; }
+	std::vector<int> GetIndex()const { return m_index; }
+
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -56,5 +63,7 @@ public:
 
 private:
 
-	std::vector<>
+	std::vector<DirectX::SimpleMath::Vector3> m_vertexPosition;
+
+	std::vector<int> m_index;
 };

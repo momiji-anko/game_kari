@@ -21,6 +21,8 @@ using namespace DirectX;
 GameMain::GameMain()
 	: m_nextScene(GAME_SCENE::TITLE)		// 初期シーンの設定
 	, m_pScene(nullptr)
+	,m_playScane(this)
+	,m_titleScane(this)
 {
 }
 
@@ -40,14 +42,18 @@ void GameMain::Initialize()
 	DX::DeviceResources* pDR = DX::DeviceResources::GetInstance();
 
 	// キーボード関連
-	m_keybord             = std::make_unique<DirectX::Keyboard>();
+	m_keybord = std::make_unique<DirectX::Keyboard>();
 
 	// マウス関連
 	m_mouse = std::make_unique<DirectX::Mouse>();
 	m_mouse->SetWindow(pDR->GetHwnd());
 
-	// シーン作成
-	CreateScene();
+	
+
+	m_playScane.Initialize();
+	m_titleScane.Initialize();
+
+	
 }
 
 //-------------------------------------------------------------------
@@ -64,20 +70,11 @@ void GameMain::Update(const DX::StepTimer& timer)
 		PostQuitMessage(0);
 	}
 
-	// 次のシーンが設定されていたらシーン切り替え
-	if (m_nextScene != GAME_SCENE::NONE)
-	{
-		// シーン削除
-		DeleteScene();
-		
-		// シーン作成
-		CreateScene();
-	}
 
 	// 実態があれば更新
 	if (m_pScene != nullptr)
 	{
-		m_nextScene = m_pScene->Update(timer);
+		m_pScene->Update(timer);
 	}
 }
 
@@ -98,59 +95,20 @@ void GameMain::Render()
 //-------------------------------------------------------------------
 void GameMain::Finalize()
 {
-	DeleteScene();
+	m_playScane.Finalize();
+	m_titleScane.Finalize();
+
 }
 
-/*--------------------------------------------------
-シーンの作成
---------------------------------------------------*/
-void GameMain::CreateScene()
+
+
+
+void GameMain::ChengeScene(IScene* scene)
 {
-	// シーンが作成されているときは処理しない
 	if (m_pScene != nullptr)
-	{
-		return;
-	}
+		m_pScene->Finalize();
 
-	// 次シーンの作成
-	switch (m_nextScene)
-	{
-	case GAME_SCENE::TITLE:
-	{
-		m_pScene = new TitleScene();
-		break;
-	}
-	case GAME_SCENE::PLAY:
-	{
-		m_pScene = new PlayScene();
-		break;
-	}
-	default:
-	{
-		// 例外なので処理を中断
-		return;
-	}
-	}
+	m_pScene = scene;
 
-	// 作成したシーンを初期化
 	m_pScene->Initialize();
-}
-
-/*--------------------------------------------------
-シーンの削除
---------------------------------------------------*/
-void GameMain::DeleteScene()
-{
-	// シーンが作成されていなければ処理しない
-	if (m_pScene == nullptr)
-	{
-		return;
-	}
-
-	// 現シーンの終了処理
-	m_pScene->Finalize();
-
-	// 現シーンの削除
-	delete m_pScene;
-	m_pScene = nullptr;
 }

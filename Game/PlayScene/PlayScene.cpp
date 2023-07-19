@@ -16,7 +16,9 @@
 /*--------------------------------------------------
 コンストラクタ
 --------------------------------------------------*/
-PlayScene::PlayScene()
+PlayScene::PlayScene(GameMain* parent)
+	:
+	m_parent(parent)
 {
 }
 
@@ -57,12 +59,12 @@ void PlayScene::Initialize()
 更新
 戻り値	:次のシーン番号
 --------------------------------------------------*/
-GAME_SCENE PlayScene::Update(const DX::StepTimer& timer)
+void PlayScene::Update(const DX::StepTimer& timer)
 {
 	m_player->Update(timer);
 	m_goal->Update(timer);
 
-	return GAME_SCENE::NONE;
+	return ;
 }
 
 /*--------------------------------------------------

@@ -24,10 +24,12 @@ private:
 	// テクスチャ
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_texture;
 
+	GameMain* m_parent;
 public:
 
+
 	// コンストラクタ
-	TitleScene();
+	TitleScene(GameMain* parent);
 
 	// デストラクタ
 	~TitleScene();
@@ -36,7 +38,7 @@ public:
 	void Initialize() override;
 
 	// 更新
-	GAME_SCENE Update(const DX::StepTimer& timer) override;
+	void Update(const DX::StepTimer& timer) override;
 
 	// 描画
 	void Draw() override;

@@ -80,8 +80,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\DirectXTK\Inc;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\DirectXTK\Bin\Desktop_2019\x64\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)\DirectXTK\Inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)\DirectXTK\Libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -129,7 +129,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;dxgi.lib;dxguid.lib;uuid.lib;kernel32.lib;user32.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;DirectXTK.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;dxgi.lib;dxguid.lib;uuid.lib;kernel32.lib;user32.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;DirectXTK_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
       <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
@@ -200,6 +200,7 @@
     <ClInclude Include="Game\GameObject\Stage\Stage.h" />
     <ClInclude Include="Game\IScene.h" />
     <ClInclude Include="Game\PlayScene\PlayScene.h" />
+    <ClInclude Include="Game\SceneGraph\SceneGraph.h" />
     <ClInclude Include="Game\Shader\BinaryFile.h" />
     <ClInclude Include="Game\Shader\Fade.h" />
     <ClInclude Include="Game\Shader\FireEffectManager.h" />
@@ -232,6 +233,7 @@
     <ClCompile Include="Game\GameObject\Player\Player.cpp" />
     <ClCompile Include="Game\GameObject\Stage\Stage.cpp" />
     <ClCompile Include="Game\PlayScene\PlayScene.cpp" />
+    <ClCompile Include="Game\SceneGraph\SceneGraph.cpp" />
     <ClCompile Include="Game\Shader\BinaryFile.cpp" />
     <ClCompile Include="Game\Shader\Fade.cpp" />
     <ClCompile Include="Game\Shader\FireEffectManager.cpp" />

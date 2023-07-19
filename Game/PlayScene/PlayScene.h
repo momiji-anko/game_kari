@@ -11,6 +11,8 @@
 
 class GridFloor;
 class Camera;
+class GameMain;
+
 
 class PlayScene : public IScene
 {
@@ -24,10 +26,12 @@ private:
 
 	std::unique_ptr<DirectX::CommonStates> m_commonState;
 
+	GameMain* m_parent;
+
 public:
 
 	// コンストラクタ
-	PlayScene();
+	PlayScene(GameMain* parent);
 
 	// デストラクタ
 	~PlayScene();
@@ -36,7 +40,7 @@ public:
 	void Initialize() override;
 
 	// 更新
-	GAME_SCENE Update(const DX::StepTimer& timer) override;
+	void Update(const DX::StepTimer& timer) override;
 
 	// 描画
 	void Draw() override;

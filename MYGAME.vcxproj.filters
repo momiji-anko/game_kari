@@ -74,6 +74,12 @@
     <Filter Include="Game\GameObject\Stage">
       <UniqueIdentifier>{b06fb147-5891-417e-9eb6-a6ac7eb69ae4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\SceneGraph">
+      <UniqueIdentifier>{cefda376-32c6-47b8-bed2-8ff151b7021d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObject\Collider\BoundingBox">
+      <UniqueIdentifier>{d20e570c-487c-4283-a612-f6b296440a18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -171,6 +177,9 @@
     <ClInclude Include="Game\GameObject\Stage\Stage.h">
       <Filter>Game\GameObject\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="Game\SceneGraph\SceneGraph.h">
+      <Filter>Game\SceneGraph</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -247,6 +256,9 @@
     </ClCompile>
     <ClCompile Include="Game\GameObject\Stage\Stage.cpp">
       <Filter>Game\GameObject\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\SceneGraph\SceneGraph.cpp">
+      <Filter>Game\SceneGraph</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
