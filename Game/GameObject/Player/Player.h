@@ -73,4 +73,8 @@ private:
 	//モデルタイムの速度
 	static const float MODEL_TIME_SPEED;
 
+
+private:
+	DirectX::Model* m_testCollisitionModel;
+ 
 };

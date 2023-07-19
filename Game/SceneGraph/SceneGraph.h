@@ -53,5 +53,5 @@ public:
 	/// ノードを追加する
 	/// </summary>
 	/// <param name="sceneNode">ノード</param>
-	void AttachNode(std::unique_ptr<IActor> sceneNode) { m_sceneGraph.emplace_back(std::move(sceneNode)); }
+	void AttachNode(std::unique_ptr<IActor> sceneNode) {  }
 };

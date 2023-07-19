@@ -54,6 +54,7 @@ void GameMain::Initialize()
 	m_titleScane.Initialize();
 
 	
+	ChengeScene(&m_playScane);
 }
 
 //-------------------------------------------------------------------

@@ -5,6 +5,7 @@
 #include"Game/GameContext/GameContext.h"
 #include"DeviceResources.h"
 #include"Libraries/MyLibraries/Camera.h"
+#include"Libraries/MyLibraries/ModelManager.h"
 
 //	1•bŠÔ‚Éi‚Þƒ}ƒX‚Ì”
 const float Player::MOVE_SPEED = 9.0f;
@@ -32,6 +33,8 @@ void Player::Initialize(const DirectX::SimpleMath::Vector3& position, const Dire
 	SetModel(model);
 	SetActive(active);
 
+
+	m_testCollisitionModel = ModelManager::GetInstance().LoadModel(L"Resources/Models/dice.cmo");
 }
 
 void Player::Update(const DX::StepTimer& timer)
@@ -50,7 +53,25 @@ void Player::Render(const Camera* camera)
 
 	CalculateWorldMatrix();
 
+	DirectX::BoundingBox testCollision = m_testCollisitionModel->meshes.at(0)->boundingBox;
+	testCollision.Transform(testCollision, GetWorldMatrix());
+
+	DirectX::BoundingBox Collision = GetModel()->meshes.at(0)->boundingBox;
+	Collision.Transform(Collision, DirectX::SimpleMath::Matrix::CreateScale(1));
+
+
+	if (Collision.Intersects(testCollision))
+	{
+		m_testCollisitionModel->Draw(context, *GameContext::GetInstance().GetCommonState(), DirectX::SimpleMath::Matrix::Identity, camera->GetViewMatrix(), camera->GetProjectionMatrix());
+	}
+	
+
+
 	GetModel()->Draw(context, *GameContext::GetInstance().GetCommonState(), GetWorldMatrix(), camera->GetViewMatrix(), camera->GetProjectionMatrix());
+
+
+
+
 
 }
 
