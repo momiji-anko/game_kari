@@ -1,12 +1,12 @@
 #pragma once
-#include"Game/GameObject/Actor/IActor.h"
+#include"Game/GameObject/Actor/Actor.h"
 #include<vector>
 
-class SceneGraph
+class SceneGraph 
 {
 private:
 	//シーングラフ
-	std::vector<std::unique_ptr<SceneGraph>> m_sceneGraph;
+	std::vector<std::unique_ptr<Actor>> m_sceneGraph;
 	// 位置
 	DirectX::SimpleMath::Vector3 m_position;
 	// 回転角
@@ -24,7 +24,6 @@ public:
 	/// <summary>
 	/// 初期化	
 	/// </summary>
-
 	void Initialize();
 
 	/// <summary>
@@ -53,5 +52,5 @@ public:
 	/// ノードを追加する
 	/// </summary>
 	/// <param name="sceneNode">ノード</param>
-	void AttachNode(std::unique_ptr<IActor> sceneNode) {  }
+	void AttachNode(std::unique_ptr<Actor> sceneNode);
 };

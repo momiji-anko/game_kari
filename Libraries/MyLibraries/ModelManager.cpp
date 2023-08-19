@@ -25,13 +25,27 @@ DirectX::Model* ModelManager::LoadModel(const std::wstring& fileName)
 		//エフェクトファクトリの作成
 		std::unique_ptr<DirectX::EffectFactory> effectFactry = std::make_unique<DirectX::EffectFactory>(device);
 
+		std::wstring filePath = L"Resources/Models/";
+
+		size_t pos = fileName.find(filePath);
+		
+		std::wstring fullFilePath;
+		
+		if (pos == std::string::npos)
+		{
+			fullFilePath = filePath + fileName;
+		}
+		else
+		{
+			fullFilePath = fileName;
+		}
 		//	テクスチャの読み込みパス指定
-		effectFactry->SetDirectory(L"Resources/Models");
+		effectFactry->SetDirectory(filePath.c_str());
 
 		//	ファイルを指定してモデルデータ読み込み＆読み込んだモデルを返す
 		m_models[fileName] = DirectX::Model::CreateFromCMO(
 			device,
-			fileName.c_str(),
+			fullFilePath.c_str(),
 			*effectFactry
 		);
 	}

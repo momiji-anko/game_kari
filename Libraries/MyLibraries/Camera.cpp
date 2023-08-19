@@ -17,7 +17,7 @@ const float Camera::DEFAULT_CAMERA_DISTANCE = 5.0f;
 //-------------------------------------------------------------------
 Camera::Camera()
 	: m_view(DirectX::SimpleMath::Matrix::Identity)
-	, m_eye(0.0f, 10.0f, 10.0f)
+	, m_eye(0.0f, 5.0f, 25.0f)
 	, m_target(0.0f, 0.0f, 0.0f)
 	, m_up(0.0f, 1.0f, 0.0f)
 {
@@ -55,6 +55,6 @@ void Camera::CalculateProjectionMatrix()
 	constexpr float fieldOfView = XMConvertToRadians(45.0f);    // ‰æŠp
 	float aspectRatio = width / height;							// ‰æ–Êc‰¡”ä
 	float nearPlane = 1.0f;                                     // ƒJƒƒ‰‚©‚çˆê”Ô‹ß‚¢“Š‰e–Ê
-	float farPlane = 100.0f;                                    // ƒJƒƒ‰‚©‚çˆê”Ô‰“‚¢“Š‰e–Ê
+	float farPlane = 10000.0f;                                    // ƒJƒƒ‰‚©‚çˆê”Ô‰“‚¢“Š‰e–Ê
 	m_projection = SimpleMath::Matrix::CreatePerspectiveFieldOfView(fieldOfView, aspectRatio, nearPlane, farPlane);
 }

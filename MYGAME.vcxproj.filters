@@ -80,6 +80,18 @@
     <Filter Include="Game\GameObject\Collider\BoundingBox">
       <UniqueIdentifier>{d20e570c-487c-4283-a612-f6b296440a18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameObject\Component">
+      <UniqueIdentifier>{5209864c-c7b5-4c9d-8571-9ae1195791a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObject\Factory">
+      <UniqueIdentifier>{9abd4a90-2fcb-4891-bb17-12a695ad9ee3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObject\Collider\CollisionManager">
+      <UniqueIdentifier>{239f4795-9560-441d-8545-7a082f1a9d38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObject\Enemy">
+      <UniqueIdentifier>{af93adbb-a7b5-4edc-b0aa-c38b9cc12518}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -180,6 +192,30 @@
     <ClInclude Include="Game\SceneGraph\SceneGraph.h">
       <Filter>Game\SceneGraph</Filter>
     </ClInclude>
+    <ClInclude Include="Game\GameObject\Component\IComponent.h">
+      <Filter>Game\GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameObject\Component\Component.h">
+      <Filter>Game\GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameObject\Factory\IFactory.h">
+      <Filter>Game\GameObject\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameObject\Collider\CollisionManager\CollisionManager.h">
+      <Filter>Game\GameObject\Collider\CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameObject\Stage\StageManager.h">
+      <Filter>Game\GameObject\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\MyLibraries\PlayerCamera.h">
+      <Filter>Libraries\MyLibraries</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameObject\Enemy\Enemy.h">
+      <Filter>Game\GameObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameObject\Enemy\EnemyManager.h">
+      <Filter>Game\GameObject\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -260,6 +296,30 @@
     <ClCompile Include="Game\SceneGraph\SceneGraph.cpp">
       <Filter>Game\SceneGraph</Filter>
     </ClCompile>
+    <ClCompile Include="Game\GameObject\Component\IComponent.cpp">
+      <Filter>Game\GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameObject\Component\Component.cpp">
+      <Filter>Game\GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameObject\Factory\IFactory.cpp">
+      <Filter>Game\GameObject\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameObject\Collider\CollisionManager\CollisionManager.cpp">
+      <Filter>Game\GameObject\Collider\CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameObject\Stage\StageManager.cpp">
+      <Filter>Game\GameObject\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\MyLibraries\PlayerCamera.cpp">
+      <Filter>Libraries\MyLibraries</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameObject\Enemy\Enemy.cpp">
+      <Filter>Game\GameObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameObject\Enemy\EnemyManager.cpp">
+      <Filter>Game\GameObject\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
@@ -293,6 +353,9 @@
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Resources\Assets\dice.FBX">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Resources\Assets\stage1.fbx">
       <Filter>Assets</Filter>
     </MeshContentTask>
   </ItemGroup>

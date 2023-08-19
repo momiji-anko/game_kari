@@ -3,10 +3,9 @@
 #include"Game/GameContext/GameContext.h"
 #include"DeviceResources.h"
 #include"Libraries/MyLibraries/Camera.h"
-Goal::Goal()
+Goal::Goal(const DirectX::SimpleMath::Vector3& position, const DirectX::SimpleMath::Vector3& velocity, const DirectX::SimpleMath::Vector3& scale, const DirectX::SimpleMath::Vector3& rotation, DirectX::Model* model, bool active)
 	:
-	Actor(),
-	m_isCollision(true)
+	Actor(position, velocity, scale, rotation, model, active)
 {
 
 }
@@ -15,14 +14,9 @@ Goal::~Goal()
 {
 }
 
-void Goal::Initialize(const DirectX::SimpleMath::Vector3& position, const DirectX::SimpleMath::Vector3& velocity, const DirectX::SimpleMath::Vector3& scale, const DirectX::SimpleMath::Vector3& rotation, DirectX::Model* model, bool active)
+void Goal::Initialize()
 {
-	SetPosition(position);
-	SetVelocity(velocity);
-	SetScale(scale);
-	SetRotation(rotation);
-	SetModel(model);
-	SetActive(active);
+	GameContext::GetInstance().GetCollisionManager()->SetGoalAABB(GetAABB());
 
 
 }
@@ -50,7 +44,7 @@ void Goal::Render(const Camera* camera)
 
 	CalculateWorldMatrix();
 
-	if(m_isCollision)
+	if(!GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayer2Goal())
 	GetModel()->Draw(context, *GameContext::GetInstance().GetCommonState(), GetWorldMatrix(), camera->GetViewMatrix(), camera->GetProjectionMatrix());
 
 }

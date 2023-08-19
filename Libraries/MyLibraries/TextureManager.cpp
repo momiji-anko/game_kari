@@ -24,10 +24,23 @@ Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> TextureManager::LoadTexture(con
 
 		Microsoft::WRL::ComPtr<ID3D11Resource> resouce;
 
+		std::wstring filepath = L"Resources/Models/";
+		size_t pos = fileName.find(filepath);
+		std::wstring fullFilePath;
+
+		if (pos == std::string::npos)
+		{
+			fullFilePath = filepath + fileName;
+		}
+		else
+		{
+			fullFilePath = fileName;
+		}
+
 		//テクスチャの読み込み
 		DirectX::CreateWICTextureFromFile(
 			device,
-			fileName.c_str(),
+			fullFilePath.c_str(),
 			resouce.ReleaseAndGetAddressOf(),
 			m_textures[fileName].ReleaseAndGetAddressOf()
 		);

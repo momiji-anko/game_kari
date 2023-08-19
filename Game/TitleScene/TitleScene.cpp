@@ -74,7 +74,7 @@ void TitleScene::Update(const DX::StepTimer& timer)
 
 	if (keyState.Z || mouseState.leftButton)
 	{
-		
+		m_parent->ChengeScene(m_parent->GetPlayScene());
 	}
 
 	

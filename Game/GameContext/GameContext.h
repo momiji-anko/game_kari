@@ -3,6 +3,7 @@
 #include<SpriteBatch.h>
 #include<Keyboard.h>
 #include<CommonStates.h>
+#include"Game/GameObject/Collider/CollisionManager/CollisionManager.h"
 
 /// <summary>
 /// ゲームコンテキスト
@@ -44,6 +45,23 @@ public:
 	DirectX::Keyboard::KeyboardStateTracker* GetKeyBoardStateTracker() { return m_keyboardTracker; }
 
 	/// <summary>
+	/// コリジョンマネージャーの設定
+	/// </summary>
+	/// <param name="manager">コリジョンマネージャーの生ポインタ</param>
+	void SetCollisionManager(CollisionManager* manager) { m_collisionManager = manager; }
+	/// <summary>
+	/// コリジョンマネージャーの取得
+	/// </summary>
+	/// <returns>コリジョンマネージャーの生ポインタ</returns>
+	CollisionManager* GetCollisionManager() { return m_collisionManager; }
+
+	void SetPlayerPosition(const DirectX::SimpleMath::Vector3& position) { m_playerPosition = position; }
+	DirectX::SimpleMath::Vector3 GetPlayerPosition() { return m_playerPosition; }
+
+	void SetCameraAngleY(float angle) { m_angleY = angle; }
+	float GetCmeraAngleY() { return m_angleY; }
+
+	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	GameContext();
@@ -59,5 +77,10 @@ private:
 	DirectX::CommonStates* m_commonStates;
 	//キーボードステートトラッカー
 	DirectX::Keyboard::KeyboardStateTracker* m_keyboardTracker;
+	//コリジョンマネージャー
+	CollisionManager* m_collisionManager;
 
+	DirectX::SimpleMath::Vector3 m_playerPosition;
+
+	float m_angleY;
 };

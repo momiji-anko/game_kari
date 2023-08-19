@@ -3,6 +3,7 @@
 //
 #include "pch.h"
 #include "DebugCamera.h"
+#include"Game/GameContext/GameContext.h"
 
 // 定数の初期化
 const float DebugCamera::DEFAULT_CAMERA_DISTANCE = 5.0f;
@@ -88,7 +89,7 @@ void DebugCamera::CalculateViewMatrix()
 	DirectX::SimpleMath::Matrix rt = rotY * rotX;
 
 	DirectX::SimpleMath::Vector3    eye(0.0f, 0.0f, 1.0f);
-	DirectX::SimpleMath::Vector3 target(0.0f, 0.0f, 0.0f);
+	DirectX::SimpleMath::Vector3 target(GameContext::GetInstance().GetPlayerPosition());
 	DirectX::SimpleMath::Vector3     up(0.0f, 1.0f, 0.0f);
 
 	eye = DirectX::SimpleMath::Vector3::Transform(eye, rt.Invert());

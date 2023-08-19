@@ -5,16 +5,33 @@
 #include"Game/GameContext/GameContext.h"
 #include"Game/Shader/ShadowMap.h"
 
-Actor::Actor()
+/// <summary>
+/// コンストラクタ
+/// </summary>
+/// <param name="position">座標</param>
+/// <param name="velocity">移動量</param>
+/// <param name="scale">拡縮</param>
+/// <param name="rotation">スケール</param>
+/// <param name="model">モデル</param>
+/// <param name="active">アクティブ</param>
+Actor::Actor(
+	const DirectX::SimpleMath::Vector3& position,
+	const DirectX::SimpleMath::Vector3& velocity,
+	const DirectX::SimpleMath::Vector3& scale,
+	const DirectX::SimpleMath::Vector3& rotation,
+	DirectX::Model* model,
+	bool active
+)
 	:
-	m_position(DirectX::SimpleMath::Vector3::Zero),
-	m_velocity(DirectX::SimpleMath::Vector3::Zero),
-	m_model(nullptr),
-	m_active(true),
+	m_position(position),
+	m_velocity(velocity),
+	m_model(model),
+	m_active(active),
 	m_AABBObject(nullptr),
 	m_capsule(nullptr),
-	m_rotation{},
-	m_world(DirectX::SimpleMath::Matrix::Identity)
+	m_rotation(rotation),
+	m_world(DirectX::SimpleMath::Matrix::Identity),
+	m_scale(scale)
 {
 	CreateAABB();
 	CreateCapsule();
@@ -24,29 +41,8 @@ Actor::Actor()
 /// <summary>
 /// 初期化	
 /// </summary>
-/// <param name="position">座標</param>
-/// <param name="velocity">移動量</param>
-/// <param name="scale">拡縮</param>
-/// <param name="rotation">回転</param>
-/// <param name="model">モデル</param>
-/// <param name="active">アクティブ</param>
-void Actor::Initialize(const DirectX::SimpleMath::Vector3& position, const DirectX::SimpleMath::Vector3& velocity, const DirectX::SimpleMath::Vector3& scale, const DirectX::SimpleMath::Vector3& rotation, DirectX::Model* model, bool active)
+void Actor::Initialize()
 {
-	//パラメータを初期化
-	//座標
-	m_position = position;
-	//移動量
-	m_velocity = velocity;
-	//拡縮
-	m_scale = scale;
-	//回転
-	m_rotation = DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(rotation);
-	//モデル
-	m_model = model;
-	//アクティブ
-	m_active = active;
-
-
 }
 
 /// <summary>
@@ -56,8 +52,7 @@ void Actor::Initialize(const DirectX::SimpleMath::Vector3& position, const Direc
 void Actor::Update(const DX::StepTimer& timer)
 {
 	//警告避け
-	UNREFERENCED_PARAMETER(timer);
-	
+	UNREFERENCED_PARAMETER(timer);	
 }
 
 /// <summary>
@@ -89,7 +84,7 @@ void Actor::CalculateWorldMatrix()
 	//移動
 	DirectX::SimpleMath::Matrix translation = DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
 	//回転
-	DirectX::SimpleMath::Matrix rotation = DirectX::SimpleMath::Matrix::CreateFromQuaternion(m_rotation);
+	DirectX::SimpleMath::Matrix rotation = DirectX::SimpleMath::Matrix::CreateFromYawPitchRoll(m_rotation.ToEuler());
 	//拡縮
 	DirectX::SimpleMath::Matrix scale = DirectX::SimpleMath::Matrix::CreateScale(m_scale);
 	//ワールド行列の計算
@@ -132,6 +127,7 @@ void Actor::CreateShadow(ShadowMap* shadow, const DirectX::SimpleMath::Matrix& v
 	}
 
 }
+
 
 /// <summary>
 /// AABBの作成

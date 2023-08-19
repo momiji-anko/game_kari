@@ -7,7 +7,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	Goal();
+	Goal(const DirectX::SimpleMath::Vector3& position, const DirectX::SimpleMath::Vector3& velocity, const DirectX::SimpleMath::Vector3& scale, const DirectX::SimpleMath::Vector3& rotation, DirectX::Model* model, bool active);
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
@@ -16,20 +16,7 @@ public:
 	/// <summary>
 	/// 初期化	
 	/// </summary>
-	/// <param name="position">座標</param>
-	/// <param name="velocity">移動量</param>
-	/// <param name="scale">拡縮</param>
-	/// <param name="rotation">スケール</param>
-	/// <param name="model">モデル</param>
-	/// <param name="active">アクティブ</param>
-	void Initialize(
-		const DirectX::SimpleMath::Vector3& position,
-		const DirectX::SimpleMath::Vector3& velocity,
-		const DirectX::SimpleMath::Vector3& scale,
-		const DirectX::SimpleMath::Vector3& rotation,
-		DirectX::Model* model,
-		bool active
-	)override;
+	void Initialize();
 
 	/// <summary>
 	/// 更新
@@ -53,6 +40,6 @@ public:
 	/// </summary>
 	void Reset()override;
 
+	
 private:
-	bool m_isCollision;
 };

@@ -1,9 +1,9 @@
 #include"pch.h"
+#include"DeviceResources.h"
 #include"Player.h"
 #include<Keyboard.h>
 #include<SimpleMath.h>
 #include"Game/GameContext/GameContext.h"
-#include"DeviceResources.h"
 #include"Libraries/MyLibraries/Camera.h"
 #include"Libraries/MyLibraries/ModelManager.h"
 
@@ -14,9 +14,18 @@ const float Player::GRAVITY_FORCE = -1.4f;
 //	ジャンプ力
 const float Player::JUMP_FORCE = 0.50f;
 
-Player::Player()
+const float Player::COLLISION_LINE_LENGTH=1.0f;
+
+Player::Player(
+	const DirectX::SimpleMath::Vector3& position,
+	const DirectX::SimpleMath::Vector3& velocity,
+	const DirectX::SimpleMath::Vector3& scale,
+	const DirectX::SimpleMath::Vector3& rotation,
+	DirectX::Model* model,
+	bool active
+	)
 	:
-	Actor()
+	Actor(position, velocity,scale,rotation,model,active)
 {
 }
 
@@ -24,23 +33,19 @@ Player::~Player()
 {
 }
 
-void Player::Initialize(const DirectX::SimpleMath::Vector3& position, const DirectX::SimpleMath::Vector3& velocity, const DirectX::SimpleMath::Vector3& scale, const DirectX::SimpleMath::Vector3& rotation, DirectX::Model* model, bool active)
+void Player::Initialize()
 {
-	SetPosition(position);
-	SetVelocity(velocity);
-	SetScale(scale);
-	SetRotation(rotation);
-	SetModel(model);
-	SetActive(active);
-
-
-	m_testCollisitionModel = ModelManager::GetInstance().LoadModel(L"Resources/Models/dice.cmo");
+	GameContext::GetInstance().GetCollisionManager()->SetPlayerAABB(GetAABB());
+	GameContext::GetInstance().SetPlayerPosition(GetPosition());
 }
 
 void Player::Update(const DX::StepTimer& timer)
 {
 	PlayerMove(timer);
+	
 	CollisionAreaUpdate();
+
+	GameContext::GetInstance().SetPlayerPosition(GetPosition());
 }
 
 void Player::Render(const Camera* camera)
@@ -49,29 +54,11 @@ void Player::Render(const Camera* camera)
 	DX::DeviceResources* pDR = DX::DeviceResources::GetInstance();
 	//デバイスコンテキストの取得
 	ID3D11DeviceContext1* context = pDR->GetD3DDeviceContext();
-
+	
 
 	CalculateWorldMatrix();
 
-	DirectX::BoundingBox testCollision = m_testCollisitionModel->meshes.at(0)->boundingBox;
-	testCollision.Transform(testCollision, GetWorldMatrix());
-
-	DirectX::BoundingBox Collision = GetModel()->meshes.at(0)->boundingBox;
-	Collision.Transform(Collision, DirectX::SimpleMath::Matrix::CreateScale(1));
-
-
-	if (Collision.Intersects(testCollision))
-	{
-		m_testCollisitionModel->Draw(context, *GameContext::GetInstance().GetCommonState(), DirectX::SimpleMath::Matrix::Identity, camera->GetViewMatrix(), camera->GetProjectionMatrix());
-	}
-	
-
-
 	GetModel()->Draw(context, *GameContext::GetInstance().GetCommonState(), GetWorldMatrix(), camera->GetViewMatrix(), camera->GetProjectionMatrix());
-
-
-
-
 
 }
 
@@ -109,19 +96,16 @@ void Player::PlayerMove(const DX::StepTimer& timer)
 	static const float NINETY_ANGLE = DirectX::XM_PI / 2.0f;
 
 	//右キーを押していた場合右に移動＆右を向く
-	if (keyState.IsKeyDown(DirectX::Keyboard::Right))
+	if (keyState.IsKeyDown(DirectX::Keyboard::D))
 	{
-		velocity.x += MOVE_SPEED * elapsedTime;
-
 		rotation.y = -NINETY_ANGLE;
 
 		IsMove = true;
 
 	}
 	//左キーを押していた場合右に移動＆左を向く
-	else if (keyState.IsKeyDown(DirectX::Keyboard::Left))
+	else if (keyState.IsKeyDown(DirectX::Keyboard::A))
 	{
-		velocity.x -= MOVE_SPEED * elapsedTime;
 
 		rotation.y = NINETY_ANGLE;
 
@@ -129,47 +113,43 @@ void Player::PlayerMove(const DX::StepTimer& timer)
 	}
 
 	//後ろキーを押していた場合右に移動＆後ろを向く
-	if (keyState.IsKeyDown(DirectX::Keyboard::Down))
+	if (keyState.IsKeyDown(DirectX::Keyboard::S))
 	{
-		velocity.z += MOVE_SPEED * elapsedTime;
-
 		rotation.y = NINETY_ANGLE * 2.0f;
 
 		IsMove = true;
 	}
 	//前キーを押していた場合右に移動＆前を向く
-	else if (keyState.IsKeyDown(DirectX::Keyboard::Up))
+	else if (keyState.IsKeyDown(DirectX::Keyboard::W))
 	{
-		velocity.z -= MOVE_SPEED * elapsedTime;
-
 		rotation.y = 0;
 
 		IsMove = true;
 	}
 
 	//左キーと前キーを押していた場合左前を向く
-	if ((keyState.IsKeyDown(DirectX::Keyboard::Left)) && (keyState.IsKeyDown(DirectX::Keyboard::Up)))
+	if ((keyState.IsKeyDown(DirectX::Keyboard::A)) && (keyState.IsKeyDown(DirectX::Keyboard::W)))
 	{
 		//45
 		rotation.y = NINETY_ANGLE / 2.0f;
 	}
 
 	//左キーと後ろキーを押していた場合左後ろを向く
-	if ((keyState.IsKeyDown(DirectX::Keyboard::Left)) && (keyState.IsKeyDown(DirectX::Keyboard::Down)))
+	if ((keyState.IsKeyDown(DirectX::Keyboard::A)) && (keyState.IsKeyDown(DirectX::Keyboard::S)))
 	{
 		//90+45
 		rotation.y = NINETY_ANGLE + NINETY_ANGLE / 2.0f;
 	}
 
 	//右キーと前キーを押していた場合右前を向く
-	if ((keyState.IsKeyDown(DirectX::Keyboard::Right)) && (keyState.IsKeyDown(DirectX::Keyboard::Up)))
+	if ((keyState.IsKeyDown(DirectX::Keyboard::D)) && (keyState.IsKeyDown(DirectX::Keyboard::W)))
 	{
 		//-45
 		rotation.y = -NINETY_ANGLE / 2.0f;
 	}
 
 	//右キーと後ろキーを押していた場合右後ろを向く
-	if ((keyState.IsKeyDown(DirectX::Keyboard::Right)) && (keyState.IsKeyDown(DirectX::Keyboard::Down)))
+	if ((keyState.IsKeyDown(DirectX::Keyboard::D)) && (keyState.IsKeyDown(DirectX::Keyboard::S)))
 	{
 		//-(90+45)
 		rotation.y = -(NINETY_ANGLE + NINETY_ANGLE / 2.0f);
@@ -179,9 +159,12 @@ void Player::PlayerMove(const DX::StepTimer& timer)
 	//移動している場合モデルタイムを増やす
 	if (IsMove)
 	{
+		float rot= rotation.y + -GameContext::GetInstance().GetCmeraAngleY()+ NINETY_ANGLE;
 		
+		velocity.x = cos(rot) * MOVE_SPEED * elapsedTime;
+		velocity.z = -sin(rot) * MOVE_SPEED * elapsedTime;
 
-	
+		rotation.y = rot;
 	}
 	//移動していない場合モデルタイムは０にする
 	else
@@ -189,18 +172,35 @@ void Player::PlayerMove(const DX::StepTimer& timer)
 		
 	}
 
+	
 
+	
+	DirectX::SimpleMath::Vector3 normal = DirectX::SimpleMath::Vector3::Zero;
+	DirectX::SimpleMath::Vector3 pos = DirectX::SimpleMath::Vector3::Zero;
 	//ステージに当たっている場合落下しない
-	if (position.y<=0)
+	if (GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayerLine2Polygon({ position + DirectX::SimpleMath::Vector3(0,1.5,0),position - DirectX::SimpleMath::Vector3(0,COLLISION_LINE_LENGTH,0) }, normal, pos))
 	{
 		//ベロシティＹを０にする
 		velocity.y = 0;
+		
+		DirectX::SimpleMath::Vector3 vel = velocity;
+
+		vel.y = GRAVITY_FORCE * static_cast<float>(timer.GetElapsedSeconds());
+		
+
+		DirectX::SimpleMath::Vector3 slideVec = PolygonToLineSegmentCollision::SlideVecCalculation(normal, vel);
+		
+		 //移動する
+		position = pos + DirectX::SimpleMath::Vector3(0, COLLISION_LINE_LENGTH, 0) + slideVec;
+
+		 
 
 		//ジャンプキーを押したらジャンプする
 		if (keyState.IsKeyDown(DirectX::Keyboard::Space))
 		{
 			velocity.y += JUMP_FORCE;
 		}
+		
 	}
 	//ステージに当たっていない場合落下する
 	else
@@ -212,7 +212,7 @@ void Player::PlayerMove(const DX::StepTimer& timer)
 	//ベロシティの設定
 	SetVelocity(velocity);
 	//移動する
-	SetPosition(GetPosition() + velocity);
+	SetPosition(position + velocity);
 	//角度設定
 	SetRotation(rotation);
 

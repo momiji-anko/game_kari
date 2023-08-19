@@ -15,6 +15,8 @@ class Capsule;
 class IActor
 {
 public:
+
+
 	/// <summary>
 	/// 座標を設定
 	/// </summary>
@@ -136,20 +138,7 @@ public:
 	/// <summary>
 	/// 初期化	
 	/// </summary>
-	/// <param name="position">座標</param>
-	/// <param name="velcity">移動量</param>
-	/// <param name="scale">拡縮</param>
-	/// <param name="rotataion">スケール</param>
-	/// <param name="model">モデル</param>
-	/// <param name="active">アクティブ</param>
-	virtual void Initialize(
-		const DirectX::SimpleMath::Vector3& position,
-		const DirectX::SimpleMath::Vector3& velcity,
-		const DirectX::SimpleMath::Vector3 & scale,
-		const DirectX::SimpleMath::Vector3 & rotataion,
-		DirectX::Model* model,
-		bool active
-	) = 0;
+	virtual void Initialize() = 0;
 
 	/// <summary>
 	/// 更新

@@ -120,7 +120,20 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	Actor();
+	/// <param name="position">座標</param>
+	/// <param name="velocity">移動量</param>
+	/// <param name="scale">拡縮</param>
+	/// <param name="rotation">スケール</param>
+	/// <param name="model">モデル</param>
+	/// <param name="active">アクティブ</param>
+	Actor(
+		const DirectX::SimpleMath::Vector3& position,
+		const DirectX::SimpleMath::Vector3& velocity,
+		const DirectX::SimpleMath::Vector3& scale,
+		const DirectX::SimpleMath::Vector3& rotation,
+		DirectX::Model* model,
+		bool active
+	);
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
@@ -129,20 +142,7 @@ public:
 	/// <summary>
 	/// 初期化	
 	/// </summary>
-	/// <param name="position">座標</param>
-	/// <param name="velocity">移動量</param>
-	/// <param name="scale">拡縮</param>
-	/// <param name="rotation">スケール</param>
-	/// <param name="model">モデル</param>
-	/// <param name="active">アクティブ</param>
-	virtual void Initialize(
-		const DirectX::SimpleMath::Vector3& position,
-		const DirectX::SimpleMath::Vector3& velocity,
-		const DirectX::SimpleMath::Vector3& scale,
-		const DirectX::SimpleMath::Vector3& rotation,
-		DirectX::Model* model,
-		bool active
-	);
+	virtual void Initialize();
 
 	/// <summary>
 	/// 更新
@@ -179,6 +179,8 @@ public:
 	/// <param name="projection">プロジェクション行列</param>
 	virtual void CreateShadow(ShadowMap * shadow, const DirectX::SimpleMath::Matrix & view, const DirectX::SimpleMath::Matrix & projection);
 	
+
+
 private:
 		/// <summary>
 		/// AABBの作成
