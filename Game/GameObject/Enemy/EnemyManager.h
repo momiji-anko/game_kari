@@ -49,6 +49,10 @@ public:
 	/// <returns>•ÏŠ·‚µ‚½À•W</returns>
 	DirectX::SimpleMath::Vector3 ConvertFloatArrayIntoVector3(const std::vector<float> nums);
 
+
+	void AddEnemy(std::unique_ptr<Actor> enemy) { m_enemies.emplace_back(std::move(enemy)); }
+
+
 private:
 
 	int m_stageNum;

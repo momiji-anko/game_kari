@@ -77,9 +77,6 @@
     <Filter Include="Game\SceneGraph">
       <UniqueIdentifier>{cefda376-32c6-47b8-bed2-8ff151b7021d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\GameObject\Collider\BoundingBox">
-      <UniqueIdentifier>{d20e570c-487c-4283-a612-f6b296440a18}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\GameObject\Component">
       <UniqueIdentifier>{5209864c-c7b5-4c9d-8571-9ae1195791a0}</UniqueIdentifier>
     </Filter>
@@ -91,6 +88,9 @@
     </Filter>
     <Filter Include="Game\GameObject\Enemy">
       <UniqueIdentifier>{af93adbb-a7b5-4edc-b0aa-c38b9cc12518}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObject\Collider\Sphere">
+      <UniqueIdentifier>{cd974237-07c4-4866-8a0b-5bc84ee655aa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +215,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameObject\Enemy\EnemyManager.h">
       <Filter>Game\GameObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameObject\Collider\Sphere\Sphere.h">
+      <Filter>Game\GameObject\Collider\Sphere</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

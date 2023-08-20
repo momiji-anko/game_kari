@@ -24,7 +24,7 @@ StageManager::StageManager(int stageNum)
 		nullptr,
 		true
 	),
-	m_stageNum(stageNum - 1)
+	m_stageNum(stageNum)
 {
 
 	std::vector<std::wstring> objFiles = FileLoadManager::GetInstance().LoadFile(L"Resources/Stage/Obj/");
@@ -154,6 +154,9 @@ void StageManager::LoadGoalJsonFile(const std::wstring& filePath)
 		true
 		);
 
+
+	goal->Initialize();
+	
 	AddStage(std::move(goal));
 
 }

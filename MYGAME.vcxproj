@@ -196,6 +196,7 @@
     <ClInclude Include="Game\GameObject\Collider\Capsule\Capsule.h" />
     <ClInclude Include="Game\GameObject\Collider\CollisionManager\CollisionManager.h" />
     <ClInclude Include="Game\GameObject\Collider\PolygonToLineSegment\PolygonToLineSegment.h" />
+    <ClInclude Include="Game\GameObject\Collider\Sphere\Sphere.h" />
     <ClInclude Include="Game\GameObject\Component\Component.h" />
     <ClInclude Include="Game\GameObject\Component\IComponent.h" />
     <ClInclude Include="Game\GameObject\Enemy\Enemy.h" />

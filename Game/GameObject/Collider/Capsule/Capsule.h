@@ -13,12 +13,7 @@ struct Capsule
 	float r;							//	”¼Œa
 };
 
-//‹…‚Ì\‘¢‘Ì
-struct Sphere
-{
-	DirectX::SimpleMath::Vector3 c;
-	float r;
-};
+
 
 
 class  CapsuleCollition

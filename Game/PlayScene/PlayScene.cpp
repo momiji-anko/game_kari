@@ -59,14 +59,11 @@ void PlayScene::Initialize()
 	m_goal = std::make_unique<Goal>(DirectX::SimpleMath::Vector3(-157.779f, 4.13443f, 65.634f), DirectX::SimpleMath::Vector3(0, 0, 0), DirectX::SimpleMath::Vector3(1, 1, 1 ), DirectX::SimpleMath::Vector3(DirectX::XM_PI/4.0f, 0, 0), ModelManager::GetInstance().LoadModel(L"dice.cmo"), true);
 	m_goal->Initialize();
 
-	m_stageManager = std::make_unique<StageManager>(1);
-	m_stageManager->Initialize();
 
 	m_sceneGraph = std::make_unique<SceneGraph>();
 	m_sceneGraph->Initialize();
 	m_sceneGraph->AttachNode(std::move(m_player));
 	//m_sceneGraph->AttachNode(std::move(m_goal));
-	m_sceneGraph->AttachNode(std::move(m_stageManager));
 
 	
 
@@ -83,7 +80,7 @@ void PlayScene::Update(const DX::StepTimer& timer)
 	m_sceneGraph->Update(timer);
 
 
-	if(GameContext().GetInstance().GetCollisionManager()->DetectCollisionPlayer2Goal())
+	if(GameContext().GetInstance().GetCollisionManager()->DetectCollisionPlayer2Goal()|| GameContext().GetInstance().GetCollisionManager()->DetectCollisionPlayer2Enemies())
 	m_parent->ChengeScene(m_parent->GetTitleScene());
 
 	return ;

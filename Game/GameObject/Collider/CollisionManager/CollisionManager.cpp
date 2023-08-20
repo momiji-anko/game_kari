@@ -28,6 +28,37 @@ bool CollisionManager::DetectCollisionPlayer2Goal()
 	return m_playerAABB->DetectCollition(m_goalAABB);
 }
 
+bool CollisionManager::DetectCollisionPlayer2Enemies()
+{
+	for (AABBFor3D* enemyAABB : m_enemiesAABB)
+	{
+		if (m_playerAABB->DetectCollition(enemyAABB))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool CollisionManager::DetectCollisionPlayerSphere2EnemySphere(Sphere* enemySphere)
+{
+	return SphereCollision::DetectCollition(*m_playerSphere,*enemySphere);
+}
+
+bool CollisionManager::DetectCollisionPlayer2Enemies(AABBFor3D* aabb)
+{
+	for (AABBFor3D* enemyAABB : m_enemiesAABB)
+	{
+		if (enemyAABB == aabb)
+		{
+			return m_playerAABB->DetectCollition(enemyAABB);
+		}
+	}
+	
+	return false;
+}
+
 bool CollisionManager::DetectCollisionPlayerLine2Polygon(const std::vector<DirectX::SimpleMath::Vector3>& line, DirectX::SimpleMath::Vector3& normal, DirectX::SimpleMath::Vector3& actorPos)
 {
 	bool isCollision = false;

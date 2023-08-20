@@ -25,7 +25,8 @@ Player::Player(
 	bool active
 	)
 	:
-	Actor(position, velocity,scale,rotation,model,active)
+	Actor{ position, velocity,scale,rotation,model,active },
+	m_sphere{ position,0.1f }
 {
 }
 
@@ -36,6 +37,7 @@ Player::~Player()
 void Player::Initialize()
 {
 	GameContext::GetInstance().GetCollisionManager()->SetPlayerAABB(GetAABB());
+	GameContext::GetInstance().GetCollisionManager()->SetPlayerSphere(&m_sphere);
 	GameContext::GetInstance().SetPlayerPosition(GetPosition());
 }
 
@@ -228,5 +230,7 @@ void Player::CollisionAreaUpdate()
 	Capsule* capsule = GetCapsule();
 	capsule->a = DirectX::SimpleMath::Vector3(0.f, -1, 0.f) + position;
 	capsule->b = DirectX::SimpleMath::Vector3(0.f, 1, 0.f) + position;
+
+	m_sphere.centerPosition = GetPosition();
 
 }

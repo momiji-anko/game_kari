@@ -47,10 +47,18 @@ void EnemyManager::Initialize()
 
 void EnemyManager::Update(const DX::StepTimer& timer)
 {
+	for (std::unique_ptr<Actor>& enemy : m_enemies)
+	{
+		enemy->Update(timer);
+	}
 }
 
 void EnemyManager::Render(const Camera* camera)
 {
+	for (std::unique_ptr<Actor>& enemy : m_enemies)
+	{
+		enemy->Render(camera);
+	}
 }
 
 void EnemyManager::Finalize()
@@ -66,14 +74,23 @@ void EnemyManager::LoadEnemyJsonFile(std::wstring jsonFilePath)
 	//fstreamçÏê¨
 	std::fstream file(jsonFilePath, std::ifstream::in);
 	//jsonì«Ç›çûÇ›
-	nlohmann::json stageJson = nlohmann::json::parse(file);
+	nlohmann::json enemyJson = nlohmann::json::parse(file);
 	//ÉtÉ@ÉCÉãÇï¬Ç∂ÇÈ
 	file.close();
 
-	DirectX::SimpleMath::Vector3 position = ConvertFloatArrayIntoVector3(stageJson["Enemy"]["Position"]);
-	DirectX::SimpleMath::Vector3 scale = ConvertFloatArrayIntoVector3(stageJson["Enemy"]["Scale"]);
-	DirectX::SimpleMath::Vector3 rotation = ConvertFloatArrayIntoVector3(stageJson["Enemy"]["Rotation"]);
+	for (int i = 0; i < enemyJson["Enemy"].size(); i++)
+	{
+		DirectX::SimpleMath::Vector3 position = ConvertFloatArrayIntoVector3(enemyJson["Enemy"][i]["Position"]);
+		DirectX::SimpleMath::Vector3 scale = ConvertFloatArrayIntoVector3(enemyJson["Enemy"][i]["Scale"]);
+		DirectX::SimpleMath::Vector3 rotation = ConvertFloatArrayIntoVector3(enemyJson["Enemy"][i]["Rotation"]);
 
+		std::unique_ptr<Actor> enemy = std::make_unique<Enemy>(position, DirectX::SimpleMath::Vector3::Zero, scale, rotation, ModelManager::GetInstance().LoadModel(L"dice.cmo"), true);
+
+		enemy->Initialize();
+
+		AddEnemy(std::move(enemy));
+
+	}
 
 
 }

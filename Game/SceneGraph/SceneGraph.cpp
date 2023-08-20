@@ -1,6 +1,8 @@
 #include"pch.h"
 #include"SceneGraph.h"
+
 #include"Game/GameObject/Stage/StageManager.h"
+#include"Game/GameObject/Enemy/EnemyManager.h"
 
 SceneGraph::SceneGraph()
 	:
@@ -16,9 +18,14 @@ SceneGraph::~SceneGraph()
 
 void SceneGraph::Initialize()
 {
-	std::unique_ptr<Actor> stageManager=std::make_unique<StageManager>(1);
+	std::unique_ptr<Actor> stageManager=std::make_unique<StageManager>(0);
 	stageManager->Initialize();
 	AttachNode(std::move(stageManager));
+
+	std::unique_ptr<Actor> enemyManager=std::make_unique<EnemyManager>(0);
+	enemyManager->Initialize();
+	AttachNode(std::move(enemyManager));
+
 }
 
 void SceneGraph::Update(const DX::StepTimer& timer)

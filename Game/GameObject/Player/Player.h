@@ -1,5 +1,6 @@
 #pragma once 
 #include"Game/GameObject/Actor/Actor.h"
+#include"Game/GameObject/Collider/Sphere/Sphere.h"
 
 class Player :public Actor
 {
@@ -80,5 +81,5 @@ private:
 
 
 private:
- 
+	Sphere m_sphere;
 };

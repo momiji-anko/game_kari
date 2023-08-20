@@ -1,5 +1,6 @@
 #pragma once 
 #include"Game/GameObject/Actor/Actor.h"
+#include"Game/GameObject/Collider/Sphere/Sphere.h"
 
 class Enemy :public Actor
 {
@@ -53,4 +54,12 @@ public:
 	/// ƒŠƒZƒbƒg
 	/// </summary>
 	void Reset()override;
+
+private:
+	static const float ENEMY_SPEHERE_RADIUS;
+
+private:
+
+
+	Sphere m_sphere;
 };
