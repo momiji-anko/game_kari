@@ -49,6 +49,9 @@ void EnemyManager::Update(const DX::StepTimer& timer)
 {
 	for (std::unique_ptr<Actor>& enemy : m_enemies)
 	{
+		if (enemy == nullptr)
+			continue;
+
 		enemy->Update(timer);
 	}
 }
@@ -57,6 +60,9 @@ void EnemyManager::Render(const Camera* camera)
 {
 	for (std::unique_ptr<Actor>& enemy : m_enemies)
 	{
+		if (enemy == nullptr)
+			continue;
+
 		enemy->Render(camera);
 	}
 }
@@ -78,7 +84,9 @@ void EnemyManager::LoadEnemyJsonFile(std::wstring jsonFilePath)
 	//ƒtƒ@ƒCƒ‹‚ð•Â‚¶‚é
 	file.close();
 
-	for (int i = 0; i < enemyJson["Enemy"].size(); i++)
+	int enemyNum = enemyJson["Enemy"].size();
+
+	for (int i = 0; i < enemyNum; i++)
 	{
 		DirectX::SimpleMath::Vector3 position = ConvertFloatArrayIntoVector3(enemyJson["Enemy"][i]["Position"]);
 		DirectX::SimpleMath::Vector3 scale = ConvertFloatArrayIntoVector3(enemyJson["Enemy"][i]["Scale"]);
@@ -91,7 +99,6 @@ void EnemyManager::LoadEnemyJsonFile(std::wstring jsonFilePath)
 		AddEnemy(std::move(enemy));
 
 	}
-
 
 }
 

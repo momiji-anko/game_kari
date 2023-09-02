@@ -3,6 +3,7 @@
 
 #include"Game/GameObject/Stage/StageManager.h"
 #include"Game/GameObject/Enemy/EnemyManager.h"
+#include"Game/GameObject/Obstacle/ObstacleManager.h"
 
 SceneGraph::SceneGraph()
 	:
@@ -25,6 +26,11 @@ void SceneGraph::Initialize()
 	std::unique_ptr<Actor> enemyManager=std::make_unique<EnemyManager>(0);
 	enemyManager->Initialize();
 	AttachNode(std::move(enemyManager));
+
+
+	std::unique_ptr<Actor> obstacleManager=std::make_unique<ObstacleManager>(0);
+	obstacleManager->Initialize();
+	AttachNode(std::move(obstacleManager));
 
 }
 

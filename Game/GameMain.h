@@ -8,6 +8,7 @@
 #include "StepTimer.h"
 #include"Game/PlayScene/PlayScene.h"
 #include"Game/TitleScene/TitleScene.h"
+#include"Game/ResultScene/ResultScene.h"
 // ÉVÅ[ÉìÇÃóÒãì
 enum class GAME_SCENE : int
 {
@@ -45,6 +46,7 @@ private:
 
     TitleScene m_titleScane;
 
+    ResultScene m_resultScene;
 public:
     GameMain();
     ~GameMain();
@@ -54,12 +56,12 @@ public:
     void Render();
     void Finalize();
 
-	
-
     void ChengeScene(IScene* scene);
     
     IScene* GetPlayScene() { return &m_playScane; }
 
     IScene* GetTitleScene() { return &m_titleScane; }
+
+    IScene* GetResultScene() { return &m_resultScene; }
 
 };

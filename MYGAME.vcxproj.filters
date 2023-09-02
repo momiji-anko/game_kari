@@ -77,9 +77,6 @@
     <Filter Include="Game\SceneGraph">
       <UniqueIdentifier>{cefda376-32c6-47b8-bed2-8ff151b7021d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\GameObject\Component">
-      <UniqueIdentifier>{5209864c-c7b5-4c9d-8571-9ae1195791a0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\GameObject\Factory">
       <UniqueIdentifier>{9abd4a90-2fcb-4891-bb17-12a695ad9ee3}</UniqueIdentifier>
     </Filter>
@@ -91,6 +88,12 @@
     </Filter>
     <Filter Include="Game\GameObject\Collider\Sphere">
       <UniqueIdentifier>{cd974237-07c4-4866-8a0b-5bc84ee655aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameObject\Obstacle">
+      <UniqueIdentifier>{26656368-2e13-4b44-9ef4-0198d7c84efe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ResultScene">
+      <UniqueIdentifier>{6013686a-672e-45ce-ab4f-c6f2ba4859e2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -192,12 +195,6 @@
     <ClInclude Include="Game\SceneGraph\SceneGraph.h">
       <Filter>Game\SceneGraph</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameObject\Component\IComponent.h">
-      <Filter>Game\GameObject\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameObject\Component\Component.h">
-      <Filter>Game\GameObject\Component</Filter>
-    </ClInclude>
     <ClInclude Include="Game\GameObject\Factory\IFactory.h">
       <Filter>Game\GameObject\Factory</Filter>
     </ClInclude>
@@ -218,6 +215,18 @@
     </ClInclude>
     <ClInclude Include="Game\GameObject\Collider\Sphere\Sphere.h">
       <Filter>Game\GameObject\Collider\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameObject\Obstacle\Obstacle.h">
+      <Filter>Game\GameObject\Obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameObject\Obstacle\ObstacleManager.h">
+      <Filter>Game\GameObject\Obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameObject\Obstacle\ObstacleSpawner.h">
+      <Filter>Game\GameObject\Obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ResultScene\ResultScene.h">
+      <Filter>Game\ResultScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -299,12 +308,6 @@
     <ClCompile Include="Game\SceneGraph\SceneGraph.cpp">
       <Filter>Game\SceneGraph</Filter>
     </ClCompile>
-    <ClCompile Include="Game\GameObject\Component\IComponent.cpp">
-      <Filter>Game\GameObject\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameObject\Component\Component.cpp">
-      <Filter>Game\GameObject\Component</Filter>
-    </ClCompile>
     <ClCompile Include="Game\GameObject\Factory\IFactory.cpp">
       <Filter>Game\GameObject\Factory</Filter>
     </ClCompile>
@@ -322,6 +325,18 @@
     </ClCompile>
     <ClCompile Include="Game\GameObject\Enemy\EnemyManager.cpp">
       <Filter>Game\GameObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameObject\Obstacle\Obstacle.cpp">
+      <Filter>Game\GameObject\Obstacle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameObject\Obstacle\ObstacleManager.cpp">
+      <Filter>Game\GameObject\Obstacle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameObject\Obstacle\ObstacleSpawner.cpp">
+      <Filter>Game\GameObject\Obstacle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ResultScene\ResultScene.cpp">
+      <Filter>Game\ResultScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

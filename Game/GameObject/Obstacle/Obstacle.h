@@ -1,8 +1,10 @@
-#pragma once 
-#include"Game/GameObject/Actor/Actor.h"
-#include"Game/GameObject/Collider/Sphere/Sphere.h"
+#pragma once
 
-class Enemy :public Actor
+#include"Game/GameObject/Actor/Actor.h"
+
+class ObstacleManager;
+
+class Obstacle:public Actor
 {
 public:
 
@@ -15,18 +17,19 @@ public:
 	/// <param name="rotation">スケール</param>
 	/// <param name="model">モデル</param>
 	/// <param name="active">アクティブ</param>
-	Enemy(
+	Obstacle(
 		const DirectX::SimpleMath::Vector3& position,
 		const DirectX::SimpleMath::Vector3& velocity,
 		const DirectX::SimpleMath::Vector3& scale,
 		const DirectX::SimpleMath::Vector3& rotation,
 		DirectX::Model* model,
-		bool active
+		bool active,
+		ObstacleManager* obstacleManager
 	);
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~Enemy();
+	~Obstacle();
 
 	/// <summary>
 	/// 初期化	
@@ -56,12 +59,7 @@ public:
 	void Reset()override;
 
 private:
-	static const float ENEMY_SPEHERE_RADIUS;
+	ObstacleManager* m_obstacleManager;
 
-	static const float MOVE_SPEED;
-
-private:
-
-
-	Sphere m_sphere;
+	float m_deleteTime;
 };

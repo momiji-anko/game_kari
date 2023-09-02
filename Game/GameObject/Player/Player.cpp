@@ -36,7 +36,15 @@ Player::~Player()
 
 void Player::Initialize()
 {
+	m_attackAABB = std::make_unique<AABBFor3D>();
+	m_attackAABB->Initialize();
+	DirectX::SimpleMath::Vector3 length = { 0.5f,0.5f,0.5f };
+
+	//AABBの当たり判定を設定
+	m_attackAABB->SetData(DirectX::SimpleMath::Vector3::Zero, DirectX::SimpleMath::Vector3::Zero);
+
 	GameContext::GetInstance().GetCollisionManager()->SetPlayerAABB(GetAABB());
+	GameContext::GetInstance().GetCollisionManager()->SetPlayerAttackAABB(m_attackAABB.get());
 	GameContext::GetInstance().GetCollisionManager()->SetPlayerSphere(&m_sphere);
 	GameContext::GetInstance().SetPlayerPosition(GetPosition());
 }
@@ -161,7 +169,7 @@ void Player::PlayerMove(const DX::StepTimer& timer)
 	//移動している場合モデルタイムを増やす
 	if (IsMove)
 	{
-		float rot= rotation.y + -GameContext::GetInstance().GetCmeraAngleY()+ NINETY_ANGLE;
+		float rot = rotation.y + -GameContext::GetInstance().GetCmeraAngleY() + NINETY_ANGLE;
 		
 		velocity.x = cos(rot) * MOVE_SPEED * elapsedTime;
 		velocity.z = -sin(rot) * MOVE_SPEED * elapsedTime;
@@ -189,13 +197,16 @@ void Player::PlayerMove(const DX::StepTimer& timer)
 
 		vel.y = GRAVITY_FORCE * static_cast<float>(timer.GetElapsedSeconds());
 		
+		m_attackAABB->SetData(DirectX::SimpleMath::Vector3::Zero, DirectX::SimpleMath::Vector3::Zero);
 
 		DirectX::SimpleMath::Vector3 slideVec = PolygonToLineSegmentCollision::SlideVecCalculation(normal, vel);
 		
 		 //移動する
 		position = pos + DirectX::SimpleMath::Vector3(0, COLLISION_LINE_LENGTH, 0) + slideVec;
+		DirectX::SimpleMath::Vector3 area = DirectX::SimpleMath::Vector3(0.0);
 
-		 
+		DirectX::SimpleMath::Vector3 pos = DirectX::SimpleMath::Vector3(position.x, position.y - 1, position.z);
+
 
 		//ジャンプキーを押したらジャンプする
 		if (keyState.IsKeyDown(DirectX::Keyboard::Space))
@@ -209,6 +220,10 @@ void Player::PlayerMove(const DX::StepTimer& timer)
 	{
 		//落下する
 		velocity.y += GRAVITY_FORCE * static_cast<float>(timer.GetElapsedSeconds());
+		DirectX::SimpleMath::Vector3 area = DirectX::SimpleMath::Vector3(0.5);
+
+		DirectX::SimpleMath::Vector3 pos = DirectX::SimpleMath::Vector3(position.x, position.y-1, position.z);
+		m_attackAABB->SetData(pos - area, pos + area);
 	}
 
 	//ベロシティの設定

@@ -82,4 +82,6 @@ private:
 
 private:
 	Sphere m_sphere;
+
+	std::unique_ptr<AABBFor3D> m_attackAABB;
 };

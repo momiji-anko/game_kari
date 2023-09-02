@@ -35,9 +35,8 @@ void PlayerCamera::CalculateViewMatrix()
 	DirectX::SimpleMath::Vector3 normal = DirectX::SimpleMath::Vector3::Zero;
 	DirectX::SimpleMath::Vector3 pos = DirectX::SimpleMath::Vector3::Zero;
 
-	if (GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayerLine2Polygon(collisionLine, normal, pos))
+	if (GameContext::GetInstance().GetCollisionManager()->DetectCollisionCameraLine2Polygon(collisionLine, normal, pos))
 	{
-		pos += DirectX::SimpleMath::Vector3(0.0f, 0.1f, 0.0f);
 		SetViewMatrix(DirectX::SimpleMath::Matrix::CreateLookAt(pos, GetTargetPosition(), up));
 	}
 	else

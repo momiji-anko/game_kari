@@ -9,20 +9,34 @@
 		{
 			"Position": [ -157.779, 4.13443, 65.634 ],
 			"Scale": [ 1.0, 1.0, 1.0 ],
-			"Rotation": [ 1.57, 0.0, 0.0 ]
+			"Rotation": [ 1.57, 0.0, 0.0 ],
+			"Speed": 5.0
 		},
 		{
 			"Position": [ -5, 2, 0 ],
 			"Scale": [ 1.0, 2.0, 1.0 ],
-			"Rotation": [ 1.57, 0.0, 0.0 ]
+			"Rotation": [ 1.57, 0.0, 0.0 ],
+			"Speed": 5.0
 		},
 		{
 			"Position": [ 5, 2, 0 ],
 			"Scale": [ 1.0, 2.0, 1.0 ],
-			"Rotation": [ 1.57, 0.0, 0.0 ]
+			"Rotation": [ 1.57, 0.0, 0.0 ],
+			"Speed": 5.0
 		}
 
-	]
+	],
+	
+	"ObstacleSpawnArea": 20,
 
+	"ObstacleSpawnPosition": [
+		[ 10, 2, 0 ],
+		[ -10, 2, 0 ]
+	],
 
+	"Obstacle": {
+		"Speed": 5.0,
+		"Scale": [ 1, 1, 1 ],
+		"Rotation": [ 1.0, 0.0, 0.0 ]
+	}
 }

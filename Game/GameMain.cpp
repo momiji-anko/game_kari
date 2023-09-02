@@ -19,10 +19,12 @@ using namespace DirectX;
 // コンストラクタ
 //-------------------------------------------------------------------
 GameMain::GameMain()
-	: m_nextScene(GAME_SCENE::TITLE)		// 初期シーンの設定
-	, m_pScene(nullptr)
-	,m_playScane(this)
-	,m_titleScane(this)
+	:
+	m_nextScene(GAME_SCENE::TITLE),		// 初期シーンの設定
+	m_pScene(nullptr),
+	m_playScane(this),
+	m_titleScane(this),
+	m_resultScene(this)
 {
 }
 
@@ -47,11 +49,6 @@ void GameMain::Initialize()
 	// マウス関連
 	m_mouse = std::make_unique<DirectX::Mouse>();
 	m_mouse->SetWindow(pDR->GetHwnd());
-
-	
-
-	m_playScane.Initialize();
-	m_titleScane.Initialize();
 
 	
 	ChengeScene(&m_playScane);
@@ -100,9 +97,6 @@ void GameMain::Finalize()
 	m_titleScane.Finalize();
 
 }
-
-
-
 
 void GameMain::ChengeScene(IScene* scene)
 {

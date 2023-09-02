@@ -1,32 +1,23 @@
 #pragma once 
+
 #include"Game/GameObject/Actor/Actor.h"
 #include"Game/GameObject/Collider/Sphere/Sphere.h"
 
-class Enemy :public Actor
+
+class ObstacleManager;
+
+class  ObstacleSpawner : public Actor
 {
 public:
-
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	/// <param name="position">座標</param>
-	/// <param name="velocity">移動量</param>
-	/// <param name="scale">拡縮</param>
-	/// <param name="rotation">スケール</param>
-	/// <param name="model">モデル</param>
-	/// <param name="active">アクティブ</param>
-	Enemy(
-		const DirectX::SimpleMath::Vector3& position,
-		const DirectX::SimpleMath::Vector3& velocity,
-		const DirectX::SimpleMath::Vector3& scale,
-		const DirectX::SimpleMath::Vector3& rotation,
-		DirectX::Model* model,
-		bool active
-	);
+	ObstacleSpawner(DirectX::SimpleMath::Vector3 position, ObstacleManager* obstacleManager, float area,float obstacleSpeed,DirectX::SimpleMath::Vector3 obstacleScale,DirectX::SimpleMath::Vector3 obstacleRotation,DirectX::Model* model);
+
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~Enemy();
+	~ObstacleSpawner();
 
 	/// <summary>
 	/// 初期化	
@@ -55,13 +46,22 @@ public:
 	/// </summary>
 	void Reset()override;
 
-private:
-	static const float ENEMY_SPEHERE_RADIUS;
-
-	static const float MOVE_SPEED;
+	void CreateObstacle();
 
 private:
+	static const float OBSTACLE_SPAWN_COOL_TIME_S;
 
+private:
+	float m_area;
+
+	ObstacleManager* m_obstacleManager;
+
+	float m_obstacleSpawnCoolTime_s;
 
 	Sphere m_sphere;
+
+	DirectX::SimpleMath::Vector3 m_obstaceleScale;
+	DirectX::SimpleMath::Vector3 m_obstacleRotation;
+	float m_obstacleSpeed;
+
 };
