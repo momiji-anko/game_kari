@@ -37,6 +37,8 @@ private:
 
 	std::unique_ptr<CollisionManager> m_collisionManager;
 
+	std::unique_ptr<AABBFor3D> m_area;
+
 public:
 
 	// コンストラクタ

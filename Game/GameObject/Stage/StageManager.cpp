@@ -47,7 +47,7 @@ void StageManager::Initialize()
 		DirectX::SimpleMath::Vector3::Zero, 
 		DirectX::SimpleMath::Vector3::One, 
 		DirectX::SimpleMath::Vector3::Zero,
-		ModelManager::GetInstance().LoadModel(L"stage1.cmo"),
+		ModelManager::GetInstance().LoadCmoModel(L"stage1.cmo"),
 		true
 		);
 
@@ -150,7 +150,7 @@ void StageManager::LoadGoalJsonFile(const std::wstring& filePath)
 		DirectX::SimpleMath::Vector3::Zero,
 		scale,
 		rotation,
-		ModelManager::GetInstance().LoadModel(L"dice.cmo"),
+		ModelManager::GetInstance().LoadCmoModel(L"dice.cmo"),
 		true
 		);
 

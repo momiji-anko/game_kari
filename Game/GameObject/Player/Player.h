@@ -1,6 +1,9 @@
 #pragma once 
 #include"Game/GameObject/Actor/Actor.h"
 #include"Game/GameObject/Collider/Sphere/Sphere.h"
+#include"Libraries/Animation/Animation.h"
+#include<Keyboard.h>
+
 
 class Player :public Actor
 {
@@ -64,6 +67,14 @@ private:
 
 	void CollisionAreaUpdate();
 
+	void SdkMeshUpdate(DX::AnimationSDKMESH* sdkMeshAnimation,float elapsedTime);
+
+	void AttackAreaUpdate(bool isGroundHit);
+
+	float PlayerMoveAngle(DirectX::Keyboard::State& keyState);
+
+	void CreateSdkMesh();
+
 private:
 	//定数=====================================================
 	//	1秒間に進むマスの数
@@ -84,4 +95,20 @@ private:
 	Sphere m_sphere;
 
 	std::unique_ptr<AABBFor3D> m_attackAABB;
+
+	//アニメーション
+	DX::AnimationSDKMESH  m_animWalkSdk;
+	DX::AnimationSDKMESH  m_animIdleSdk;
+	DX::AnimationSDKMESH  m_animJumpSdk;
+
+	//アニメーションスケルトン
+	DirectX::ModelBone::TransformArray m_animBone;
+
+	//スケルトン
+	DirectX::ModelBone::TransformArray m_bone;
+
+
+	//移動ボタンを押したか
+	bool m_isMoveKey;
+
 };

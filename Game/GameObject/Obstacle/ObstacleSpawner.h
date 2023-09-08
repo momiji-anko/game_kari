@@ -2,7 +2,7 @@
 
 #include"Game/GameObject/Actor/Actor.h"
 #include"Game/GameObject/Collider/Sphere/Sphere.h"
-
+#include"Game/Shader/FireEffectManager.h"
 
 class ObstacleManager;
 
@@ -49,6 +49,9 @@ public:
 	void CreateObstacle();
 
 private:
+	void FireUpdate(const DX::StepTimer& timer);
+
+private:
 	static const float OBSTACLE_SPAWN_COOL_TIME_S;
 
 private:
@@ -64,4 +67,6 @@ private:
 	DirectX::SimpleMath::Vector3 m_obstacleRotation;
 	float m_obstacleSpeed;
 
+
+	std::unique_ptr<FireEffectManager> m_fireShaderManager;
 };

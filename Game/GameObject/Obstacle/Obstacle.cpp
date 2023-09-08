@@ -16,12 +16,14 @@ Obstacle::Obstacle(
 	const DirectX::SimpleMath::Vector3& rotation, 
 	DirectX::Model* model, 
 	bool active,
-	ObstacleManager* obstacleManager
+	ObstacleManager* obstacleManager,
+	FireEffectManager* fireManager
 )
 	:
 	Actor{ position, velocity, scale, rotation, model, active },
 	m_obstacleManager{ obstacleManager },
-	m_deleteTime{3}
+	m_deleteTime{3},
+	m_fireManager{fireManager}
 {
 }
 
@@ -46,11 +48,10 @@ void Obstacle::Update(const DX::StepTimer& timer)
 
 	float elapsedTime = static_cast<float>(timer.GetElapsedSeconds());
 
+
 	SetPosition(position + (velocity * elapsedTime));
 
-	AABBFor3D* aabb = GetAABB();
-	DirectX::SimpleMath::Vector3 area{ 0.5f,1.0f,0.5f };
-	aabb->SetData(position - area, position + area);
+	CollisionAreaUpdate();
 
 	m_deleteTime -= elapsedTime;
 
@@ -70,8 +71,15 @@ void Obstacle::Render(const Camera* camera)
 
 	CalculateWorldMatrix();
 
-	GetModel()->Draw(context, *GameContext::GetInstance().GetCommonState(), GetWorldMatrix(), camera->GetViewMatrix(), camera->GetProjectionMatrix());
+	GetAABB()->Draw(DirectX::SimpleMath::Matrix::Identity, camera->GetViewMatrix(), camera->GetProjectionMatrix(), DirectX::SimpleMath::Vector4(1,0,0,1));
+	
+	//GetModel()->Draw(context, *GameContext::GetInstance().GetCommonState(), GetWorldMatrix(), camera->GetViewMatrix(), camera->GetProjectionMatrix());
 
+	//エフェクト表示する
+	m_fireManager->SetRenderState(camera->GetEyePosition(), camera->GetViewMatrix(), camera->GetProjectionMatrix());
+	m_fireManager->SetOffsetPosition(GetPosition());
+	m_fireManager->Render();
+	
 }
 
 void Obstacle::Finalize()
@@ -80,4 +88,12 @@ void Obstacle::Finalize()
 
 void Obstacle::Reset()
 {
+}
+
+void Obstacle::CollisionAreaUpdate()
+{
+	AABBFor3D* aabb = GetAABB();
+	DirectX::SimpleMath::Vector3 area{ 0.5f,0.5f,0.5f };
+	aabb->SetData(GetPosition() - area, GetPosition() + area);
+
 }

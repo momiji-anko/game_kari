@@ -15,6 +15,9 @@
 const DirectX::SimpleMath::Vector3 PlayerCamera::TARGET_TO_EYE_VEC =
 DirectX::SimpleMath::Vector3(0.0f, 5.0f, 10.0f);
 
+const float PlayerCamera::CAMERA_X_ANGLE_AREA = DirectX::XMConvertToRadians(70);
+
+
 void PlayerCamera::CalculateViewMatrix()
 {
 	// ビュー行列を算出する
@@ -106,6 +109,8 @@ void PlayerCamera::Update()
 
 	// マウスホイールのスクロール値を取得
 	m_scrollWheelValue = state.scrollWheelValue;
+	m_scrollWheelValue = std::max(std::min(0, m_scrollWheelValue), -1000);
+
 	if (m_scrollWheelValue > 0)
 	{
 		m_scrollWheelValue = 0;
@@ -189,6 +194,9 @@ void PlayerCamera::DraggedDistance(int x, int y)
 		// 角度の更新
 		m_angleX += angleX;
 		m_angleY += angleY;
+
+
+		m_angleX = std::max(std::min(CAMERA_X_ANGLE_AREA,m_angleX),-CAMERA_X_ANGLE_AREA);
 	}
 }
 

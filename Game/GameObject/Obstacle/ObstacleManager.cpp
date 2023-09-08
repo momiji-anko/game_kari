@@ -100,8 +100,9 @@ void ObstacleManager::LoadJsonFile(const std::wstring& filePath)
 			speed, 
 			scale, 
 			rotation,
-			ModelManager::GetInstance().LoadModel(L"dice.cmo")
+			ModelManager::GetInstance().LoadCmoModel(L"dice.cmo")
 			);
+		obstacleSpawner->Initialize();
 
 		obstacleSpawnPosition.push_back(ConvertFloatArrayIntoVector3(obstacleJson["ObstacleSpawnPosition"][i]));
 

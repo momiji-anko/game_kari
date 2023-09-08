@@ -95,6 +95,9 @@
     <Filter Include="Game\ResultScene">
       <UniqueIdentifier>{6013686a-672e-45ce-ab4f-c6f2ba4859e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Libraries\Animation">
+      <UniqueIdentifier>{82ab98a1-7d68-4bde-a181-79ba054823e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -228,6 +231,9 @@
     <ClInclude Include="Game\ResultScene\ResultScene.h">
       <Filter>Game\ResultScene</Filter>
     </ClInclude>
+    <ClInclude Include="Libraries\Animation\Animation.h">
+      <Filter>Libraries\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -337,6 +343,9 @@
     </ClCompile>
     <ClCompile Include="Game\ResultScene\ResultScene.cpp">
       <Filter>Game\ResultScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\Animation\Animation.cpp">
+      <Filter>Libraries\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

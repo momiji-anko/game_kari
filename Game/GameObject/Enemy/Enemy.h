@@ -1,6 +1,7 @@
 #pragma once 
 #include"Game/GameObject/Actor/Actor.h"
 #include"Game/GameObject/Collider/Sphere/Sphere.h"
+#include"Libraries/Animation/Animation.h"
 
 class Enemy :public Actor
 {
@@ -21,7 +22,8 @@ public:
 		const DirectX::SimpleMath::Vector3& scale,
 		const DirectX::SimpleMath::Vector3& rotation,
 		DirectX::Model* model,
-		bool active
+		bool active,
+		std::vector<DirectX::SimpleMath::Vector3>& wanderPosition
 	);
 	/// <summary>
 	/// デストラクタ
@@ -56,12 +58,42 @@ public:
 	void Reset()override;
 
 private:
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="velocity"></param>
+	/// <param name="position"></param>
+	/// <returns></returns>
+	DirectX::SimpleMath::Vector3 Move(const DirectX::SimpleMath::Vector3& velocity, const DirectX::SimpleMath::Vector3& position);
+
+	/// <summary>
+	/// 
+	/// </summary>
+	void CollisionAreaUpdate();
+
+private:
 	static const float ENEMY_SPEHERE_RADIUS;
 
 	static const float MOVE_SPEED;
 
 private:
 
+	DX::AnimationSDKMESH  m_animSdk;
+	DX::AnimationSDKMESH  m_animIdleSdk;
+
+	//アニメーションスケルトン
+	DirectX::ModelBone::TransformArray m_animBone;
+
+	//スケルトン
+	DirectX::ModelBone::TransformArray m_bone;
 
 	Sphere m_sphere;
+
+	std::vector<DirectX::SimpleMath::Vector3 >m_wanderPosition;
+
+	DirectX::SimpleMath::Vector3 m_startPosition;
+
+	int m_wanderNumber;
+
+	bool m_groundHit;
 };

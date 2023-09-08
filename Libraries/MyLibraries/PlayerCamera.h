@@ -62,6 +62,9 @@ public:
 	float GetFarPlane();
 	float GetDegreeFov();
 
+private:
+	static const float CAMERA_X_ANGLE_AREA;
+
 private:	//ƒƒ“ƒo•Ï”
 
 

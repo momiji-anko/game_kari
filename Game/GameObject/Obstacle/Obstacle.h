@@ -1,6 +1,7 @@
 #pragma once
 
 #include"Game/GameObject/Actor/Actor.h"
+#include"Game/Shader/FireEffectManager.h"
 
 class ObstacleManager;
 
@@ -24,7 +25,8 @@ public:
 		const DirectX::SimpleMath::Vector3& rotation,
 		DirectX::Model* model,
 		bool active,
-		ObstacleManager* obstacleManager
+		ObstacleManager* obstacleManager,
+		FireEffectManager* fireManager
 	);
 	/// <summary>
 	/// デストラクタ
@@ -59,7 +61,12 @@ public:
 	void Reset()override;
 
 private:
+	void CollisionAreaUpdate();
+
+private:
 	ObstacleManager* m_obstacleManager;
 
 	float m_deleteTime;
+
+	FireEffectManager* m_fireManager;
 };

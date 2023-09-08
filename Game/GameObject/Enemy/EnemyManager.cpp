@@ -92,7 +92,9 @@ void EnemyManager::LoadEnemyJsonFile(std::wstring jsonFilePath)
 		DirectX::SimpleMath::Vector3 scale = ConvertFloatArrayIntoVector3(enemyJson["Enemy"][i]["Scale"]);
 		DirectX::SimpleMath::Vector3 rotation = ConvertFloatArrayIntoVector3(enemyJson["Enemy"][i]["Rotation"]);
 
-		std::unique_ptr<Actor> enemy = std::make_unique<Enemy>(position, DirectX::SimpleMath::Vector3::Zero, scale, rotation, ModelManager::GetInstance().LoadModel(L"dice.cmo"), true);
+		std::vector<DirectX::SimpleMath::Vector3>tsts = { DirectX::SimpleMath::Vector3{ 10,0,0 }, DirectX::SimpleMath::Vector3{ -10,0,0 } };
+
+		std::unique_ptr<Actor> enemy = std::make_unique<Enemy>(position, DirectX::SimpleMath::Vector3::Zero, scale, rotation, ModelManager::GetInstance().LoadSdkmeshModel(L"enemy.sdkmesh"), true, tsts);
 
 		enemy->Initialize();
 

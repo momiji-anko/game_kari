@@ -48,7 +48,9 @@ ObstacleSpawner::~ObstacleSpawner()
 
 void ObstacleSpawner::Initialize()
 {
-	
+	m_fireShaderManager = std::make_unique<FireEffectManager>();
+	m_fireShaderManager->Create();
+	m_fireShaderManager->Initialize(2.0f, DirectX::SimpleMath::Vector3::Zero);
 }
 
 void ObstacleSpawner::Update(const DX::StepTimer& timer)
@@ -62,6 +64,8 @@ void ObstacleSpawner::Update(const DX::StepTimer& timer)
 			m_obstacleSpawnCoolTime_s = OBSTACLE_SPAWN_COOL_TIME_S;
 		}
 	}
+
+	FireUpdate(timer);
 }
 
 void ObstacleSpawner::Render(const Camera* camera)
@@ -102,12 +106,21 @@ void ObstacleSpawner::CreateObstacle()
 		velocity,
 		m_obstaceleScale,
 		m_obstacleRotation,
-		ModelManager::GetInstance().LoadModel(L"dice.cmo"),
+		ModelManager::GetInstance().LoadCmoModel(L"dice.cmo"),
 		true,
-		m_obstacleManager
+		m_obstacleManager,
+		m_fireShaderManager.get()
 		);
 
 	obstacle->Initialize();
 
 	m_obstacleManager->AddObstacle(std::move(obstacle));
+}
+
+void ObstacleSpawner::FireUpdate(const DX::StepTimer& timer)
+{
+	for (int i = 0; i < 5; i++)
+	{
+		m_fireShaderManager->Update(timer);
+	}
 }

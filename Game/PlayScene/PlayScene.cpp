@@ -51,7 +51,7 @@ void PlayScene::Initialize()
 	GameContext().GetInstance().SetCollisionManager(m_collisionManager.get());
 	GameContext().GetInstance().SetCommonState(m_commonState.get());
 
-	m_player = std::make_unique<Player>(DirectX::SimpleMath::Vector3(0, 3, 0), DirectX::SimpleMath::Vector3(0, 0, 0), DirectX::SimpleMath::Vector3(1, 1, 1), DirectX::SimpleMath::Vector3(DirectX::XM_PI / 4.0f, 0, 0), ModelManager::GetInstance().LoadModel(L"dice.cmo"), true);
+	m_player = std::make_unique<Player>(DirectX::SimpleMath::Vector3(0, 3, 0), DirectX::SimpleMath::Vector3(0, 0, 0), DirectX::SimpleMath::Vector3(0.02f, 0.02f, 0.02f), DirectX::SimpleMath::Vector3(0, 0, 0), ModelManager::GetInstance().LoadSdkmeshModel(L"Walking.sdkmesh"), true);
 	
 	m_player->Initialize();
 
@@ -59,6 +59,12 @@ void PlayScene::Initialize()
 	m_sceneGraph->Initialize();
 
 	m_sceneGraph->AttachNode(std::move(m_player));
+
+	m_area = std::make_unique<AABBFor3D>();
+	m_area->Initialize();
+	m_area->SetData(DirectX::SimpleMath::Vector3(-10000.f,-100.0f,-10000.f), DirectX::SimpleMath::Vector3(10000.f,-50.f,10000.f));
+	GameContext::GetInstance().GetCollisionManager()->AddEnemiesAABB(m_area.get());
+
 }
 
 /*--------------------------------------------------
@@ -86,7 +92,6 @@ void PlayScene::Draw()
 	DX::DeviceResources* pDR = DX::DeviceResources::GetInstance();
 
 	m_sceneGraph->Render(m_camera.get());
-
 
 }
 

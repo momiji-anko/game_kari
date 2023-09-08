@@ -72,7 +72,7 @@ void ResultScene::Update(const DX::StepTimer& timer)
 	// ƒ}ƒEƒX“ü—Íî•ñ‚ðŽæ“¾‚·‚é
 	DirectX::Mouse::State mouseState = DirectX::Mouse::Get().GetState();
 
-	if (keyState.Z || mouseState.leftButton)
+	if (keyState.Z || mouseState.rightButton)
 	{
 		m_parent->ChengeScene(m_parent->GetTitleScene());
 	}

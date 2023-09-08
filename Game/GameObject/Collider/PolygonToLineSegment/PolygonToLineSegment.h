@@ -91,8 +91,10 @@ public:
 			float checkDot2 = cross2.Dot(cross3);
 			float checkDot3 = cross3.Dot(cross1);
 
+			float md = lineVec.Dot(normal);
+
 			//算出した内積を掛け算し０以上であればポリゴンの中に線分がある
-			if ((checkDot1 * checkDot2 >= 0 && checkDot2 * checkDot3 >= 0 && checkDot3 * checkDot1 >= 0)/*&& lineVec.Dot(normal) > 0*/)
+			if ((checkDot1 * checkDot2 >= 0 && checkDot2 * checkDot3 >= 0 && checkDot3 * checkDot1 >= 0)&& md > 1.0)
 			{
 				normalVector = normal;
 				actorPos = ActorPolygonPenetration(endLine, vertices, normal);
@@ -189,7 +191,7 @@ public:
 			float checkDot3 = cross3.Dot(cross1);
 
 			//算出した内積を掛け算し０以上であればポリゴンの中に線分がある
-			if ((checkDot1 * checkDot2 >= 0 && checkDot2 * checkDot3 >= 0 && checkDot3 * checkDot1 >= 0)/*&& lineVec.Dot(normal) > 0*/)
+			if ((checkDot1 * checkDot2 >= 0 && checkDot2 * checkDot3 >= 0 && checkDot3 * checkDot1 >= 0)&& lineVec.Dot(normal) > 0.5)
 			{
 				normalVector = normal;
 				actorPos = v3Pos;
@@ -209,7 +211,7 @@ public:
 	/// <returns>スライドベクトル</returns>
 	static DirectX::SimpleMath::Vector3 SlideVecCalculation(const DirectX::SimpleMath::Vector3& normalVec, const DirectX::SimpleMath::Vector3& actorVel)
 	{
-		DirectX::SimpleMath::Vector3 normalVector = -normalVec;
+		DirectX::SimpleMath::Vector3 normalVector = normalVec;
 		//法線ベクトルの正規化
 		normalVector.Normalize();
  
