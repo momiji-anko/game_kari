@@ -85,4 +85,14 @@ private:
 	TitleState m_titleSelect;
 
 	GameMain* m_parent;
+
+	std::unique_ptr<Camera> m_camera;
+
+	std::unique_ptr<Actor> m_stageManager;
+
+	float m_cameraAngle;
+
+	int m_previousNumber;
+
+
 };

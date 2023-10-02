@@ -1,9 +1,4 @@
-/*
-* 2023/06/12
-* StageSelect.cpp
-* ステージセレクト
-* 麻生　楓
-*/
+
 #include"pch.h"
 #include"StageSelect.h"
 #include"Libraries/MyLibraries/TextureManager.h"
@@ -88,6 +83,7 @@ bool StageSelect::Update(const DX::StepTimer& timer)
 	//キーボードステートトラッカーの更新
 	keyboard->Update(keyState);
 
+
 	//ステージ選択
 	if (keyboard->IsKeyPressed(DirectX::Keyboard::Keys::A))
 	{
@@ -116,6 +112,8 @@ bool StageSelect::Update(const DX::StepTimer& timer)
 
 		m_selectStageNum = std::min(std::max(0, m_selectStageNum), m_stageMaxNum - 1);
 
+		
+
 	}
 
 	//スペースキーを押すと次の選択画面に行くに移動
@@ -136,6 +134,22 @@ bool StageSelect::Update(const DX::StepTimer& timer)
 void StageSelect::Draw()
 {
 
+	StageSelectUIDraw();
+}
+
+/// <summary>
+/// 終了処理
+/// </summary>
+void StageSelect::Finalize()
+{
+
+}
+
+/// <summary>
+/// ステージ選択のUI表示
+/// </summary>
+void StageSelect::StageSelectUIDraw()
+{
 	//テクスチャマネージャーの取得
 	TextureManager& textureManager = TextureManager::GetInstance();
 
@@ -160,7 +174,7 @@ void StageSelect::Draw()
 	float stageNumSize = (stageNumTextureSize.x) / 10;
 
 	//切り取り位置
-	RECT texRect = 
+	RECT texRect =
 	{
 		static_cast<LONG>(stageNumSize * m_selectStageNum + 1),
 		static_cast <LONG>(0),
@@ -194,13 +208,5 @@ void StageSelect::Draw()
 	{
 		spriteBatch->Draw(stageArrowTexture.Get(), numPosition + DirectX::SimpleMath::Vector2(stageArrowTextureSize.x, 0), nullptr, DirectX::Colors::White, 0.0f, stageArrowTextureSize / 2, textureScale);
 	}
-
 }
 
-/// <summary>
-/// 終了処理
-/// </summary>
-void StageSelect::Finalize()
-{
-
-}

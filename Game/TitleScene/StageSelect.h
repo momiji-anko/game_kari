@@ -7,6 +7,7 @@
 #include<Keyboard.h>
 #include "../IScene.h"
 #include "Game/GameMain.h"
+#include"Game/GameObject/Stage/StageManager.h"
 
 class StageSelect
 {
@@ -49,6 +50,12 @@ public:
 	/// </summary>
 	void Finalize();
 
+	/// <summary>
+	/// ステージ選択のUI表示
+	/// </summary>
+	void StageSelectUIDraw();
+
+
 private:
 
 	//座標
@@ -58,5 +65,6 @@ private:
 	int m_selectStageNum;
 	//ステージの最大数
 	int m_stageMaxNum;
+
 
 };

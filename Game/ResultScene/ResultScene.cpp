@@ -12,6 +12,8 @@
 
 #include"ResultScene.h"
 #include"Game/GameMain.h"
+#include"Libraries/MyLibraries/TextureManager.h"
+#include"Game/GameContext/GameContext.h"
 
 using namespace DirectX;
 
@@ -84,13 +86,32 @@ void ResultScene::Update(const DX::StepTimer& timer)
 --------------------------------------------------*/
 void ResultScene::Draw()
 {
+	DX::DeviceResources* pDR = DX::DeviceResources::GetInstance();
 	
 
 	m_spriteBatch->Begin(SpriteSortMode_Deferred, m_commonState->NonPremultiplied());
 
+	TextureManager& textureManager = TextureManager::GetInstance();
+
+	std::wstring tex[] =
+	{
+		L"youdead.png",
+		L"clear.png",
+	};
+	
+	int isclear = GameContext::GetInstance().ISClear();
+
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> clearTexture = textureManager.LoadTexture(tex[isclear]);
+	DirectX::SimpleMath::Vector2 texSize = textureManager.GetTextureSize(tex[isclear]);
+
+
+	// ウィンドウサイズの取得
+	RECT size = pDR->GetOutputSize();
+	DirectX::SimpleMath::Vector2 windowCenterPosition(size.right / 2.0f, size.bottom / 2.0f);
+
 	SimpleMath::Vector2 pos(640 - 128, 360 - 128);
 
-	m_spriteBatch->Draw(m_texture.Get(), pos);
+	m_spriteBatch->Draw(clearTexture.Get(), windowCenterPosition, nullptr, DirectX::Colors::White, 0.0f, texSize/2.0f);
 
 	m_spriteFont->DrawString(m_spriteBatch.get(), L"Result Scene", DirectX::XMFLOAT2(10, 10));
 

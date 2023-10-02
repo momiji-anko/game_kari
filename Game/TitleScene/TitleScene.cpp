@@ -11,6 +11,7 @@
 #include "DeviceResources.h"
 #include"Game/GameContext/GameContext.h"
 #include "TitleScene.h"
+#include"Libraries/MyLibraries/Camera.h"
 
 
 using namespace DirectX;
@@ -21,7 +22,8 @@ using namespace DirectX;
 TitleScene::TitleScene(GameMain* parent)
 	:
 	m_parent{ parent },
-	m_stageSelect{}
+	m_stageSelect{},
+	m_cameraAngle{ 0 }
 {
 }
 
@@ -66,6 +68,11 @@ void TitleScene::Initialize()
 
 	m_stageSelect = std::make_unique<StageSelect>();
 	m_stageSelect->Initialize();
+
+	m_camera = std::make_unique<Camera>();
+	
+
+
 }
 
 /*--------------------------------------------------
@@ -80,11 +87,21 @@ void TitleScene::Update(const DX::StepTimer& timer)
 	// マウス入力情報を取得する
 	DirectX::Mouse::State mouseState = DirectX::Mouse::Get().GetState();
 
-	
+
+	if (m_previousNumber != m_stageSelect->GetSelectStageNum())
+	{
+		m_previousNumber = m_stageSelect->GetSelectStageNum();
+
+		m_stageManager.reset(new StageManager(m_previousNumber));
+		m_stageManager->Initialize();
+	}
+
+	m_stageManager->Update(timer);
+
+	m_cameraAngle += 0.1f;
 
 	if (m_stageSelect->Update(timer))
 	{
-		m_stageSelect->GetSelectStageNum();
 		m_parent->ChengeScene(m_parent->GetPlayScene());
 	}
 
@@ -105,8 +122,23 @@ void TitleScene::Draw()
 
 	m_stageSelect->Draw();
 
-	m_spriteBatch->End();
 
+	// ビュー行列
+	DirectX::SimpleMath::Matrix view;
+	// プロジェクション行列
+	DirectX::SimpleMath::Matrix projection;
+	// カメラ座標
+	DirectX::SimpleMath::Vector3 eye = { cos(m_cameraAngle) * 18,10,-sin(m_cameraAngle) * 18 };
+	// 注視点
+	DirectX::SimpleMath::Vector3 target = DirectX::SimpleMath::Vector3::Zero;
+	// 上向きベクトル
+	DirectX::SimpleMath::Vector3 up = DirectX::SimpleMath::Vector3::UnitY;
+	// ビュー行列計算
+	view = DirectX::SimpleMath::Matrix::CreateLookAt(eye, target, up);
+	m_camera->SetViewMatrix(view);
+
+	m_stageManager->Render(m_camera.get());
+	m_spriteBatch->End();
 }
 
 /*--------------------------------------------------

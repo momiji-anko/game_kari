@@ -221,8 +221,10 @@ void Player::PlayerMove(const DX::StepTimer& timer)
 	}
 
 
+	bool isGoal = GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayer2Goal();
+
 	if (
-		GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayer2Goal()||
+		isGoal ||
 		GameContext().GetInstance().GetCollisionManager()->DetectCollisionPlayer2Enemies()||
 		GameContext().GetInstance().GetCollisionManager()->DetectCollisionPlayer2FallDeathAABB()
 		)

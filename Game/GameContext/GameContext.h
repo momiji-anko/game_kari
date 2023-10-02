@@ -67,6 +67,9 @@ public:
 	void SetSelectStageNum(int stageNum) { m_selectStage = stageNum; }
 	int GetSelectStageNum() { return m_selectStage; }
 
+	void SetIsClear(bool isClear) { m_isClear = isClear; }
+	bool ISClear() { return m_isClear; }
+
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -93,4 +96,6 @@ private:
 	bool m_playerDeath;
 
 	int m_selectStage;
+
+	bool m_isClear;
 };
