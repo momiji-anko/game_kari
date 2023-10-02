@@ -37,12 +37,12 @@ public:
 	/// キーボードステートトラッカーの設定
 	/// </summary>
 	/// <param name="keyboard">キーボードステートトラッカーの生ポインタ</param>
-	void SetKeyBoardStateTracker(DirectX::Keyboard::KeyboardStateTracker* keyboard) { m_keyboardTracker = keyboard; }
+	void SetKeyboardStateTracker(DirectX::Keyboard::KeyboardStateTracker* keyboard) { m_keyboardTracker = keyboard; }
 	/// <summary>
 	/// キーボードステートトラッカーの取得
 	/// </summary>
 	/// <returns></returns>
-	DirectX::Keyboard::KeyboardStateTracker* GetKeyBoardStateTracker() { return m_keyboardTracker; }
+	DirectX::Keyboard::KeyboardStateTracker* GetKeyboardStateTracker() { return m_keyboardTracker; }
 
 	/// <summary>
 	/// コリジョンマネージャーの設定
@@ -60,6 +60,12 @@ public:
 
 	void SetCameraAngleY(float angle) { m_angleY = angle; }
 	float GetCmeraAngleY() { return m_angleY; }
+
+	void SetPlayerDeath(bool flag) { m_playerDeath = flag; }
+	bool IsPlayerDeath() { return m_playerDeath; }
+
+	void SetSelectStageNum(int stageNum) { m_selectStage = stageNum; }
+	int GetSelectStageNum() { return m_selectStage; }
 
 	/// <summary>
 	/// コンストラクタ
@@ -83,4 +89,8 @@ private:
 	DirectX::SimpleMath::Vector3 m_playerPosition;
 
 	float m_angleY;
+
+	bool m_playerDeath;
+
+	int m_selectStage;
 };

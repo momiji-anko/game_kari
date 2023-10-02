@@ -9,8 +9,9 @@
 #include "Libraries/MyLibraries/DebugCamera.h"
 #include "Libraries/MyLibraries/GridFloor.h"
 
-#include "Game/TitleScene/TitleScene.h"
-#include "Game/PlayScene/PlayScene.h"
+#include"Game/PlayScene/PlayScene.h"
+#include"Game/TitleScene/TitleScene.h"
+#include"Game/ResultScene/ResultScene.h"
 
 // 名前空間の利用
 using namespace DirectX;
@@ -20,11 +21,11 @@ using namespace DirectX;
 //-------------------------------------------------------------------
 GameMain::GameMain()
 	:
-	m_nextScene(GAME_SCENE::TITLE),		// 初期シーンの設定
-	m_pScene(nullptr),
-	m_playScane(this),
-	m_titleScane(this),
-	m_resultScene(this)
+	m_nextScene{ GAME_SCENE::TITLE },		// 初期シーンの設定
+	m_pScene{ nullptr },
+	m_playScane{},
+	m_titleScane{},
+	m_resultScene{}
 {
 }
 
@@ -50,8 +51,12 @@ void GameMain::Initialize()
 	m_mouse = std::make_unique<DirectX::Mouse>();
 	m_mouse->SetWindow(pDR->GetHwnd());
 
+	m_playScane = std::make_unique<PlayScene>(this);
+	m_titleScane = std::make_unique<TitleScene>(this);
+	m_resultScene = std::make_unique<ResultScene>(this);
+
 	
-	ChengeScene(&m_playScane);
+	ChengeScene(m_playScane.get());
 }
 
 //-------------------------------------------------------------------
@@ -93,8 +98,7 @@ void GameMain::Render()
 //-------------------------------------------------------------------
 void GameMain::Finalize()
 {
-	m_playScane.Finalize();
-	m_titleScane.Finalize();
+
 
 }
 
@@ -106,4 +110,19 @@ void GameMain::ChengeScene(IScene* scene)
 	m_pScene = scene;
 
 	m_pScene->Initialize();
+}
+
+IScene* GameMain::GetPlayScene()
+{
+	return m_playScane.get();
+}
+
+IScene* GameMain::GetTitleScene()
+{
+	return m_titleScane.get();
+}
+
+IScene* GameMain::GetResultScene()
+{
+	return m_resultScene.get();
 }

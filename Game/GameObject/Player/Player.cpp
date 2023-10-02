@@ -6,6 +6,7 @@
 #include"Libraries/MyLibraries/Camera.h"
 #include"Libraries/MyLibraries/ModelManager.h"
 
+
 //	1秒間に進むマスの数
 const float Player::MOVE_SPEED = 9.0f;
 //	1秒間に落ちるマスの数
@@ -34,8 +35,10 @@ Player::Player(
 	:
 	Actor{ position, velocity,scale,rotation,model,active },
 	m_sphere{ position,0.1f },
-	m_isMoveKey{false}
+	m_isMoveKey{false},
+	m_deathTime{0.0f}
 {
+	
 }
 
 Player::~Player()
@@ -58,10 +61,8 @@ void Player::Initialize()
 
 	//SDKMESHの作成
 	CreateSdkMesh();
-	
 
-
-
+	m_deathTime = 0.0f;
 }
 
 void Player::Update(const DX::StepTimer& timer)
@@ -84,6 +85,8 @@ void Player::Render(const Camera* camera)
 
 	CalculateWorldMatrix();
 
+	GetAABB()->Draw(DirectX::SimpleMath::Matrix::Identity, camera->GetViewMatrix(), camera->GetProjectionMatrix(), DirectX::SimpleMath::Color(0, 1, 1, 1));
+	m_attackAABB->Draw(DirectX::SimpleMath::Matrix::Identity, camera->GetViewMatrix(), camera->GetProjectionMatrix(), DirectX::SimpleMath::Color(1, 1, 1, 1));
 
 	GetModel()->DrawSkinned
 	(
@@ -217,6 +220,31 @@ void Player::PlayerMove(const DX::StepTimer& timer)
 
 	}
 
+
+	if (
+		GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayer2Goal()||
+		GameContext().GetInstance().GetCollisionManager()->DetectCollisionPlayer2Enemies()||
+		GameContext().GetInstance().GetCollisionManager()->DetectCollisionPlayer2FallDeathAABB()
+		)
+	{
+
+		GameContext::GetInstance().SetPlayerDeath(true);
+
+		SdkMeshUpdate(&m_animDieSdk, elapsedTime);
+		
+		m_deathTime += elapsedTime;
+
+		velocity = DirectX::SimpleMath::Vector3::Zero;
+		
+		if (m_deathTime >= 2)
+		{
+			SetActive(false);
+		}
+	}
+	
+
+
+
 	//攻撃当たり判定を更新
 	AttackAreaUpdate(isGroundHit);
 
@@ -233,7 +261,8 @@ void Player::CollisionAreaUpdate()
 {
 	AABBFor3D* aabb = GetAABB();
 	DirectX::SimpleMath::Vector3 position = GetPosition();
-	DirectX::SimpleMath::Vector3 area{0.5};
+	position.y += COLLISION_LINE_LENGTH / 2.0f;
+	DirectX::SimpleMath::Vector3 area{0.5,1.5,0.5};
 	aabb->SetData(position - area, position + area);
 
 	Capsule* capsule = GetCapsule();
@@ -257,7 +286,7 @@ void Player::AttackAreaUpdate(bool isGroundHit)
 {
 	if (!isGroundHit)
 	{
-		DirectX::SimpleMath::Vector3 area = DirectX::SimpleMath::Vector3(0.5);
+		DirectX::SimpleMath::Vector3 area = DirectX::SimpleMath::Vector3{ 0.5 };
 		DirectX::SimpleMath::Vector3 position = GetPosition();
 
 		DirectX::SimpleMath::Vector3 attckAreaCenterPosition = DirectX::SimpleMath::Vector3(position.x, position.y - 1, position.z);
@@ -355,8 +384,9 @@ void Player::CreateSdkMesh()
 	DX::ThrowIfFailed(m_animWalkSdk.Load(L"Resources/Models/WalkWithBriefcase.sdkmesh_anim"));
 	DX::ThrowIfFailed(m_animIdleSdk.Load(L"Resources/Models/NeutralIdle.sdkmesh_anim"));
 	DX::ThrowIfFailed(m_animJumpSdk.Load(L"Resources/Models/FallingIdle.sdkmesh_anim"));
+	DX::ThrowIfFailed(m_animDieSdk.Load(L"Resources/Models/FallingBackDeath.sdkmesh_anim"));
 
-
+	
 	GetModel()->UpdateEffects([&](DirectX::IEffect* effect)
 		{
 			auto skin = dynamic_cast<DirectX::SkinnedEffect*>(effect);
@@ -369,4 +399,11 @@ void Player::CreateSdkMesh()
 	m_animWalkSdk.Bind(*GetModel());
 	m_animIdleSdk.Bind(*GetModel());
 	m_animJumpSdk.Bind(*GetModel());
+	m_animDieSdk.Bind(*GetModel());
+}
+
+void Player::CreateShader()
+{
+
+
 }

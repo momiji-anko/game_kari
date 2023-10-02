@@ -43,6 +43,9 @@ void Obstacle::Initialize()
 
 void Obstacle::Update(const DX::StepTimer& timer)
 {
+	if (!IsActive() || GameContext::GetInstance().IsPlayerDeath())
+		return;
+
 	DirectX::SimpleMath::Vector3 position = GetPosition();
 	DirectX::SimpleMath::Vector3 velocity = GetVelocity();
 

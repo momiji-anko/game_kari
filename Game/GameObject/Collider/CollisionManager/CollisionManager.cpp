@@ -116,3 +116,8 @@ bool CollisionManager::DetectCollisionCameraLine2Polygon(const std::vector<Direc
 	}
 	return isCollision;
 }
+
+bool CollisionManager::DetectCollisionPlayer2FallDeathAABB()
+{
+	return m_playerAABB->DetectCollition(m_fallDeathAABB);
+}

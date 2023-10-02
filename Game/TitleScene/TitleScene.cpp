@@ -9,7 +9,7 @@
 
 #include "../GameMain.h"
 #include "DeviceResources.h"
-
+#include"Game/GameContext/GameContext.h"
 #include "TitleScene.h"
 
 
@@ -20,7 +20,8 @@ using namespace DirectX;
 --------------------------------------------------*/
 TitleScene::TitleScene(GameMain* parent)
 	:
-	m_parent(parent)
+	m_parent{ parent },
+	m_stageSelect{}
 {
 }
 
@@ -42,6 +43,9 @@ void TitleScene::Initialize()
 	ID3D11Device1* device = pDR->GetD3DDevice();
 	ID3D11DeviceContext1* context = pDR->GetD3DDeviceContext();
 
+	//キーボードステートトラッカー取得
+	m_keyboardStateTracker = std::make_unique<DirectX::Keyboard::KeyboardStateTracker>();
+	GameContext::GetInstance().SetKeyboardStateTracker(m_keyboardStateTracker.get());
 
 	// コモンステート::D3Dレンダリング状態オブジェクト
 	m_commonState = std::make_unique<DirectX::CommonStates>(device);
@@ -58,6 +62,10 @@ void TitleScene::Initialize()
 		m_texture.ReleaseAndGetAddressOf()
 	);
 
+	GameContext::GetInstance().SetSpriteBath(m_spriteBatch.get());
+
+	m_stageSelect = std::make_unique<StageSelect>();
+	m_stageSelect->Initialize();
 }
 
 /*--------------------------------------------------
@@ -72,12 +80,14 @@ void TitleScene::Update(const DX::StepTimer& timer)
 	// マウス入力情報を取得する
 	DirectX::Mouse::State mouseState = DirectX::Mouse::Get().GetState();
 
-	if (keyState.Z || mouseState.leftButton)
+	
+
+	if (m_stageSelect->Update(timer))
 	{
+		m_stageSelect->GetSelectStageNum();
 		m_parent->ChengeScene(m_parent->GetPlayScene());
 	}
 
-	
 }
 
 /*--------------------------------------------------
@@ -85,8 +95,6 @@ void TitleScene::Update(const DX::StepTimer& timer)
 --------------------------------------------------*/
 void TitleScene::Draw()
 {
-	
-
 	m_spriteBatch->Begin(SpriteSortMode_Deferred, m_commonState->NonPremultiplied());
 
 	SimpleMath::Vector2 pos(640 - 128, 360 - 128);
@@ -95,7 +103,10 @@ void TitleScene::Draw()
 
 	m_spriteFont->DrawString(m_spriteBatch.get(), L"Title Scene", DirectX::XMFLOAT2(10, 10));
 
+	m_stageSelect->Draw();
+
 	m_spriteBatch->End();
+
 }
 
 /*--------------------------------------------------

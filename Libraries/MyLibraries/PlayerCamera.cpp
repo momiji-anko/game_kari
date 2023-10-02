@@ -40,12 +40,23 @@ void PlayerCamera::CalculateViewMatrix()
 
 	if (GameContext::GetInstance().GetCollisionManager()->DetectCollisionCameraLine2Polygon(collisionLine, normal, pos))
 	{
-		SetViewMatrix(DirectX::SimpleMath::Matrix::CreateLookAt(pos, GetTargetPosition(), up));
+		
+		eye = pos;
 	}
 	else
 	{
-		SetViewMatrix(DirectX::SimpleMath::Matrix::CreateLookAt(eye+ GetTargetPosition(), GetTargetPosition(), up));
+		
+		eye = eye + GetTargetPosition();
 	}
+
+	if (!GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayer2FallDeathAABB())
+	{
+		SetEyePosition(eye);
+		SetUpVec(up);
+	}
+
+	SetViewMatrix(DirectX::SimpleMath::Matrix::CreateLookAt(GetEyePosition(), GetTargetPosition(), GetUpVector()));
+
 }
 
 //コンストラクタ

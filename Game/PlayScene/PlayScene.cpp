@@ -54,7 +54,7 @@ void PlayScene::Initialize()
 	m_player = std::make_unique<Player>(DirectX::SimpleMath::Vector3(0, 3, 0), DirectX::SimpleMath::Vector3(0, 0, 0), DirectX::SimpleMath::Vector3(0.02f, 0.02f, 0.02f), DirectX::SimpleMath::Vector3(0, 0, 0), ModelManager::GetInstance().LoadSdkmeshModel(L"Walking.sdkmesh"), true);
 	
 	m_player->Initialize();
-
+	m_actor = m_player.get();
 	m_sceneGraph = std::make_unique<SceneGraph>();
 	m_sceneGraph->Initialize();
 
@@ -63,8 +63,8 @@ void PlayScene::Initialize()
 	m_area = std::make_unique<AABBFor3D>();
 	m_area->Initialize();
 	m_area->SetData(DirectX::SimpleMath::Vector3(-10000.f,-100.0f,-10000.f), DirectX::SimpleMath::Vector3(10000.f,-50.f,10000.f));
-	GameContext::GetInstance().GetCollisionManager()->AddEnemiesAABB(m_area.get());
-
+	GameContext::GetInstance().GetCollisionManager()->SetfallDeathAABB(m_area.get());
+	GameContext::GetInstance().SetPlayerDeath(false);
 }
 
 /*--------------------------------------------------
@@ -73,12 +73,12 @@ void PlayScene::Initialize()
 --------------------------------------------------*/
 void PlayScene::Update(const DX::StepTimer& timer)
 {
-	m_camera->Update();
 
 	m_sceneGraph->Update(timer);
 
+	m_camera->Update();
 
-	if(GameContext().GetInstance().GetCollisionManager()->DetectCollisionPlayer2Goal()|| GameContext().GetInstance().GetCollisionManager()->DetectCollisionPlayer2Enemies())
+	if(!m_actor->IsActive())
 	m_parent->ChengeScene(m_parent->GetResultScene());
 
 	return ;

@@ -237,7 +237,7 @@ public:
 	static DirectX::SimpleMath::Vector3 ActorPolygonPenetration(const DirectX::SimpleMath::Vector3& actor, const std::vector<DirectX::SimpleMath::Vector3>& polygonVertexPos, const DirectX::SimpleMath::Vector3& normalVec)
 	{
 		//アクターを少しめり込ませる用変数
-		float actorPenetration = 0.25f;
+		float actorPenetration = 0.1f;
 
 		//めり込み処理
 		//アクターの座標取得

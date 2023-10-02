@@ -7,8 +7,8 @@
 #include <SpriteFont.h>
 #include <CommonStates.h>
 
-#include "../IScene.h"
 
+#include"Game/IScene.h"
 
 class GameMain;
 

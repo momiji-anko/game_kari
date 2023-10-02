@@ -43,6 +43,8 @@ public:
 	bool DetectCollisionPlayerLine2Polygon(const std::vector<DirectX::SimpleMath::Vector3>& line, DirectX::SimpleMath::Vector3& normal, DirectX::SimpleMath::Vector3& actorPos);
 	bool DetectCollisionCameraLine2Polygon(const std::vector<DirectX::SimpleMath::Vector3>& line, DirectX::SimpleMath::Vector3& normal, DirectX::SimpleMath::Vector3& actorPos);
 
+	bool DetectCollisionPlayer2FallDeathAABB();
+
 	void SetPlayerAttackAABB(AABBFor3D* aabb) { m_playerAttackAABB = aabb; }
 
 	void SetPlayerAABB(AABBFor3D* aabb) { m_playerAABB = aabb; }
@@ -52,6 +54,7 @@ public:
 	void SetVertexPosition(const std::vector<DirectX::SimpleMath::Vector3>& vertexesPosition) { m_vertexesPosition = vertexesPosition; }
 
 	void SetPlayerSphere(Sphere* sphere) { m_playerSphere = sphere; }
+	void SetfallDeathAABB(AABBFor3D* aabb) { m_fallDeathAABB = aabb; }
 	
 	void AddEnemiesAABB(AABBFor3D* aabb) { m_enemiesAABB.push_back(aabb); }
 
@@ -68,5 +71,7 @@ private:
 	Sphere* m_playerSphere;
 
 	AABBFor3D* m_playerAttackAABB;
+
+	AABBFor3D* m_fallDeathAABB;
 
 };

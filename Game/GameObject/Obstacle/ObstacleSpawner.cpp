@@ -55,6 +55,9 @@ void ObstacleSpawner::Initialize()
 
 void ObstacleSpawner::Update(const DX::StepTimer& timer)
 {
+	if (!IsActive() || GameContext::GetInstance().IsPlayerDeath())
+		return;
+
 	if (GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayerSphere2EnemySphere(&m_sphere))
 	{
 		m_obstacleSpawnCoolTime_s -= timer.GetElapsedSeconds();

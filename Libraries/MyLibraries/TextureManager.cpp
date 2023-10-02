@@ -22,9 +22,8 @@ Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> TextureManager::LoadTexture(con
 		//DeviceResourcesからデバイスの取得
 		ID3D11Device1* device = DX::DeviceResources::GetInstance()->GetD3DDevice();
 
-		Microsoft::WRL::ComPtr<ID3D11Resource> resouce;
 
-		std::wstring filepath = L"Resources/Models/";
+		std::wstring filepath = L"Resources/Textures/";
 		size_t pos = fileName.find(filepath);
 		std::wstring fullFilePath;
 
@@ -36,6 +35,9 @@ Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> TextureManager::LoadTexture(con
 		{
 			fullFilePath = fileName;
 		}
+
+		Microsoft::WRL::ComPtr<ID3D11Resource> resouce;
+
 
 		//テクスチャの読み込み
 		DirectX::CreateWICTextureFromFile(

@@ -76,6 +76,7 @@ private:
 
 	static const float MOVE_SPEED;
 
+	static const float ENEMY_HEGHT_COLLISITION_LINE;
 private:
 
 	DX::AnimationSDKMESH  m_animSdk;

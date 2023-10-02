@@ -98,6 +98,12 @@
     <Filter Include="Libraries\Animation">
       <UniqueIdentifier>{82ab98a1-7d68-4bde-a181-79ba054823e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Shader\ShadowMap">
+      <UniqueIdentifier>{20900752-e5df-4620-862f-3c892315b442}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Shader\PlayerEffect">
+      <UniqueIdentifier>{bbcef9ab-bc31-4dfa-b6b9-23bdf17e6023}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -234,6 +240,15 @@
     <ClInclude Include="Libraries\Animation\Animation.h">
       <Filter>Libraries\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Shader\ShadowMap\ShadowMaping.h">
+      <Filter>Game\Shader\ShadowMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Shader\PlayerEffect\PlayerEffect.h">
+      <Filter>Game\Shader\PlayerEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TitleScene\StageSelect.h">
+      <Filter>Game\TitleScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -346,6 +361,15 @@
     </ClCompile>
     <ClCompile Include="Libraries\Animation\Animation.cpp">
       <Filter>Libraries\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Shader\ShadowMap\ShadowMaping.cpp">
+      <Filter>Game\Shader\ShadowMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Shader\PlayerEffect\PlayerEffect.cpp">
+      <Filter>Game\Shader\PlayerEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TitleScene\StageSelect.cpp">
+      <Filter>Game\TitleScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -216,7 +216,10 @@
     <ClInclude Include="Game\Shader\FireEffectManager.h" />
     <ClInclude Include="Game\Shader\FireShader.h" />
     <ClInclude Include="Game\Shader\PlayerDeath.h" />
+    <ClInclude Include="Game\Shader\PlayerEffect\PlayerEffect.h" />
     <ClInclude Include="Game\Shader\ShadowMap.h" />
+    <ClInclude Include="Game\Shader\ShadowMap\ShadowMaping.h" />
+    <ClInclude Include="Game\TitleScene\StageSelect.h" />
     <ClInclude Include="Game\TitleScene\TitleScene.h" />
     <ClInclude Include="Libraries\Animation\Animation.h" />
     <ClInclude Include="Libraries\MyLibraries\Camera.h" />
@@ -260,7 +263,10 @@
     <ClCompile Include="Game\Shader\FireEffectManager.cpp" />
     <ClCompile Include="Game\Shader\FireShader.cpp" />
     <ClCompile Include="Game\Shader\PlayerDeath.cpp" />
+    <ClCompile Include="Game\Shader\PlayerEffect\PlayerEffect.cpp" />
     <ClCompile Include="Game\Shader\ShadowMap.cpp" />
+    <ClCompile Include="Game\Shader\ShadowMap\ShadowMaping.cpp" />
+    <ClCompile Include="Game\TitleScene\StageSelect.cpp" />
     <ClCompile Include="Game\TitleScene\TitleScene.cpp" />
     <ClCompile Include="Libraries\Animation\Animation.cpp" />
     <ClCompile Include="Libraries\MyLibraries\Camera.cpp" />
@@ -299,9 +305,11 @@
     <MeshContentTask Include="Resources\Assets\dice.FBX">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Models\%(Filename).cmo</ContentOutput>
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Resources\Models\%(Filename).cmo</ContentOutput>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </MeshContentTask>
     <MeshContentTask Include="Resources\Assets\stage1.fbx">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Resources\Models\%(Filename).cmo</ContentOutput>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </MeshContentTask>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

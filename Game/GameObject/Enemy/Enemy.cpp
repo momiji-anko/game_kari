@@ -11,6 +11,7 @@
 
 
 const float Enemy::ENEMY_SPEHERE_RADIUS = 20.0f;
+const float Enemy:: ENEMY_HEGHT_COLLISITION_LINE = 3.f;
 const float Enemy::MOVE_SPEED = 3.0f;
 
 Enemy::Enemy(
@@ -74,7 +75,7 @@ void Enemy::Initialize()
 
 void Enemy::Update(const DX::StepTimer& timer)
 {
-	if (!IsActive())
+	if (!IsActive()||GameContext::GetInstance().IsPlayerDeath())
 		return;
 
 	float elapsedTime_s = static_cast<float>(timer.GetElapsedSeconds());
@@ -192,6 +193,7 @@ void Enemy::Render(const Camera* camera)
 	//デバイスコンテキストの取得
 	ID3D11DeviceContext1* context = pDR->GetD3DDeviceContext();
 
+	GetAABB()->Draw(DirectX::SimpleMath::Matrix::Identity, camera->GetViewMatrix(), camera->GetProjectionMatrix(), DirectX::SimpleMath::Color(0, 1, 1, 1));
 
 	
 
@@ -269,7 +271,8 @@ void Enemy::CollisionAreaUpdate()
 {
 	AABBFor3D* aabb = GetAABB();
 	DirectX::SimpleMath::Vector3 position = GetPosition();
-	DirectX::SimpleMath::Vector3 area{ 0.5f,1.0f,0.5f };
+	position.y += ENEMY_HEGHT_COLLISITION_LINE / 2.f;
+	DirectX::SimpleMath::Vector3 area{ 0.5f,1.5f,0.5f };
 	aabb->SetData(position - area, position + area);
 
 	m_sphere.centerPosition = position;

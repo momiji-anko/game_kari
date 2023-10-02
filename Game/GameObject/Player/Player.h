@@ -75,6 +75,8 @@ private:
 
 	void CreateSdkMesh();
 
+	void CreateShader();
+
 private:
 	//定数=====================================================
 	//	1秒間に進むマスの数
@@ -100,6 +102,7 @@ private:
 	DX::AnimationSDKMESH  m_animWalkSdk;
 	DX::AnimationSDKMESH  m_animIdleSdk;
 	DX::AnimationSDKMESH  m_animJumpSdk;
+	DX::AnimationSDKMESH  m_animDieSdk;
 
 	//アニメーションスケルトン
 	DirectX::ModelBone::TransformArray m_animBone;
@@ -110,5 +113,7 @@ private:
 
 	//移動ボタンを押したか
 	bool m_isMoveKey;
+
+	float m_deathTime;
 
 };

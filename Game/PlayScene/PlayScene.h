@@ -24,7 +24,7 @@ private:
 	std::unique_ptr<PlayerCamera> m_camera;
 
 	std::unique_ptr<Actor> m_player;
-
+	Actor* m_actor;
 	std::unique_ptr<Actor> m_goal;
 
 	std::unique_ptr<SceneGraph> m_sceneGraph;
