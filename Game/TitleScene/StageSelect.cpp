@@ -85,7 +85,7 @@ bool StageSelect::Update(const DX::StepTimer& timer)
 
 
 	//ステージ選択
-	if (keyboard->IsKeyPressed(DirectX::Keyboard::Keys::A))
+	if (keyboard->IsKeyPressed(DirectX::Keyboard::Keys::Left))
 	{
 		//押したらtrueにする
 		isKeyPush = true;
@@ -107,20 +107,13 @@ bool StageSelect::Update(const DX::StepTimer& timer)
 	//押したらステージマネージャーのステージを変える
 	if (isKeyPush)
 	{
-		//音を出す
-		//ADX2::GetInstance().Play(CRI_CUESHEET_0_BUTTON);
-
+		//範囲チェック
 		m_selectStageNum = std::min(std::max(0, m_selectStageNum), m_stageMaxNum - 1);
-
-		
-
 	}
 
 	//スペースキーを押すと次の選択画面に行くに移動
 	if (keyboard->IsKeyPressed(DirectX::Keyboard::Keys::Space))
 	{
-		//音を出す
-		//ADX2::GetInstance().Play(CRI_CUESHEET_0_BUTTON);
 
 		return true;
 	}

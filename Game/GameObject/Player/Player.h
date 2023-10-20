@@ -90,7 +90,7 @@ private:
 	//モデルタイムの最大数
 	static const float MAX_MODEL_TIME_S;
 	//モデルタイムの速度
-	static const float MODEL_TIME_SPEED;
+	static const int MODEL_TIME_SPEED;
 
 
 private:
@@ -103,6 +103,7 @@ private:
 	DX::AnimationSDKMESH  m_animIdleSdk;
 	DX::AnimationSDKMESH  m_animJumpSdk;
 	DX::AnimationSDKMESH  m_animDieSdk;
+	DX::AnimationSDKMESH  m_animRunSdk;
 
 	//アニメーションスケルトン
 	DirectX::ModelBone::TransformArray m_animBone;

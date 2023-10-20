@@ -14,16 +14,16 @@
 #include"Libraries/MyLibraries/Camera.h"
 
 
-using namespace DirectX;
 
 /*--------------------------------------------------
 コンストラクタ
 --------------------------------------------------*/
 TitleScene::TitleScene(GameMain* parent)
 	:
-	m_parent{ parent },
+	m_parent{parent},
 	m_stageSelect{},
-	m_cameraAngle{ 0 }
+	m_cameraAngle{0},
+	m_previousNumber{0}
 {
 }
 
@@ -56,13 +56,7 @@ void TitleScene::Initialize()
 	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(context);
 	m_spriteFont = std::make_unique<DirectX::SpriteFont>(device, L"Resources/Fonts/SegoeUI_18.spritefont");
 
-	// テクスチャの読み込み
-	CreateWICTextureFromFile(
-		device,
-		L"Resources/Textures/TridentLogo.png",
-		nullptr,
-		m_texture.ReleaseAndGetAddressOf()
-	);
+	
 
 	GameContext::GetInstance().SetSpriteBath(m_spriteBatch.get());
 
@@ -71,8 +65,9 @@ void TitleScene::Initialize()
 
 	m_camera = std::make_unique<Camera>();
 	
-
-
+	
+	m_stageManager = std::make_unique<StageManager>(m_previousNumber);
+	m_stageManager->Initialize();
 }
 
 /*--------------------------------------------------
@@ -98,7 +93,7 @@ void TitleScene::Update(const DX::StepTimer& timer)
 
 	m_stageManager->Update(timer);
 
-	m_cameraAngle += 0.1f;
+	m_cameraAngle += 0.001f;
 
 	if (m_stageSelect->Update(timer))
 	{
@@ -112,23 +107,15 @@ void TitleScene::Update(const DX::StepTimer& timer)
 --------------------------------------------------*/
 void TitleScene::Draw()
 {
-	m_spriteBatch->Begin(SpriteSortMode_Deferred, m_commonState->NonPremultiplied());
-
-	SimpleMath::Vector2 pos(640 - 128, 360 - 128);
-
-	m_spriteBatch->Draw(m_texture.Get(), pos);
-
-	m_spriteFont->DrawString(m_spriteBatch.get(), L"Title Scene", DirectX::XMFLOAT2(10, 10));
+	m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, m_commonState->NonPremultiplied());
 
 	m_stageSelect->Draw();
-
 
 	// ビュー行列
 	DirectX::SimpleMath::Matrix view;
 	// プロジェクション行列
-	DirectX::SimpleMath::Matrix projection;
 	// カメラ座標
-	DirectX::SimpleMath::Vector3 eye = { cos(m_cameraAngle) * 18,10,-sin(m_cameraAngle) * 18 };
+	DirectX::SimpleMath::Vector3 eye = { cos(m_cameraAngle) * 180,100,-sin(m_cameraAngle) * 180 };
 	// 注視点
 	DirectX::SimpleMath::Vector3 target = DirectX::SimpleMath::Vector3::Zero;
 	// 上向きベクトル
@@ -138,6 +125,7 @@ void TitleScene::Draw()
 	m_camera->SetViewMatrix(view);
 
 	m_stageManager->Render(m_camera.get());
+
 	m_spriteBatch->End();
 }
 

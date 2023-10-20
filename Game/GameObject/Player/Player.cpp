@@ -6,7 +6,6 @@
 #include"Libraries/MyLibraries/Camera.h"
 #include"Libraries/MyLibraries/ModelManager.h"
 
-
 //	1秒間に進むマスの数
 const float Player::MOVE_SPEED = 9.0f;
 //	1秒間に落ちるマスの数
@@ -21,7 +20,7 @@ const float Player::FALL_DEAD_AREA = -50.0f;
 //モデルタイムの最大数
 const float Player::MAX_MODEL_TIME_S = 4.0f;
 //モデルタイムの速度
-const float Player::MODEL_TIME_SPEED = 10.0f;
+const int Player::MODEL_TIME_SPEED = 10.0f;
 
 
 Player::Player(
@@ -141,8 +140,8 @@ void Player::PlayerMove(const DX::StepTimer& timer)
 	{
 		float rot = rotation.y + -GameContext::GetInstance().GetCmeraAngleY() + NINETY_ANGLE;
 		
-		velocity.x = cos(rot) * MOVE_SPEED * elapsedTime;
-		velocity.z = -sin(rot) * MOVE_SPEED * elapsedTime;
+		velocity.x = cos(rot) * MOVE_SPEED * elapsedTime* (1 + keyState.IsKeyDown(DirectX::Keyboard::LeftShift));
+		velocity.z = -sin(rot) * MOVE_SPEED * elapsedTime * (1 + keyState.IsKeyDown(DirectX::Keyboard::LeftShift));
 
 		DirectX::SimpleMath::Vector3 normal = DirectX::SimpleMath::Vector3::Zero;
 		DirectX::SimpleMath::Vector3 pos = DirectX::SimpleMath::Vector3::Zero;
@@ -168,7 +167,14 @@ void Player::PlayerMove(const DX::StepTimer& timer)
 		rotation.y = rot - NINETY_ANGLE;
 
 		//アニメーションの更新
-		SdkMeshUpdate(&m_animWalkSdk, elapsedTime);
+		if (keyState.IsKeyDown(DirectX::Keyboard::LeftShift))
+		{
+			SdkMeshUpdate(&m_animRunSdk, elapsedTime);
+		}
+		else
+		{
+			SdkMeshUpdate(&m_animWalkSdk, elapsedTime);
+		}
 	}
 	//移動していない場合モデルタイムは０にする
 	else
@@ -222,15 +228,21 @@ void Player::PlayerMove(const DX::StepTimer& timer)
 
 
 	bool isGoal = GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayer2Goal();
+	if (isGoal)
+	{
+		GameContext::GetInstance().SetIsClear(isGoal);
+		SetActive(false);
+	}
 
-	if (
-		isGoal ||
+	if (	
 		GameContext().GetInstance().GetCollisionManager()->DetectCollisionPlayer2Enemies()||
 		GameContext().GetInstance().GetCollisionManager()->DetectCollisionPlayer2FallDeathAABB()
 		)
 	{
 
 		GameContext::GetInstance().SetPlayerDeath(true);
+		GameContext::GetInstance().SetIsClear(false);
+
 
 		SdkMeshUpdate(&m_animDieSdk, elapsedTime);
 		
@@ -243,9 +255,6 @@ void Player::PlayerMove(const DX::StepTimer& timer)
 			SetActive(false);
 		}
 	}
-	
-
-
 
 	//攻撃当たり判定を更新
 	AttackAreaUpdate(isGroundHit);
@@ -387,6 +396,7 @@ void Player::CreateSdkMesh()
 	DX::ThrowIfFailed(m_animIdleSdk.Load(L"Resources/Models/NeutralIdle.sdkmesh_anim"));
 	DX::ThrowIfFailed(m_animJumpSdk.Load(L"Resources/Models/FallingIdle.sdkmesh_anim"));
 	DX::ThrowIfFailed(m_animDieSdk.Load(L"Resources/Models/FallingBackDeath.sdkmesh_anim"));
+	DX::ThrowIfFailed(m_animRunSdk.Load(L"Resources/Models/FastRun.sdkmesh_anim"));
 
 	
 	GetModel()->UpdateEffects([&](DirectX::IEffect* effect)
@@ -402,6 +412,7 @@ void Player::CreateSdkMesh()
 	m_animIdleSdk.Bind(*GetModel());
 	m_animJumpSdk.Bind(*GetModel());
 	m_animDieSdk.Bind(*GetModel());
+	m_animRunSdk.Bind(*GetModel());
 }
 
 void Player::CreateShader()
