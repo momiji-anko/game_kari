@@ -16,13 +16,8 @@ Goal::~Goal()
 
 void Goal::Initialize()
 {
-	GameContext::GetInstance().GetCollisionManager()->SetGoalAABB(GetAABB());
+	GameContext::GetInstance().GetCollisionManager()->SetGoalAABB(nullptr);
 
-
-}
-
-void Goal::Update(const DX::StepTimer& timer)
-{
 	AABBFor3D* aabb = GetAABB();
 	DirectX::SimpleMath::Vector3 position = GetPosition();
 	DirectX::SimpleMath::Vector3 area{ 0.5 };
@@ -31,6 +26,15 @@ void Goal::Update(const DX::StepTimer& timer)
 	Capsule* capsule = GetCapsule();
 	capsule->a = DirectX::SimpleMath::Vector3(0.f, -1, 0.f) + position;
 	capsule->b = DirectX::SimpleMath::Vector3(0.f, 1, 0.f) + position;
+
+}
+
+void Goal::Update(const DX::StepTimer& timer)
+{
+	if(GameContext::GetInstance().GetIsAllGetKey())
+		GameContext::GetInstance().GetCollisionManager()->SetGoalAABB(GetAABB());
+
+	
 }
 
 void Goal::Render(const Camera* camera)

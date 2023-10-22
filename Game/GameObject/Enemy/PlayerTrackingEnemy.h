@@ -1,9 +1,9 @@
-#pragma once 
+#pragma once
 #include"Game/GameObject/Actor/Actor.h"
 #include"Game/GameObject/Collider/Sphere/Sphere.h"
 #include"Libraries/Animation/Animation.h"
 
-class Enemy :public Actor
+class PlayerTrackingEnemy :public Actor
 {
 public:
 
@@ -16,7 +16,7 @@ public:
 	/// <param name="rotation">スケール</param>
 	/// <param name="model">モデル</param>
 	/// <param name="active">アクティブ</param>
-	Enemy(
+	PlayerTrackingEnemy(
 		const DirectX::SimpleMath::Vector3& position,
 		const DirectX::SimpleMath::Vector3& velocity,
 		const DirectX::SimpleMath::Vector3& scale,
@@ -28,7 +28,7 @@ public:
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~Enemy();
+	~PlayerTrackingEnemy();
 
 	/// <summary>
 	/// 初期化	
@@ -57,43 +57,4 @@ public:
 	/// </summary>
 	void Reset()override;
 
-private:
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <param name="velocity"></param>
-	/// <param name="position"></param>
-	/// <returns></returns>
-	DirectX::SimpleMath::Vector3 Move(const DirectX::SimpleMath::Vector3& velocity, const DirectX::SimpleMath::Vector3& position);
-
-	/// <summary>
-	/// 
-	/// </summary>
-	void CollisionAreaUpdate();
-
-private:
-	static const float ENEMY_SPEHERE_RADIUS;
-
-	static const float MOVE_SPEED;
-
-	static const float ENEMY_HEGHT_COLLISITION_LINE;
-private:
-
-	DX::AnimationSDKMESH  m_animSdk;
-	DX::AnimationSDKMESH  m_animIdleSdk;
-
-	//アニメーションスケルトン
-	DirectX::ModelBone::TransformArray m_animBone;
-
-	//スケルトン
-	DirectX::ModelBone::TransformArray m_bone;
-
-	Sphere m_sphere;
-
-	std::vector<DirectX::SimpleMath::Vector3 >m_wanderPosition;
-
-	DirectX::SimpleMath::Vector3 m_startPosition;
-
-
-	bool m_groundHit;
 };

@@ -28,7 +28,6 @@ Enemy::Enemy(
 	m_sphere{position,ENEMY_SPEHERE_RADIUS },
 	m_wanderPosition{wanderPosition},
 	m_startPosition{position},
-	m_wanderNumber{0},
 	m_groundHit{false}
 {
 

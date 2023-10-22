@@ -25,7 +25,10 @@ void CollisionManager::Release()
 
 bool CollisionManager::DetectCollisionPlayer2Goal()
 {
+	if(m_goalAABB != nullptr)
 	return m_playerAABB->DetectCollition(m_goalAABB);
+
+	return false;
 }
 
 bool CollisionManager::DetectCollisionPlayer2Enemies()
@@ -54,6 +57,11 @@ bool CollisionManager::DetectCollisionPlayerAttackAABB2Enemies(AABBFor3D* aabb)
 		return m_playerAttackAABB->DetectCollition(aabb);
 
 	return false;
+}
+
+bool CollisionManager::DetectCollisionPlayer2Keys(AABBFor3D* aabb)
+{
+	return m_playerAABB->DetectCollition(aabb);
 }
 
 bool CollisionManager::DetectCollisionPlayer2Enemies(AABBFor3D* aabb)

@@ -70,6 +70,9 @@ public:
 	void SetIsClear(bool isClear) { m_isClear = isClear; }
 	bool ISClear() { return m_isClear; }
 
+	void SetIsAllGetKey(bool isAllGetKeys) { m_isAllGetKeys = isAllGetKeys; }
+	bool GetIsAllGetKey() { return m_isAllGetKeys; }
+
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -98,4 +101,6 @@ private:
 	int m_selectStage;
 
 	bool m_isClear;
+
+	bool m_isAllGetKeys;
 };

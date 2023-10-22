@@ -12,6 +12,7 @@ public:
 
 	//	1秒間に落ちるマスの数
 	static const float GRAVITY_FORCE;
+
 public:
 	/// <summary>
 	/// コンストラクタ

@@ -199,8 +199,11 @@
     <ClInclude Include="Game\GameObject\Collider\Sphere\Sphere.h" />
     <ClInclude Include="Game\GameObject\Enemy\Enemy.h" />
     <ClInclude Include="Game\GameObject\Enemy\EnemyManager.h" />
+    <ClInclude Include="Game\GameObject\Enemy\PlayerTrackingEnemy.h" />
     <ClInclude Include="Game\GameObject\Factory\IFactory.h" />
     <ClInclude Include="Game\GameObject\Goal\Goal.h" />
+    <ClInclude Include="Game\GameObject\Key\Key.h" />
+    <ClInclude Include="Game\GameObject\Key\KeyManager.h" />
     <ClInclude Include="Game\GameObject\Obstacle\Obstacle.h" />
     <ClInclude Include="Game\GameObject\Obstacle\ObstacleManager.h" />
     <ClInclude Include="Game\GameObject\Obstacle\ObstacleSpawner.h" />
@@ -226,6 +229,7 @@
     <ClInclude Include="Libraries\MyLibraries\DebugCamera.h" />
     <ClInclude Include="Libraries\MyLibraries\FileLoadManager.h" />
     <ClInclude Include="Libraries\MyLibraries\GridFloor.h" />
+    <ClInclude Include="Libraries\MyLibraries\InputKeyTime.h" />
     <ClInclude Include="Libraries\MyLibraries\MemoryLeakDetector.h" />
     <ClInclude Include="Libraries\MyLibraries\ModelManager.h" />
     <ClInclude Include="Libraries\MyLibraries\MyRandom.h" />
@@ -247,8 +251,11 @@
     <ClCompile Include="Game\GameObject\Collider\CollisionManager\CollisionManager.cpp" />
     <ClCompile Include="Game\GameObject\Enemy\Enemy.cpp" />
     <ClCompile Include="Game\GameObject\Enemy\EnemyManager.cpp" />
+    <ClCompile Include="Game\GameObject\Enemy\PlayerTrackingEnemy.cpp" />
     <ClCompile Include="Game\GameObject\Factory\IFactory.cpp" />
     <ClCompile Include="Game\GameObject\Goal\Goal.cpp" />
+    <ClCompile Include="Game\GameObject\Key\Key.cpp" />
+    <ClCompile Include="Game\GameObject\Key\KeyManager.cpp" />
     <ClCompile Include="Game\GameObject\Obstacle\Obstacle.cpp" />
     <ClCompile Include="Game\GameObject\Obstacle\ObstacleManager.cpp" />
     <ClCompile Include="Game\GameObject\Obstacle\ObstacleSpawner.cpp" />
@@ -273,6 +280,7 @@
     <ClCompile Include="Libraries\MyLibraries\DebugCamera.cpp" />
     <ClCompile Include="Libraries\MyLibraries\FileLoadManager.cpp" />
     <ClCompile Include="Libraries\MyLibraries\GridFloor.cpp" />
+    <ClCompile Include="Libraries\MyLibraries\InputKeyTime.cpp" />
     <ClCompile Include="Libraries\MyLibraries\ModelManager.cpp" />
     <ClCompile Include="Libraries\MyLibraries\MyRandom.cpp" />
     <ClCompile Include="Libraries\MyLibraries\PlayerCamera.cpp" />
@@ -300,12 +308,17 @@
   <ItemGroup>
     <None Include="Resources\Fonts\myfile.spritefont" />
     <None Include="Resources\Fonts\SegoeUI_18.spritefont" />
+    <None Include="Resources\Stage\Json\Stage1.json" />
+    <None Include="Resources\Stage\Json\Stage2.json" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Resources\Assets\dice.FBX">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Models\%(Filename).cmo</ContentOutput>
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Resources\Models\%(Filename).cmo</ContentOutput>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </MeshContentTask>
+    <MeshContentTask Include="Resources\Assets\key.fbx">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Resources\Models\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
     <MeshContentTask Include="Resources\Assets\stage1.fbx">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Resources\Models\%(Filename).cmo</ContentOutput>

@@ -215,7 +215,7 @@ public:
 		//法線ベクトルの正規化
 		normalVector.Normalize();
  
-		if (std::abs(normalVector.y) >= 1)
+		if (std::abs(normalVector.y) >= 0.7)
 			return DirectX::SimpleMath::Vector3::Zero;
 
 		//プレイヤーの移動ベクトルと法線ベクトルの内積の計算

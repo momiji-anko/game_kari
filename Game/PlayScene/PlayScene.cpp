@@ -11,7 +11,7 @@
 #include"Libraries/MyLibraries/PlayerCamera.h"
 #include"Libraries/MyLibraries/ModelManager.h"
 #include"Game/GameContext/GameContext.h"
-
+#include"Game/GameObject/Key/KeyManager.h"
 
 
 /*--------------------------------------------------
@@ -65,6 +65,10 @@ void PlayScene::Initialize()
 	m_area->SetData(DirectX::SimpleMath::Vector3(-10000.f,-100.0f,-10000.f), DirectX::SimpleMath::Vector3(10000.f,-50.f,10000.f));
 	GameContext::GetInstance().GetCollisionManager()->SetfallDeathAABB(m_area.get());
 	GameContext::GetInstance().SetPlayerDeath(false);
+
+	std::unique_ptr<Actor> keyManager = std::make_unique<KeyManager>(0);
+	keyManager->Initialize();
+	m_sceneGraph->AttachNode(std::move(keyManager));
 }
 
 /*--------------------------------------------------

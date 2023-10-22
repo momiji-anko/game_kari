@@ -33,10 +33,15 @@ public:
 
 	void Release();
 
+	/// <summary>
+	/// “–‚½‚è”»’è
+	/// </summary>
+	
 	bool DetectCollisionPlayer2Goal();
 	bool DetectCollisionPlayer2Enemies();
 	bool DetectCollisionPlayerSphere2EnemySphere(Sphere* enemySphere);
 	bool DetectCollisionPlayerAttackAABB2Enemies(AABBFor3D* aabb);
+	bool DetectCollisionPlayer2Keys(AABBFor3D* aabb);
 	bool DetectCollisionPlayer2Enemies(AABBFor3D* aabb);
 
 
@@ -57,6 +62,7 @@ public:
 	void SetfallDeathAABB(AABBFor3D* aabb) { m_fallDeathAABB = aabb; }
 	
 	void AddEnemiesAABB(AABBFor3D* aabb) { m_enemiesAABB.push_back(aabb); }
+	void AddKeysAABB(AABBFor3D* aabb) { m_keysAABB.push_back(aabb); }
 
 private:
 	std::vector<std::vector<int>> m_indexes;
@@ -67,6 +73,7 @@ private:
 	AABBFor3D* m_goalAABB;
 	
 	std::vector<AABBFor3D*> m_enemiesAABB;
+	std::vector<AABBFor3D*> m_keysAABB;
 
 	Sphere* m_playerSphere;
 

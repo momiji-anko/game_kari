@@ -104,6 +104,18 @@
     <Filter Include="Game\Shader\PlayerEffect">
       <UniqueIdentifier>{bbcef9ab-bc31-4dfa-b6b9-23bdf17e6023}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameObject\Key">
+      <UniqueIdentifier>{6e9597cd-293b-4c2d-a1a9-82d10f62b512}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Stage">
+      <UniqueIdentifier>{8bb4ece5-6a34-44b8-8e38-7d473e070e1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Stage\Json">
+      <UniqueIdentifier>{2a1e35c6-bb80-4088-bc19-38172f1e97b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Stage\Obj">
+      <UniqueIdentifier>{1523d8df-39b5-4021-8b2c-5c2f7ad159bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -249,6 +261,18 @@
     <ClInclude Include="Game\TitleScene\StageSelect.h">
       <Filter>Game\TitleScene</Filter>
     </ClInclude>
+    <ClInclude Include="Game\GameObject\Key\Key.h">
+      <Filter>Game\GameObject\Key</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameObject\Key\KeyManager.h">
+      <Filter>Game\GameObject\Key</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameObject\Enemy\PlayerTrackingEnemy.h">
+      <Filter>Game\GameObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\MyLibraries\InputKeyTime.h">
+      <Filter>Libraries\MyLibraries</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -371,6 +395,18 @@
     <ClCompile Include="Game\TitleScene\StageSelect.cpp">
       <Filter>Game\TitleScene</Filter>
     </ClCompile>
+    <ClCompile Include="Game\GameObject\Key\Key.cpp">
+      <Filter>Game\GameObject\Key</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameObject\Key\KeyManager.cpp">
+      <Filter>Game\GameObject\Key</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameObject\Enemy\PlayerTrackingEnemy.cpp">
+      <Filter>Game\GameObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\MyLibraries\InputKeyTime.cpp">
+      <Filter>Libraries\MyLibraries</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
@@ -401,12 +437,21 @@
     <None Include="Resources\Fonts\SegoeUI_18.spritefont">
       <Filter>Resources\Fonts</Filter>
     </None>
+    <None Include="Resources\Stage\Json\Stage1.json">
+      <Filter>Resources\Stage\Json</Filter>
+    </None>
+    <None Include="Resources\Stage\Json\Stage2.json">
+      <Filter>Resources\Stage\Json</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Resources\Assets\dice.FBX">
       <Filter>Assets</Filter>
     </MeshContentTask>
     <MeshContentTask Include="Resources\Assets\stage1.fbx">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Resources\Assets\key.fbx">
       <Filter>Assets</Filter>
     </MeshContentTask>
   </ItemGroup>
