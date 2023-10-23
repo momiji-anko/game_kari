@@ -41,11 +41,23 @@ void PlayerTrackingEnemy::Initialize()
 void PlayerTrackingEnemy::Update(const DX::StepTimer& timer)
 {
 	
-	m_playerPositions[m_nowIndex] = GameContext::GetInstance().GetPlayerPosition()-DirectX::SimpleMath::Vector3(0, 3.0f /2.0f,0);
-	
-	m_nowIndex++;
+	float elapsedTime_s = static_cast<float>(timer.GetElapsedSeconds());
 
+	m_playerPositions[m_nowIndex] = GameContext::GetInstance().GetPlayerPosition()-DirectX::SimpleMath::Vector3(0, Player::COLLISION_LINE_LENGTH /2.0f,0);
 	
+	int previousIndex = m_nowIndex-1;
+
+	if (previousIndex < 0)
+	{
+		previousIndex = m_playerPositions.size() - 1;
+	}
+
+	if (m_playerPositions[m_nowIndex] != m_playerPositions[previousIndex])
+	{
+		m_nowIndex++;
+	}
+
+
 
 	if (m_isMove)
 	{
@@ -61,8 +73,21 @@ void PlayerTrackingEnemy::Update(const DX::StepTimer& timer)
 		 }
 
 		 DirectX::SimpleMath::Vector3 nextvelocity = m_playerPositions[nextIndex] - m_playerPositions[m_index - 1];
-		 nextvelocity.y = 0;
-		 DirectX::SimpleMath::Quaternion rotation = DirectX::SimpleMath::Quaternion::FromToRotation(DirectX::SimpleMath::Vector3::Forward, nextvelocity);
+		 DirectX::SimpleMath::Vector3 angleVelocity = nextvelocity - DirectX::SimpleMath::Vector3(0.0f, nextvelocity.y, 0.0f);
+
+		 DirectX::SimpleMath::Quaternion rotation = DirectX::SimpleMath::Quaternion::FromToRotation(DirectX::SimpleMath::Vector3::Forward, angleVelocity);
+
+		 SdkMeshUpdate(&m_animWalkSdk, timer.GetElapsedSeconds());
+		 if (std::abs(nextvelocity.y) >= 0.1f)
+		 {
+			 SdkMeshUpdate(&m_animJumpSdk, timer.GetElapsedSeconds());
+
+		 }
+		 else if(nextvelocity.Length()> (Player::MOVE_SPEED * 1.4f) * elapsedTime_s)
+		 {
+			 SdkMeshUpdate(&m_animRunSdk, timer.GetElapsedSeconds());
+		 }
+
 
 		 SetRotation(rotation);
 
@@ -78,7 +103,7 @@ void PlayerTrackingEnemy::Update(const DX::StepTimer& timer)
 		m_nowIndex = 0;
 		m_isMove = true;
 	}
-	SdkMeshUpdate(&m_animWalkSdk, timer.GetElapsedSeconds());
+	
 
 }
 

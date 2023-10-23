@@ -13,6 +13,9 @@ public:
 	//	1秒間に落ちるマスの数
 	static const float GRAVITY_FORCE;
 
+	//	1秒間に進むマスの数
+	static const float  MOVE_SPEED;
+
 public:
 	/// <summary>
 	/// コンストラクタ
@@ -80,8 +83,6 @@ private:
 
 private:
 	//定数=====================================================
-	//	1秒間に進むマスの数
-	static const float  MOVE_SPEED;
 	//	ジャンプ力
 	static const float JUMP_FORCE;	
 	//落ちた際の死亡する高さ
