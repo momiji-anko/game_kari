@@ -4,6 +4,7 @@
 #include<Keyboard.h>
 #include<CommonStates.h>
 #include"Game/GameObject/Collider/CollisionManager/CollisionManager.h"
+#include"Game/GameObject/Enemy/EnemyManager.h"
 
 /// <summary>
 /// ゲームコンテキスト
@@ -54,6 +55,16 @@ public:
 	/// </summary>
 	/// <returns>コリジョンマネージャーの生ポインタ</returns>
 	CollisionManager* GetCollisionManager() { return m_collisionManager; }
+	/// <summary>
+	/// 敵マネージャー設定
+	/// </summary>
+	/// <param name="manager">敵マネージャー生ポインタ</param>
+	void SetEnemyManager(EnemyManager* manager) { m_enemyManager = manager; }
+	/// <summary>
+	/// 敵マネージャー取得
+	/// </summary>
+	/// <returns>敵マネージャー生ポインタ</returns>
+	EnemyManager* GetEnemyManager() { return m_enemyManager; }
 
 	void SetPlayerPosition(const DirectX::SimpleMath::Vector3& position) { m_playerPosition = position; }
 	DirectX::SimpleMath::Vector3 GetPlayerPosition() { return m_playerPosition; }
@@ -103,4 +114,6 @@ private:
 	bool m_isClear;
 
 	bool m_isAllGetKeys;
+
+	EnemyManager* m_enemyManager;
 };

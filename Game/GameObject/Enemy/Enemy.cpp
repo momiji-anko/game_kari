@@ -70,6 +70,8 @@ void Enemy::Initialize()
 	m_animSdk.Bind(*GetModel());
 	m_animIdleSdk.Bind(*GetModel());
 
+	CollisionAreaUpdate();
+
 }
 
 void Enemy::Update(const DX::StepTimer& timer)

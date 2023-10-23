@@ -12,6 +12,7 @@
 #include"Libraries/MyLibraries/ModelManager.h"
 #include"Game/GameContext/GameContext.h"
 #include"Libraries/Json/json.hpp"
+#include"Game/GameObject/Enemy/EnemyManager.h"
 
 /// <summary>
 /// コンストラクタ
@@ -103,7 +104,7 @@ void KeyManager::LoadKeyJsonFile(const std::wstring& filePath)
 	for (int i = 0; i < keyJson["Key"].size(); i++)
 	{
 		//鍵の作成
-		std::unique_ptr<Actor> key = std::make_unique<Key>(
+		std::unique_ptr<Actor> key = std::make_unique<ClearKey>(
 			ConvertFloatArrayIntoVector3(keyJson["Key"][i]["Position"]),
 			DirectX::SimpleMath::Vector3::Zero,
 			ConvertFloatArrayIntoVector3(keyJson["Key"][i]["Scale"]),

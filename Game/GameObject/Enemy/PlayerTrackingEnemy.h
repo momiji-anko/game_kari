@@ -2,6 +2,7 @@
 #include"Game/GameObject/Actor/Actor.h"
 #include"Game/GameObject/Collider/Sphere/Sphere.h"
 #include"Libraries/Animation/Animation.h"
+#include<Keyboard.h>
 
 class PlayerTrackingEnemy :public Actor
 {
@@ -15,15 +16,14 @@ public:
 	/// <param name="scale">拡縮</param>
 	/// <param name="rotation">スケール</param>
 	/// <param name="model">モデル</param>
-	/// <param name="active">アクティブ</param>
+	/// <param name="second">秒数</param>
 	PlayerTrackingEnemy(
 		const DirectX::SimpleMath::Vector3& position,
 		const DirectX::SimpleMath::Vector3& velocity,
 		const DirectX::SimpleMath::Vector3& scale,
 		const DirectX::SimpleMath::Vector3& rotation,
 		DirectX::Model* model,
-		bool active,
-		std::vector<DirectX::SimpleMath::Vector3>& wanderPosition
+		float second
 	);
 	/// <summary>
 	/// デストラクタ
@@ -57,4 +57,42 @@ public:
 	/// </summary>
 	void Reset()override;
 
+private:
+	void CreateSdkMesh();
+
+	//float MovedAngle(const DX::StepTimer& timer);
+
+	//bool IsPlayerKeyPushTime(float time_s, DirectX::Keyboard::Keys key);
+
+	void SdkMeshUpdate(DX::AnimationSDKMESH* sdkMeshAnimation, float elapsedTime);
+
+private:
+	//定数=====================================================
+	//	1秒間に進むマスの数
+	static const float  MOVE_SPEED;
+	//	1秒間に落ちるマスの数
+	static const float GRAVITY_FORCE;
+	//	ジャンプ力
+	static const float JUMP_FORCE;
+
+private:
+
+	//アニメーション
+	DX::AnimationSDKMESH  m_animWalkSdk;
+	DX::AnimationSDKMESH  m_animIdleSdk;
+	DX::AnimationSDKMESH  m_animJumpSdk;
+	DX::AnimationSDKMESH  m_animDieSdk;
+	DX::AnimationSDKMESH  m_animRunSdk;
+
+	//アニメーションスケルトン
+	DirectX::ModelBone::TransformArray m_animBone;
+
+	//スケルトン
+	DirectX::ModelBone::TransformArray m_bone;
+
+	bool m_isMove;
+
+	std::vector < DirectX::SimpleMath::Vector3 > m_playerPositions;
+	int m_nowIndex;
+	int m_index;
 };

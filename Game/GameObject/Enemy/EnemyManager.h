@@ -52,7 +52,7 @@ public:
 
 	void AddEnemy(std::unique_ptr<Actor> enemy) { m_enemies.emplace_back(std::move(enemy)); }
 
-
+	void CreatePlayerTrackingEnemy(float time);
 private:
 
 	int m_stageNum;

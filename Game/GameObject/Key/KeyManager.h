@@ -1,6 +1,8 @@
 #pragma once
 #include"Game/GameObject/Actor/Actor.h"
 
+class EnemyManager;
+
 class KeyManager :public Actor
 {
 public:
@@ -65,4 +67,7 @@ private:
 	int m_stageNum;
 	//Œ®‚ð‚·‚×‚ÄŽæ‚Á‚½‚©
 	bool m_isAllGetKey;
+
+	EnemyManager* m_enemyManager;
+
 };

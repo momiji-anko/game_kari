@@ -12,6 +12,9 @@
 #include"Libraries/MyLibraries/ModelManager.h"
 #include"Game/GameContext/GameContext.h"
 #include"Game/GameObject/Key/KeyManager.h"
+#include"Game/GameObject/Stage/StageManager.h"
+#include"Game/GameObject/Enemy/EnemyManager.h"
+#include"Game/GameObject/Obstacle/ObstacleManager.h"
 
 
 /*--------------------------------------------------
@@ -65,6 +68,20 @@ void PlayScene::Initialize()
 	m_area->SetData(DirectX::SimpleMath::Vector3(-10000.f,-100.0f,-10000.f), DirectX::SimpleMath::Vector3(10000.f,-50.f,10000.f));
 	GameContext::GetInstance().GetCollisionManager()->SetfallDeathAABB(m_area.get());
 	GameContext::GetInstance().SetPlayerDeath(false);
+
+	std::unique_ptr<Actor> stageManager = std::make_unique<StageManager>(0);
+	stageManager->Initialize();
+	m_sceneGraph->AttachNode(std::move(stageManager));
+
+	std::unique_ptr<Actor> enemyManager = std::make_unique<EnemyManager>(0);
+	enemyManager->Initialize();
+	m_sceneGraph->AttachNode(std::move(enemyManager));
+
+
+	std::unique_ptr<Actor> obstacleManager = std::make_unique<ObstacleManager>(0);
+	obstacleManager->Initialize();
+	m_sceneGraph->AttachNode(std::move(obstacleManager));
+
 
 	std::unique_ptr<Actor> keyManager = std::make_unique<KeyManager>(0);
 	keyManager->Initialize();

@@ -315,14 +315,14 @@
     <MeshContentTask Include="Resources\Assets\dice.FBX">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Models\%(Filename).cmo</ContentOutput>
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Resources\Models\%(Filename).cmo</ContentOutput>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </MeshContentTask>
     <MeshContentTask Include="Resources\Assets\key.fbx">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Resources\Models\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
     <MeshContentTask Include="Resources\Assets\stage1.fbx">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Resources\Models\%(Filename).cmo</ContentOutput>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </MeshContentTask>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

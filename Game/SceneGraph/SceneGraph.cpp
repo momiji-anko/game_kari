@@ -19,18 +19,6 @@ SceneGraph::~SceneGraph()
 
 void SceneGraph::Initialize()
 {
-	std::unique_ptr<Actor> stageManager=std::make_unique<StageManager>(0);
-	stageManager->Initialize();
-	AttachNode(std::move(stageManager));
-
-	std::unique_ptr<Actor> enemyManager=std::make_unique<EnemyManager>(0);
-	enemyManager->Initialize();
-	AttachNode(std::move(enemyManager));
-
-
-	std::unique_ptr<Actor> obstacleManager=std::make_unique<ObstacleManager>(0);
-	obstacleManager->Initialize();
-	AttachNode(std::move(obstacleManager));
 
 }
 

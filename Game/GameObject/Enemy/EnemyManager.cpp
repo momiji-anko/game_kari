@@ -8,6 +8,7 @@
 #include<cstdlib>
 
 #include"Enemy.h"
+#include"PlayerTrackingEnemy.h"
 #include"Libraries/MyLibraries/FileLoadManager.h"
 #include"Libraries/MyLibraries/ModelManager.h"
 #include"Game/GameContext/GameContext.h"
@@ -42,6 +43,7 @@ void EnemyManager::Initialize()
 
 	LoadEnemyJsonFile(enemyJsonFiles[m_stageNum]);
 
+	GameContext::GetInstance().SetEnemyManager(this);
 
 }
 
@@ -107,4 +109,19 @@ void EnemyManager::LoadEnemyJsonFile(std::wstring jsonFilePath)
 DirectX::SimpleMath::Vector3 EnemyManager::ConvertFloatArrayIntoVector3(const std::vector<float> nums)
 {
 	return DirectX::SimpleMath::Vector3(nums[0], nums[1], nums[2]);
+}
+
+void EnemyManager::CreatePlayerTrackingEnemy(float time)
+{
+	DirectX::SimpleMath::Vector3 position = GameContext::GetInstance().GetPlayerPosition();
+	DirectX::SimpleMath::Vector3 velocity = DirectX::SimpleMath::Vector3::Zero;
+	DirectX::SimpleMath::Vector3 rotation = DirectX::SimpleMath::Vector3::Zero;
+	DirectX::SimpleMath::Vector3 scale = DirectX::SimpleMath::Vector3(0.02);
+
+	std::unique_ptr<Actor> enemy = std::make_unique<PlayerTrackingEnemy>(position, DirectX::SimpleMath::Vector3::Zero, scale, rotation, ModelManager::GetInstance().LoadSdkmeshModel(L"enemy.sdkmesh"), time);
+
+	enemy->Initialize();
+
+	AddEnemy(std::move(enemy));
+
 }

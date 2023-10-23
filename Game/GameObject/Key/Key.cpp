@@ -4,6 +4,7 @@
 #include"Game/GameContext/GameContext.h"
 #include"DeviceResources.h"
 #include"Libraries/MyLibraries/Camera.h"
+#include"Game/GameObject/Enemy/EnemyManager.h"
 
 /// <summary>
 /// コンストラクタ
@@ -14,7 +15,7 @@
 /// <param name="rotation">スケール</param>
 /// <param name="model">モデル</param>
 /// <param name="active">アクティブ</param>
-Key::Key(
+ClearKey::ClearKey(
 	const DirectX::SimpleMath::Vector3& position,
 	const DirectX::SimpleMath::Vector3& velocity,
 	const DirectX::SimpleMath::Vector3& scale,
@@ -30,14 +31,14 @@ Key::Key(
 /// <summary>
 /// デストラクタ
 /// </summary>
-Key::~Key()
+ClearKey::~ClearKey()
 {
 }
 
 /// <summary>
 /// 初期化	
 /// </summary>
-void Key::Initialize()
+void ClearKey::Initialize()
 {
 	//AABB当たり判定の取得
 	AABBFor3D* aabb = GetAABB();
@@ -55,13 +56,19 @@ void Key::Initialize()
 /// 更新
 /// </summary>
 /// <param name="timer">タイマー</param>
-void Key::Update(const DX::StepTimer& timer)
+void ClearKey::Update(const DX::StepTimer& timer)
 {
 	//アクティブでなければ処理しない
 	if (!IsActive())
 		return;
+	bool isCollision = GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayer2Keys(GetAABB());
 
-	SetActive(!GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayer2Keys(GetAABB()));
+	SetActive(!isCollision);
+
+	if (isCollision)
+	{
+		GameContext::GetInstance().GetEnemyManager() ->CreatePlayerTrackingEnemy(1.0f);
+	}
 
 }
 
@@ -69,7 +76,7 @@ void Key::Update(const DX::StepTimer& timer)
 /// 描画
 /// </summary>
 /// <param name="camera">カメラの生ポインタ</param>
-void Key::Render(const Camera* camera)
+void ClearKey::Render(const Camera* camera)
 {
 	//アクティブでなければ処理しない
 	if (!IsActive())
@@ -88,13 +95,13 @@ void Key::Render(const Camera* camera)
 /// <summary>
 /// 終了処理
 /// </summary>
-void Key::Finalize()
+void ClearKey::Finalize()
 {
 }
 
 /// <summary>
 /// リセット
 /// </summary>
-void Key::Reset()
+void ClearKey::Reset()
 {
 }

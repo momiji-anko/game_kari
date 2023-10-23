@@ -1,7 +1,10 @@
 #pragma once
 #include"Game/GameObject/Actor/Actor.h"
 
-class Key :public Actor
+class EnemyManager;
+
+
+class ClearKey :public Actor
 {
 public:
 	/// <summary>
@@ -13,7 +16,7 @@ public:
 	/// <param name="rotation">スケール</param>
 	/// <param name="model">モデル</param>
 	/// <param name="active">アクティブ</param>
-	Key(
+	ClearKey(
 		const DirectX::SimpleMath::Vector3& position,
 		const DirectX::SimpleMath::Vector3& velocity,
 		const DirectX::SimpleMath::Vector3& scale,
@@ -24,7 +27,7 @@ public:
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~Key();
+	~ClearKey();
 
 	/// <summary>
 	/// 初期化	
@@ -54,4 +57,5 @@ public:
 	void Reset()override;
 
 private:
+
 };

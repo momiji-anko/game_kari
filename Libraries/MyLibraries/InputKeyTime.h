@@ -29,9 +29,6 @@ public:
 	/// </summary>
 	void Initialize();
 
-	void AddKeyStartTime(DirectX::Keyboard::Keys keys, float time);
-
-	void AddKeyEndTime(DirectX::Keyboard::Keys keys, float time);
 
 	/// <summary>
 	/// I—¹ˆ—
