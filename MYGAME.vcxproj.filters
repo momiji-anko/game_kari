@@ -454,5 +454,11 @@
     <MeshContentTask Include="Resources\Assets\key.fbx">
       <Filter>Assets</Filter>
     </MeshContentTask>
+    <MeshContentTask Include="Resources\Assets\door.fbx">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Resources\Assets\fireCreateMachine.fbx">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
   </ItemGroup>
 </Project>

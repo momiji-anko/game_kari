@@ -150,7 +150,7 @@ void StageManager::LoadGoalJsonFile(const std::wstring& filePath)
 		DirectX::SimpleMath::Vector3::Zero,
 		scale,
 		rotation,
-		ModelManager::GetInstance().LoadCmoModel(L"dice.cmo"),
+		ModelManager::GetInstance().LoadCmoModel(L"door.cmo"),
 		true
 		);
 

@@ -100,7 +100,7 @@ void ObstacleManager::LoadJsonFile(const std::wstring& filePath)
 			speed, 
 			scale, 
 			rotation,
-			ModelManager::GetInstance().LoadCmoModel(L"dice.cmo")
+			ModelManager::GetInstance().LoadCmoModel(L"fireCreateMachine.cmo")
 			);
 		obstacleSpawner->Initialize();
 

@@ -60,11 +60,9 @@ public:
 private:
 	void CreateSdkMesh();
 
-	//float MovedAngle(const DX::StepTimer& timer);
-
-	//bool IsPlayerKeyPushTime(float time_s, DirectX::Keyboard::Keys key);
-
 	void SdkMeshUpdate(DX::AnimationSDKMESH* sdkMeshAnimation, float elapsedTime);
+
+	void Move(const DX::StepTimer& timer);
 
 private:
 	//íËêî=====================================================

@@ -33,9 +33,10 @@ PlayerTrackingEnemy::~PlayerTrackingEnemy()
 void PlayerTrackingEnemy::Initialize()
 {
 
+
 	CreateSdkMesh();
 
-	
+
 }
 
 void PlayerTrackingEnemy::Update(const DX::StepTimer& timer)
@@ -61,41 +62,7 @@ void PlayerTrackingEnemy::Update(const DX::StepTimer& timer)
 
 	if (m_isMove)
 	{
-		 SetPosition(m_playerPositions[m_index]);
-
-		 m_index++;
-
-		 int nextIndex = m_index ;
-
-		 if (nextIndex >= m_playerPositions.size())
-		 {
-			 nextIndex = 0;
-		 }
-
-		 DirectX::SimpleMath::Vector3 nextvelocity = m_playerPositions[nextIndex] - m_playerPositions[m_index - 1];
-		 DirectX::SimpleMath::Vector3 angleVelocity = nextvelocity - DirectX::SimpleMath::Vector3(0.0f, nextvelocity.y, 0.0f);
-
-		 DirectX::SimpleMath::Quaternion rotation = DirectX::SimpleMath::Quaternion::FromToRotation(DirectX::SimpleMath::Vector3::Forward, angleVelocity);
-
-		 SdkMeshUpdate(&m_animWalkSdk, timer.GetElapsedSeconds());
-		 if (std::abs(nextvelocity.y) >= 0.1f)
-		 {
-			 SdkMeshUpdate(&m_animJumpSdk, timer.GetElapsedSeconds());
-
-		 }
-		 else if(nextvelocity.Length()> (Player::MOVE_SPEED * 1.4f) * elapsedTime_s)
-		 {
-			 SdkMeshUpdate(&m_animRunSdk, timer.GetElapsedSeconds());
-		 }
-
-
-		 SetRotation(rotation);
-
-
-		 if (m_index >= m_playerPositions.size())
-		 { 
-			 m_index = 0;
-		 }
+		Move(timer);
 	}
 
 	if (m_nowIndex >= m_playerPositions.size())
@@ -109,8 +76,32 @@ void PlayerTrackingEnemy::Update(const DX::StepTimer& timer)
 
 void PlayerTrackingEnemy::Render(const Camera* camera)
 {
-	if (!IsActive())
+	if (!m_isMove)
 		return;
+
+	/*ID3D11Device1* device = pDR->GetD3DDevice();
+
+	static std::shared_ptr<DirectX::BasicEffect> effect;
+
+	if (effect == nullptr)
+		effect = std::make_shared<DirectX::BasicEffect>(device);
+
+	effect->SetWorld(DirectX::SimpleMath::Matrix::Identity);
+	effect->SetView(camera->GetViewMatrix());
+	effect->SetProjection(camera->GetProjectionMatrix());
+	effect->SetColorAndAlpha(DirectX::SimpleMath::Vector4(0.5f, 0.0f, 0.5f, 0.5f));
+
+	effect->SetTextureEnabled(false);
+
+	effect->EnableDefaultLighting();
+
+	for (const auto& mesh : GetModel()->meshes)
+	{
+		for (const auto& part : mesh->meshParts)
+		{
+			part->ModifyEffect(pDR->GetD3DDevice(), effect);
+		}
+	}*/
 
 
 	//デバイスリソースの取得
@@ -179,75 +170,48 @@ void PlayerTrackingEnemy::CreateSdkMesh()
 	m_animRunSdk.Bind(*GetModel());
 }
 
-//float PlayerTrackingEnemy::MovedAngle(const DX::StepTimer& timer)
-//{
-//	//90度
-//	static const float NINETY_ANGLE = DirectX::XM_PI / 2.0f;
-//
-//	float playerMoveAngle = GetRotation().ToEuler().y;
-//
-//	//右キーを押していた場合右に移動＆右を向く
-//	if (IsPlayerKeyPushTime(timer.GetTotalSeconds(),DirectX::Keyboard::D))
-//	{
-//		playerMoveAngle = -NINETY_ANGLE;
-//
-//		m_isMove = true;
-//		
-//	}
-//	//左キーを押していた場合右に移動＆左を向く
-//	else if (IsPlayerKeyPushTime(timer.GetTotalSeconds(), DirectX::Keyboard::A))
-//	{
-//
-//		playerMoveAngle = NINETY_ANGLE;
-//
-//		m_isMove = true;
-//	}
-//
-//	//後ろキーを押していた場合右に移動＆後ろを向く
-//	if (IsPlayerKeyPushTime(timer.GetTotalSeconds(), DirectX::Keyboard::S))
-//	{
-//		playerMoveAngle = NINETY_ANGLE * 2.0f;
-//
-//		m_isMove = true;
-//	}
-//	//前キーを押していた場合右に移動＆前を向く
-//	else if (IsPlayerKeyPushTime(timer.GetTotalSeconds(), DirectX::Keyboard::W))
-//	{
-//		playerMoveAngle = 0;
-//
-//		m_isMove = true;
-//	}
-//
-//	//左キーと前キーを押していた場合左前を向く
-//	if ((IsPlayerKeyPushTime(timer.GetTotalSeconds(), DirectX::Keyboard::A)) && (IsPlayerKeyPushTime(timer.GetTotalSeconds(), DirectX::Keyboard::W)))
-//	{
-//		//45
-//		playerMoveAngle = NINETY_ANGLE / 2.0f;
-//	}
-//
-//	//左キーと後ろキーを押していた場合左後ろを向く
-//	if ((IsPlayerKeyPushTime(timer.GetTotalSeconds(), DirectX::Keyboard::A)) && (IsPlayerKeyPushTime(timer.GetTotalSeconds(), DirectX::Keyboard::S)))
-//	{
-//		//90+45
-//		playerMoveAngle = NINETY_ANGLE + NINETY_ANGLE / 2.0f;
-//	}
-//
-//	//右キーと前キーを押していた場合右前を向く
-//	if ((IsPlayerKeyPushTime(timer.GetTotalSeconds(), DirectX::Keyboard::D)) && (IsPlayerKeyPushTime(timer.GetTotalSeconds(), DirectX::Keyboard::W)))
-//	{
-//		//-45
-//		playerMoveAngle = -NINETY_ANGLE / 2.0f;
-//	}
-//
-//	//右キーと後ろキーを押していた場合右後ろを向く
-//	if ((IsPlayerKeyPushTime(timer.GetTotalSeconds(), DirectX::Keyboard::D)) && (IsPlayerKeyPushTime(timer.GetTotalSeconds(), DirectX::Keyboard::S)))
-//	{
-//		//-(90+45)
-//		playerMoveAngle = -(NINETY_ANGLE + NINETY_ANGLE / 2.0f);
-//	}
-//
-//	return playerMoveAngle;
-//}
+
+void PlayerTrackingEnemy::Move(const DX::StepTimer& timer)
+{
+	float elapsedTime_s = static_cast<float>(timer.GetElapsedSeconds());
+
+
+	SetPosition(m_playerPositions[m_index]);
+
+	int nextIndex = m_index + 1;
+
+	if (nextIndex >= m_playerPositions.size())
+	{
+		nextIndex = 0;
+	}
+
+	DirectX::SimpleMath::Vector3 nextvelocity = m_playerPositions[nextIndex] - m_playerPositions[m_index];
+	DirectX::SimpleMath::Vector3 angleVelocity = nextvelocity - DirectX::SimpleMath::Vector3(0.0f, nextvelocity.y, 0.0f);
+
+	DirectX::SimpleMath::Quaternion rotation = DirectX::SimpleMath::Quaternion::FromToRotation(DirectX::SimpleMath::Vector3::Forward, angleVelocity);
+
+	m_index++;
+
+	SdkMeshUpdate(&m_animWalkSdk, elapsedTime_s);
+	if (std::abs(nextvelocity.y) >= 0.1f)
+	{
+		SdkMeshUpdate(&m_animJumpSdk, timer.GetElapsedSeconds());
+
+	}
+	else if (nextvelocity.Length() > (Player::MOVE_SPEED * 1.4f) * elapsedTime_s)
+	{
+		SdkMeshUpdate(&m_animRunSdk, timer.GetElapsedSeconds());
+	}
+
+
+	SetRotation(rotation);
+
+
+	if (m_index >= m_playerPositions.size())
+	{
+		m_index = 0;
+	}
+}
 
 void PlayerTrackingEnemy::SdkMeshUpdate(DX::AnimationSDKMESH* sdkMeshAnimation, float elapsedTime)
 {

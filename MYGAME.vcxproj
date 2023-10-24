@@ -317,6 +317,12 @@
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Resources\Models\%(Filename).cmo</ContentOutput>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </MeshContentTask>
+    <MeshContentTask Include="Resources\Assets\door.fbx">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Resources\Models\%(Filename).cmo</ContentOutput>
+    </MeshContentTask>
+    <MeshContentTask Include="Resources\Assets\fireCreateMachine.fbx">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Resources\Models\%(Filename).cmo</ContentOutput>
+    </MeshContentTask>
     <MeshContentTask Include="Resources\Assets\key.fbx">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Resources\Models\%(Filename).cmo</ContentOutput>
     </MeshContentTask>

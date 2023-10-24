@@ -3,6 +3,7 @@
 #include"Game/GameContext/GameContext.h"
 #include"DeviceResources.h"
 #include"Libraries/MyLibraries/Camera.h"
+
 Goal::Goal(const DirectX::SimpleMath::Vector3& position, const DirectX::SimpleMath::Vector3& velocity, const DirectX::SimpleMath::Vector3& scale, const DirectX::SimpleMath::Vector3& rotation, DirectX::Model* model, bool active)
 	:
 	Actor(position, velocity, scale, rotation, model, active)

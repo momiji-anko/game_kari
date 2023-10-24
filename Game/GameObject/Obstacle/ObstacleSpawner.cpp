@@ -58,8 +58,14 @@ void ObstacleSpawner::Update(const DX::StepTimer& timer)
 	if (!IsActive() || GameContext::GetInstance().IsPlayerDeath())
 		return;
 
+	DirectX::SimpleMath::Quaternion rotation = DirectX::SimpleMath::Quaternion(0,0,0,0);
+
 	if (GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayerSphere2EnemySphere(&m_sphere))
 	{
+
+		 DirectX::SimpleMath::Vector3 playerVel = GetPosition() - GameContext::GetInstance().GetPlayerPosition();
+		 rotation = DirectX::SimpleMath::Quaternion::FromToRotation(DirectX::SimpleMath::Vector3::Forward, DirectX::SimpleMath::Vector3(playerVel));
+
 		m_obstacleSpawnCoolTime_s -= timer.GetElapsedSeconds();
 		if (m_obstacleSpawnCoolTime_s < 0)
 		{
@@ -67,6 +73,8 @@ void ObstacleSpawner::Update(const DX::StepTimer& timer)
 			m_obstacleSpawnCoolTime_s = OBSTACLE_SPAWN_COOL_TIME_S;
 		}
 	}
+
+	SetRotation(rotation);
 
 	FireUpdate(timer);
 }

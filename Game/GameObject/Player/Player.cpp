@@ -208,7 +208,7 @@ void Player::PlayerMove(const DX::StepTimer& timer)
 		DirectX::SimpleMath::Vector3 slideVec = PolygonToLineSegmentCollision::SlideVecCalculation(normal, vel);
 		
 		 //移動する
-		position = pos + slideVec;
+		position = position + slideVec;
 
 		//ジャンプキーを押したらジャンプする
 		if (keyState.IsKeyDown(DirectX::Keyboard::Space))
