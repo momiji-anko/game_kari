@@ -84,9 +84,6 @@ void Player::Render(const Camera* camera)
 
 	CalculateWorldMatrix();
 
-	GetAABB()->Draw(DirectX::SimpleMath::Matrix::Identity, camera->GetViewMatrix(), camera->GetProjectionMatrix(), DirectX::SimpleMath::Color(0, 1, 1, 1));
-	m_attackAABB->Draw(DirectX::SimpleMath::Matrix::Identity, camera->GetViewMatrix(), camera->GetProjectionMatrix(), DirectX::SimpleMath::Color(1, 1, 1, 1));
-
 	GetModel()->DrawSkinned
 	(
 		context,
@@ -149,8 +146,8 @@ void Player::PlayerMove(const DX::StepTimer& timer)
 		bool isWallHit=GameContext::GetInstance().GetCollisionManager()->
 			DetectCollisionCameraLine2Polygon(
 				{	
-					position ,
-					position +DirectX::SimpleMath::Vector3(velocity.x,0.0f,velocity.z),
+					position+DirectX::SimpleMath::Vector3(0,1,0) ,
+					position +DirectX::SimpleMath::Vector3(velocity.x,1.0f,velocity.z),
 				}, 
 				normal, 
 				pos);
@@ -208,7 +205,7 @@ void Player::PlayerMove(const DX::StepTimer& timer)
 		DirectX::SimpleMath::Vector3 slideVec = PolygonToLineSegmentCollision::SlideVecCalculation(normal, vel);
 		
 		 //移動する
-		position = position + slideVec;
+		position = pos + slideVec;
 
 		//ジャンプキーを押したらジャンプする
 		if (keyState.IsKeyDown(DirectX::Keyboard::Space))

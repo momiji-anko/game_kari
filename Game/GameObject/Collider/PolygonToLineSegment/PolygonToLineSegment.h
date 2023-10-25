@@ -97,7 +97,7 @@ public:
 			if ((checkDot1 * checkDot2 >= 0 && checkDot2 * checkDot3 >= 0 && checkDot3 * checkDot1 >= 0)&& md > 1.0)
 			{
 				normalVector = normal;
-				//actorPos = ActorPolygonPenetration(endLine, vertices, normal);
+				actorPos = ActorPolygonPenetration(endLine, vertices, normal);
 				return true;
 			}
 		}

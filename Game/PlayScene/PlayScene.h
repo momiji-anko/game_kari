@@ -11,6 +11,7 @@
 #include"Game/SceneGraph/SceneGraph.h"
 #include"Game/GameObject/Stage/StageManager.h"
 #include"Game/GameObject/Collider/CollisionManager/CollisionManager.h"
+#include<SpriteBatch.h>
 
 class GridFloor;
 class PlayerCamera;
@@ -24,7 +25,9 @@ private:
 	std::unique_ptr<PlayerCamera> m_camera;
 
 	std::unique_ptr<Actor> m_player;
+
 	Actor* m_actor;
+
 	std::unique_ptr<Actor> m_goal;
 
 	std::unique_ptr<SceneGraph> m_sceneGraph;
@@ -38,6 +41,10 @@ private:
 	std::unique_ptr<CollisionManager> m_collisionManager;
 
 	std::unique_ptr<AABBFor3D> m_area;
+
+	// スプライトバッチ
+	std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;
+
 
 public:
 

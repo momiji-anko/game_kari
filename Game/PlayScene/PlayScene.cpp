@@ -15,7 +15,7 @@
 #include"Game/GameObject/Stage/StageManager.h"
 #include"Game/GameObject/Enemy/EnemyManager.h"
 #include"Game/GameObject/Obstacle/ObstacleManager.h"
-
+#include<SpriteBatch.h>
 
 /*--------------------------------------------------
 コンストラクタ
@@ -43,8 +43,14 @@ void PlayScene::Initialize()
 	ID3D11Device1* device = pDR->GetD3DDevice();
 	ID3D11DeviceContext1* context = pDR->GetD3DDeviceContext();
 
+	// スプライトバッチ::デバッグ情報の表示に必要
+	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(context);
+	//スプライトバッチをゲームコンテキストにセット
+	GameContext::GetInstance().SetSpriteBatch(m_spriteBatch.get());
+	
 	m_camera = std::make_unique<PlayerCamera>();
 	m_camera->Initialize();
+
 
 	//	コモンステート::D3Dレンダリング状態オブジェクト
 	m_commonState = std::make_unique<DirectX::CommonStates>(device);

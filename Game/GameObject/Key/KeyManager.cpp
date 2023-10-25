@@ -10,6 +10,7 @@
 #include"Key.h"
 #include"Libraries/MyLibraries/FileLoadManager.h"
 #include"Libraries/MyLibraries/ModelManager.h"
+#include"Libraries/MyLibraries/TextureManager.h"
 #include"Game/GameContext/GameContext.h"
 #include"Libraries/Json/json.hpp"
 #include"Game/GameObject/Enemy/EnemyManager.h"
@@ -72,10 +73,40 @@ void KeyManager::Update(const DX::StepTimer& timer)
 /// <param name="camera">カメラの生ポインタ</param>
 void KeyManager::Render(const Camera* camera)
 {
+	//鍵の描画
 	for (std::unique_ptr<Actor>& key : m_keys)
 	{
 		key->Render(camera);
 	}
+
+	//スプライトバッチの取得
+	DirectX::SpriteBatch* spriteBatch = GameContext::GetInstance().GetSpriteBath();
+	//描画開始
+	spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, GameContext::GetInstance().GetCommonState()->NonPremultiplied());
+
+	//テクスチャマネージャー取得
+	TextureManager& textureManager = TextureManager::GetInstance();
+	//鍵のテクスチャ取得
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> keyTex = textureManager.LoadTexture(L"key.png");
+	//鍵のテクスチャサイズ取得
+	DirectX::SimpleMath::Vector2 texSize = textureManager.GetTextureSize(L"key.png");
+	//鍵の大きさ
+	float keyTexScale = 0.3f;
+	//鍵の配列分、テクスチャ描画する
+	for (int i = 0; i < m_keys.size(); i++)
+	{
+		//取っている状態であれば何もしない
+		DirectX::SimpleMath::Color textureColor = DirectX::Colors::White;
+		//取られていない場合は灰色にする
+		if(m_keys[i]->IsActive())
+			textureColor = DirectX::Colors::Gray;
+
+		//鍵の描画
+		spriteBatch->Draw(keyTex.Get(), DirectX::SimpleMath::Vector2(texSize.x* keyTexScale * i, 0.0f), nullptr, textureColor, 0.0f, DirectX::SimpleMath::Vector2::Zero, keyTexScale);
+
+	}
+	
+	spriteBatch->End();
 }
 
 /// <summary>

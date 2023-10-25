@@ -40,7 +40,6 @@ void PlayerCamera::CalculateViewMatrix()
 
 	if (GameContext::GetInstance().GetCollisionManager()->DetectCollisionCameraLine2Polygon(collisionLine, normal, pos))
 	{
-		
 		eye = pos;
 	}
 	else
@@ -95,7 +94,7 @@ void PlayerCamera::Initialize()
 	m_aspectRatio = float(size.right) / float(size.bottom);
 
 	//ƒJƒƒ‰‚ÌŒ©‚¦‚é”ÍˆÍ‚Ìİ’è
-	m_nearPlane = 1.0f;
+	m_nearPlane = 0.002f;
 	m_farPlane = 100000.0f;
 	m_fov = 45.0f;
 

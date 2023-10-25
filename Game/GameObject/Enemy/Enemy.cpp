@@ -11,7 +11,7 @@
 
 
 const float Enemy::ENEMY_SPEHERE_RADIUS = 20.0f;
-const float Enemy:: ENEMY_HEGHT_COLLISITION_LINE = 3.f;
+const float Enemy:: ENEMY_HEGHT_COLLISITION_LINE = 1.5f;
 const float Enemy::MOVE_SPEED = 3.0f;
 
 Enemy::Enemy(
@@ -94,7 +94,7 @@ void Enemy::Update(const DX::StepTimer& timer)
 	size_t nbones = GetModel()->bones.size();
 	m_animSdk.Apply(*GetModel(), nbones, m_animBone.get());
 
-	DirectX::SimpleMath::Vector3 moveVelocity = GameContext::GetInstance().GetPlayerPosition() - GetPosition();
+	DirectX::SimpleMath::Vector3 moveVelocity = GameContext::GetInstance().GetPlayerPosition() - nowPosition;
 	
 	moveVelocity.y = 0;
 	moveVelocity.Normalize();
@@ -114,8 +114,8 @@ void Enemy::Update(const DX::StepTimer& timer)
 		m_groundHit = GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayerLine2Polygon
 		(
 			{
-				nowPosition + DirectX::SimpleMath::Vector3(0,1.5,0),
-				nowPosition - DirectX::SimpleMath::Vector3(0,1.5,0)
+				nowPosition + DirectX::SimpleMath::Vector3(0,ENEMY_HEGHT_COLLISITION_LINE,0),
+				nowPosition - DirectX::SimpleMath::Vector3(0,ENEMY_HEGHT_COLLISITION_LINE,0)
 			},
 			normal,
 			pos
@@ -193,10 +193,6 @@ void Enemy::Render(const Camera* camera)
 	DX::DeviceResources* pDR = DX::DeviceResources::GetInstance();
 	//デバイスコンテキストの取得
 	ID3D11DeviceContext1* context = pDR->GetD3DDeviceContext();
-
-	GetAABB()->Draw(DirectX::SimpleMath::Matrix::Identity, camera->GetViewMatrix(), camera->GetProjectionMatrix(), DirectX::SimpleMath::Color(0, 1, 1, 1));
-
-	
 
 	CalculateWorldMatrix();
 

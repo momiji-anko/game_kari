@@ -16,7 +16,7 @@ public:
 	/// スプライトバッチの設定
 	/// </summary>
 	/// <param name="spriteBath">スプライトバッチの生ポインタ</param>
-	void SetSpriteBath(DirectX::SpriteBatch* spriteBath) { m_spriteBath = spriteBath; }
+	void SetSpriteBatch(DirectX::SpriteBatch* spriteBath) { m_spriteBath = spriteBath; }
 	/// <summary>
 	/// スプライトバッチの取得
 	/// </summary>

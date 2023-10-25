@@ -58,7 +58,7 @@ void TitleScene::Initialize()
 
 	
 
-	GameContext::GetInstance().SetSpriteBath(m_spriteBatch.get());
+	GameContext::GetInstance().SetSpriteBatch(m_spriteBatch.get());
 
 	m_stageSelect = std::make_unique<StageSelect>();
 	m_stageSelect->Initialize();
