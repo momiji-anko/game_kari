@@ -12,6 +12,7 @@
 #include"Game/GameObject/Stage/StageManager.h"
 #include"Game/GameObject/Collider/CollisionManager/CollisionManager.h"
 #include<SpriteBatch.h>
+#include"Game/Shader/Fade.h"
 
 class GridFloor;
 class PlayerCamera;
@@ -29,6 +30,8 @@ private:
 	Actor* m_actor;
 
 	std::unique_ptr<Actor> m_goal;
+	//フェード
+	std::unique_ptr<Fade> m_fade;
 
 	std::unique_ptr<SceneGraph> m_sceneGraph;
 

@@ -92,6 +92,12 @@ void PlayScene::Initialize()
 	std::unique_ptr<Actor> keyManager = std::make_unique<KeyManager>(0);
 	keyManager->Initialize();
 	m_sceneGraph->AttachNode(std::move(keyManager));
+
+	m_fade = std::make_unique<Fade>();
+	m_fade->Create();
+	m_fade->Initialize(DirectX::SimpleMath::Vector3::Zero);
+
+	m_fade->FadeIn();
 }
 
 /*--------------------------------------------------
@@ -100,13 +106,23 @@ void PlayScene::Initialize()
 --------------------------------------------------*/
 void PlayScene::Update(const DX::StepTimer& timer)
 {
+	m_fade->Update(timer);
+
+	if (m_fade->ISClose())
+		return ;
 
 	m_sceneGraph->Update(timer);
 
 	m_camera->Update();
 
-	if(!m_actor->IsActive())
-	m_parent->ChengeScene(m_parent->GetResultScene());
+	if (!m_actor->IsActive())
+	{
+		m_fade->FadeOut();
+
+		if(m_fade->ISClose())
+			m_parent->ChengeScene(m_parent->GetResultScene());
+	}
+	
 
 	return ;
 }
@@ -118,8 +134,12 @@ void PlayScene::Draw()
 {
 	DX::DeviceResources* pDR = DX::DeviceResources::GetInstance();
 
+
+
 	m_sceneGraph->Render(m_camera.get());
 
+	if (!m_fade->ISOpen())
+		m_fade->Render();
 }
 
 /*--------------------------------------------------
