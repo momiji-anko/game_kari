@@ -128,8 +128,15 @@ void StageManager::LoadObjFile(const std::wstring& filePath)
 	}
 	m_vertexesPosition = vertexes;
 
-	GameContext::GetInstance().GetCollisionManager()->SetIndexes(m_indexes);
-	GameContext::GetInstance().GetCollisionManager()->SetVertexPosition(m_vertexesPosition);
+	//コリジョンマネージャー取得
+	CollisionManager* collisionManager = GameContext::GetInstance().GetCollisionManager();
+	//コリジョンマネージャーがNULLでなければコリジョンマネージャーに当たり判定を登録
+	if (collisionManager != nullptr)
+	{
+		GameContext::GetInstance().GetCollisionManager()->SetVertexPosition(m_vertexesPosition);
+		GameContext::GetInstance().GetCollisionManager()->SetIndexes(m_indexes);
+	}
+	
 }
 
 void StageManager::LoadGoalJsonFile(const std::wstring& filePath)

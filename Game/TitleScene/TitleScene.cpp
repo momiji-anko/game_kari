@@ -23,7 +23,7 @@ TitleScene::TitleScene(GameMain* parent)
 	m_parent{parent},
 	m_stageSelect{},
 	m_cameraAngle{0},
-	m_previousNumber{0}
+	m_previousStageSelectNumber{0}
 {
 }
 
@@ -51,23 +51,40 @@ void TitleScene::Initialize()
 
 	// コモンステート::D3Dレンダリング状態オブジェクト
 	m_commonState = std::make_unique<DirectX::CommonStates>(device);
+	GameContext::GetInstance().SetCommonState(m_commonState.get());
 
 	// スプライトバッチ::デバッグ情報の表示に必要
 	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(context);
 	m_spriteFont = std::make_unique<DirectX::SpriteFont>(device, L"Resources/Fonts/SegoeUI_18.spritefont");
 
 	
-
+	//GameContextにスプライトバッチを登録
 	GameContext::GetInstance().SetSpriteBatch(m_spriteBatch.get());
 
+	//ステージセレクト作成
 	m_stageSelect = std::make_unique<StageSelect>();
 	m_stageSelect->Initialize();
 
+	//カメラ作成
 	m_camera = std::make_unique<Camera>();
 	
-	
-	m_stageManager = std::make_unique<StageManager>(m_previousNumber);
+	//ステージマネージャー作成
+	m_stageManager = std::make_unique<StageManager>(m_previousStageSelectNumber);
 	m_stageManager->Initialize();
+
+	//フェードの作成
+	m_fade = std::make_unique<Fade>();
+	//shader作成
+	m_fade->Create();
+	//初期化
+	m_fade->Initialize(DirectX::SimpleMath::Vector3::Zero);
+	//最初にフェードインする
+	m_fade->FadeIn();
+
+	//タイトル文字作成
+	m_titleText = std::make_unique<TitleText>();
+	m_titleText->Initialize();
+
 }
 
 /*--------------------------------------------------
@@ -82,23 +99,42 @@ void TitleScene::Update(const DX::StepTimer& timer)
 	// マウス入力情報を取得する
 	DirectX::Mouse::State mouseState = DirectX::Mouse::Get().GetState();
 
+	m_fade->Update(timer);
 
-	if (m_previousNumber != m_stageSelect->GetSelectStageNum())
+	if (!m_fade->ISOpen())
+		return;
+
+
+	//タイトル文字の動き
+	m_titleText->Update(timer);
+
+	//選択ステージが変えた場合、背景のステージを変える
+	if (m_previousStageSelectNumber != m_stageSelect->GetSelectStageNum())
 	{
-		m_previousNumber = m_stageSelect->GetSelectStageNum();
+		//選択していたステージの番号を更新
+		m_previousStageSelectNumber = m_stageSelect->GetSelectStageNum();
 
-		m_stageManager.reset(new StageManager(m_previousNumber));
+		//ステージマネージャーの再生成
+		m_stageManager.reset(new StageManager(m_previousStageSelectNumber));
 		m_stageManager->Initialize();
 	}
 
+	//ステージマネージャー更新
 	m_stageManager->Update(timer);
 
+	//カメラを回転させる
 	m_cameraAngle += 0.001f;
 
+	//ステージが選ばれたらフェードアウトする
 	if (m_stageSelect->Update(timer))
 	{
-		m_parent->ChengeScene(m_parent->GetPlayScene());
+		m_fade->FadeOut();		
 	}
+
+	//フェードアウトしている状態であればプレイシーン移行
+	if (m_fade->ISClose())
+		m_parent->ChengeScene(m_parent->GetPlayScene());
+	
 
 }
 
@@ -107,8 +143,10 @@ void TitleScene::Update(const DX::StepTimer& timer)
 --------------------------------------------------*/
 void TitleScene::Draw()
 {
+	//画像描画開始
 	m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, m_commonState->NonPremultiplied());
 
+	//ステージ選択描画
 	m_stageSelect->Draw();
 
 	// ビュー行列
@@ -122,11 +160,21 @@ void TitleScene::Draw()
 	DirectX::SimpleMath::Vector3 up = DirectX::SimpleMath::Vector3::UnitY;
 	// ビュー行列計算
 	view = DirectX::SimpleMath::Matrix::CreateLookAt(eye, target, up);
+	// ビュー設定
 	m_camera->SetViewMatrix(view);
-
+	
+	//ステージマネージャー描画
 	m_stageManager->Render(m_camera.get());
+	
+	//タイトル文字描画
+	m_titleText->Draw();
 
+
+	//画像描画終了
 	m_spriteBatch->End();
+
+	//フェード描画
+	m_fade->Render();
 }
 
 /*--------------------------------------------------

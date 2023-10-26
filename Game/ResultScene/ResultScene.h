@@ -1,5 +1,5 @@
 /*
-タイトルシーン
+リザルトシーン
 */
 #pragma once
 
@@ -9,6 +9,7 @@
 
 
 #include"Game/IScene.h"
+#include"Game/Shader/Fade.h"
 
 class GameMain;
 
@@ -22,11 +23,11 @@ private:
 	std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;
 	// スプライトフォント
 	std::unique_ptr<DirectX::SpriteFont> m_spriteFont;
-
-	// テクスチャ
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_texture;
-
+	//フェード
+	std::unique_ptr<Fade> m_fade;
+	//親
 	GameMain* m_parent;
+
 public:
 
 

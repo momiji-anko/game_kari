@@ -11,6 +11,8 @@
 #include "Game/GameMain.h"
 #include"Game/Shader/Fade.h"
 #include"StageSelect.h"
+#include"Game/Shader/Fade.h"
+#include"TitleText.h"
 
 class TitleScene : public IScene
 {
@@ -65,7 +67,10 @@ private:
 	std::unique_ptr<DirectX::SpriteFont> m_spriteFont;
 	//キーボードステートトラッカー
 	std::unique_ptr<DirectX::Keyboard::KeyboardStateTracker> m_keyboardStateTracker;
+	//ステージセレクト
 	std::unique_ptr<StageSelect> m_stageSelect;
+	//フェード
+	std::unique_ptr<Fade> m_fade;
 
 	// テクスチャ
 	//PUSH_SPASE_KEYのテクスチャ
@@ -78,8 +83,8 @@ private:
 	//PUSH_SPASE_KEYのアルファ変化速度
 	float m_alphaSpeed;
 
-	//フェードインアウト
-	std::unique_ptr<Fade> m_fadeInOut;
+	//タイトル文字
+	std::unique_ptr<TitleText> m_titleText;
 
 	//タイトルの状態
 	TitleState m_titleSelect;
@@ -92,7 +97,7 @@ private:
 
 	float m_cameraAngle;
 
-	int m_previousNumber;
+	int m_previousStageSelectNumber;
 
 
 };

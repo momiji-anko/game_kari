@@ -21,7 +21,7 @@ public:
 	/// スプライトバッチの取得
 	/// </summary>
 	/// <returns>スプライトバッチの生ポインタ</returns>
-	DirectX::SpriteBatch* GetSpriteBath() { return m_spriteBath; }
+	DirectX::SpriteBatch* GetSpriteBatch() { return m_spriteBath; }
 
 	/// <summary>
 	/// コモンステートの設定

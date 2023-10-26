@@ -22,7 +22,11 @@ using namespace DirectX;
 --------------------------------------------------*/
 ResultScene::ResultScene(GameMain* parent)
 	:
-	m_parent(parent)
+	m_parent{parent},
+	m_commonState{},
+	m_fade{},
+	m_spriteBatch{},
+	m_spriteFont{}
 {
 }
 
@@ -52,19 +56,19 @@ void ResultScene::Initialize()
 	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(context);
 	m_spriteFont = std::make_unique<DirectX::SpriteFont>(device, L"Resources/Fonts/SegoeUI_18.spritefont");
 
-	// テクスチャの読み込み
-	CreateWICTextureFromFile(
-		device,
-		L"Resources/Textures/TridentLogo.png",
-		nullptr,
-		m_texture.ReleaseAndGetAddressOf()
-	);
+	//フェードの作成
+	m_fade = std::make_unique<Fade>();
+	//shader作成
+	m_fade->Create();
+	//初期化
+	m_fade->Initialize(DirectX::SimpleMath::Vector3::Zero);
+	//最初にフェードインする
+	m_fade->FadeIn();
 
 }
 
 /*--------------------------------------------------
 更新
-戻り値	:次のシーン番号
 --------------------------------------------------*/
 void ResultScene::Update(const DX::StepTimer& timer)
 {
@@ -74,10 +78,18 @@ void ResultScene::Update(const DX::StepTimer& timer)
 	// マウス入力情報を取得する
 	DirectX::Mouse::State mouseState = DirectX::Mouse::Get().GetState();
 
-	if (keyState.Z || mouseState.rightButton)
+	//フェード更新
+	m_fade->Update(timer);
+
+	//フェードアウトするか
+	if (m_fade->ISOpen()&&keyState.Space)
 	{
-		m_parent->ChengeScene(m_parent->GetTitleScene());
+		m_fade->FadeOut();		
 	}
+
+	//フェードアウトしている状態であればタイトルシーンに移行
+	if (m_fade->ISClose())
+		m_parent->ChengeScene(m_parent->GetTitleScene());
 
 }
 
@@ -88,34 +100,36 @@ void ResultScene::Draw()
 {
 	DX::DeviceResources* pDR = DX::DeviceResources::GetInstance();
 	
-
+	//画像描画開始
 	m_spriteBatch->Begin(SpriteSortMode_Deferred, m_commonState->NonPremultiplied());
-
+	//テクスチャマネージャー取得
 	TextureManager& textureManager = TextureManager::GetInstance();
-
+	//画像のファイル名
 	std::wstring tex[] =
 	{
 		L"youdead.png",
 		L"clear.png",
 	};
-	
+	//クリアしているか取得
 	int isclear = GameContext::GetInstance().ISClear();
-
+	//画像を読み込み
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> clearTexture = textureManager.LoadTexture(tex[isclear]);
+	//画像サイズの取得
 	DirectX::SimpleMath::Vector2 texSize = textureManager.GetTextureSize(tex[isclear]);
 
 
 	// ウィンドウサイズの取得
 	RECT size = pDR->GetOutputSize();
 	DirectX::SimpleMath::Vector2 windowCenterPosition(size.right / 2.0f, size.bottom / 2.0f);
-
-	SimpleMath::Vector2 pos(640 - 128, 360 - 128);
-
+	
+	//画像描画
 	m_spriteBatch->Draw(clearTexture.Get(), windowCenterPosition, nullptr, DirectX::Colors::White, 0.0f, texSize/2.0f);
-
-	m_spriteFont->DrawString(m_spriteBatch.get(), L"Result Scene", DirectX::XMFLOAT2(10, 10));
-
+	
+	//画像描画終了
 	m_spriteBatch->End();
+
+	//フェード描画
+	m_fade->Render();
 }
 
 /*--------------------------------------------------

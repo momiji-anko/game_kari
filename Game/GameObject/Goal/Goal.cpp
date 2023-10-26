@@ -17,7 +17,8 @@ Goal::~Goal()
 
 void Goal::Initialize()
 {
-	GameContext::GetInstance().GetCollisionManager()->SetGoalAABB(nullptr);
+	if(GameContext::GetInstance().GetCollisionManager()!=nullptr)
+		GameContext::GetInstance().GetCollisionManager()->SetGoalAABB(nullptr);
 
 	AABBFor3D* aabb = GetAABB();
 	DirectX::SimpleMath::Vector3 position = GetPosition();
@@ -32,7 +33,7 @@ void Goal::Initialize()
 
 void Goal::Update(const DX::StepTimer& timer)
 {
-	if(GameContext::GetInstance().GetIsAllGetKey())
+	if(GameContext::GetInstance().GetIsAllGetKey() && GameContext::GetInstance().GetCollisionManager() != nullptr)
 		GameContext::GetInstance().GetCollisionManager()->SetGoalAABB(GetAABB());
 
 	
@@ -49,7 +50,7 @@ void Goal::Render(const Camera* camera)
 
 	CalculateWorldMatrix();
 
-	if(!GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayer2Goal())
+	
 	GetModel()->Draw(context, *GameContext::GetInstance().GetCommonState(), GetWorldMatrix(), camera->GetViewMatrix(), camera->GetProjectionMatrix());
 
 }

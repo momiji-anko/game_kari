@@ -56,7 +56,7 @@ void GameMain::Initialize()
 	m_resultScene = std::make_unique<ResultScene>(this);
 
 	
-	ChengeScene(m_playScane.get());
+	ChengeScene(m_titleScane.get());
 }
 
 //-------------------------------------------------------------------

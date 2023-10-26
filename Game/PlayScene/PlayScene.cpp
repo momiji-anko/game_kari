@@ -93,22 +93,26 @@ void PlayScene::Initialize()
 	keyManager->Initialize();
 	m_sceneGraph->AttachNode(std::move(keyManager));
 
+	//フェードの作成
 	m_fade = std::make_unique<Fade>();
+	//shader作成
 	m_fade->Create();
+	//初期化
 	m_fade->Initialize(DirectX::SimpleMath::Vector3::Zero);
-
+	//最初にフェードインする
 	m_fade->FadeIn();
 }
 
 /*--------------------------------------------------
 更新
-戻り値	:次のシーン番号
 --------------------------------------------------*/
 void PlayScene::Update(const DX::StepTimer& timer)
 {
 	m_fade->Update(timer);
 
-	if (m_fade->ISClose())
+	bool isopen = m_fade->ISOpen();
+
+	if (!isopen && m_actor->IsActive())
 		return ;
 
 	m_sceneGraph->Update(timer);
@@ -122,9 +126,6 @@ void PlayScene::Update(const DX::StepTimer& timer)
 		if(m_fade->ISClose())
 			m_parent->ChengeScene(m_parent->GetResultScene());
 	}
-	
-
-	return ;
 }
 
 /*--------------------------------------------------

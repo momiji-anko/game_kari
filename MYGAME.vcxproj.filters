@@ -273,6 +273,9 @@
     <ClInclude Include="Libraries\MyLibraries\InputKeyTime.h">
       <Filter>Libraries\MyLibraries</Filter>
     </ClInclude>
+    <ClInclude Include="Game\TitleScene\TitleText.h">
+      <Filter>Game\TitleScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -406,6 +409,9 @@
     </ClCompile>
     <ClCompile Include="Libraries\MyLibraries\InputKeyTime.cpp">
       <Filter>Libraries\MyLibraries</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TitleScene\TitleText.cpp">
+      <Filter>Game\TitleScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

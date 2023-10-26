@@ -80,7 +80,7 @@ void KeyManager::Render(const Camera* camera)
 	}
 
 	//スプライトバッチの取得
-	DirectX::SpriteBatch* spriteBatch = GameContext::GetInstance().GetSpriteBath();
+	DirectX::SpriteBatch* spriteBatch = GameContext::GetInstance().GetSpriteBatch();
 	//描画開始
 	spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, GameContext::GetInstance().GetCommonState()->NonPremultiplied());
 

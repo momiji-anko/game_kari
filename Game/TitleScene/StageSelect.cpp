@@ -70,6 +70,7 @@ void StageSelect::Initialize()
 bool StageSelect::Update(const DX::StepTimer& timer)
 {
 	UNREFERENCED_PARAMETER(timer);
+
 	//ゲームコンテキスト取得
 	GameContext& gameContext = GameContext::GetInstance();
 	//ゲームコンテキストからキーボードステートトラッカーの取得
@@ -161,7 +162,7 @@ void StageSelect::StageSelectUIDraw()
 	//ゲームコンテキスト取得
 	GameContext& gameContext = GameContext::GetInstance();
 	//ゲームコンテキストからスプライトバッチ取得
-	DirectX::SpriteBatch* spriteBatch = gameContext.GetSpriteBath();
+	DirectX::SpriteBatch* spriteBatch = gameContext.GetSpriteBatch();
 
 	//数字の一マスのサイズ
 	float stageNumSize = (stageNumTextureSize.x) / 10;
