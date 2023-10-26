@@ -100,6 +100,11 @@ void PlayerCamera::Initialize()
 
 	GameContext::GetInstance().SetCameraAngleY(m_angleY);
 
+	DirectX::Mouse::State state = DirectX::Mouse::Get().GetState();
+	// マウスの座標を前回の値として保存
+	DirectX::Mouse::Get().SetMode(DirectX::Mouse::Mode::MODE_RELATIVE);
+	m_prevX = state.x;
+	m_prevY = state.y;
 }
 
 void PlayerCamera::Update()
@@ -107,15 +112,19 @@ void PlayerCamera::Update()
 	// どこかでMouseインスタンスが作られていれば、マウスの状態が取得できる(参考：Impl)
 	DirectX::Mouse::State state = DirectX::Mouse::Get().GetState();
 
-	// マウスの左クリック＆ドラッグでカメラ座標を更新する
+	DX::DeviceResources* pDR = DX::DeviceResources::GetInstance();
+
+	// ドラッグでカメラ座標を更新する
+	DraggedDistance(state.x, state.y);
 	if (state.leftButton)
 	{
-		DraggedDistance(state.x, state.y);
+		
+
 	}
 
 	// マウスの座標を前回の値として保存
-	m_prevX = state.x;
-	m_prevY = state.y;
+	//m_prevX = state.x;
+	//m_prevY = state.y;
 
 	// マウスホイールのスクロール値を取得
 	m_scrollWheelValue = state.scrollWheelValue;
@@ -137,6 +146,10 @@ void PlayerCamera::Update()
 	
 	CalculateViewMatrix();
 
+	// ウィンドウサイズの取得
+	RECT size = pDR->GetOutputSize();
+
+	// マウスの座標を前回の値として保存
 }
 
 // 終了処理
@@ -157,7 +170,6 @@ void PlayerCamera::SetCameraTeaget(DirectX::SimpleMath::Vector3 target)
 	m_refTargetPos = target;
 
 	m_refTargetPos = m_refTargetPos + TARGET_TO_EYE_VEC;
-
 }
 //UPベクトルの設定
 void PlayerCamera::SetUpVec(DirectX::SimpleMath::Vector3 up)
@@ -191,8 +203,8 @@ void PlayerCamera::DraggedDistance(int x, int y)
 {
 	// マウスポインタの前回からの変位
 	// なお、0.2fは適当な補正値 -> ドラッグの移動量を調整する
-	float dx = static_cast<float>(x - m_prevX) * 0.2f;
-	float dy = static_cast<float>(y - m_prevY) * 0.2f;
+	float dx = static_cast<float>(x) * 0.4f;
+	float dy = static_cast<float>(y) * 0.4f;
 
 	if (dx != 0.0f || dy != 0.0f)
 	{

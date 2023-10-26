@@ -60,37 +60,46 @@ void PlayScene::Initialize()
 	GameContext().GetInstance().SetCollisionManager(m_collisionManager.get());
 	GameContext().GetInstance().SetCommonState(m_commonState.get());
 
+	//プレイヤー作成
 	m_player = std::make_unique<Player>(DirectX::SimpleMath::Vector3(0, 3, 0), DirectX::SimpleMath::Vector3(0, 0, 0), DirectX::SimpleMath::Vector3(0.02f, 0.02f, 0.02f), DirectX::SimpleMath::Vector3(0, 0, 0), ModelManager::GetInstance().LoadSdkmeshModel(L"Walking.sdkmesh"), true);
-	
 	m_player->Initialize();
 	m_actor = m_player.get();
+
+	//シーングラフ作成
 	m_sceneGraph = std::make_unique<SceneGraph>();
 	m_sceneGraph->Initialize();
-
+	//シーングラフにプレイヤーをアタッチする
 	m_sceneGraph->AttachNode(std::move(m_player));
 
+	//落下死亡エリア
 	m_area = std::make_unique<AABBFor3D>();
 	m_area->Initialize();
-	m_area->SetData(DirectX::SimpleMath::Vector3(-10000.f,-100.0f,-10000.f), DirectX::SimpleMath::Vector3(10000.f,-50.f,10000.f));
+	m_area->SetData(DirectX::SimpleMath::Vector3(-10000.f,-10000.0f,-10000.f), DirectX::SimpleMath::Vector3(10000.f,-50.f,10000.f));
 	GameContext::GetInstance().GetCollisionManager()->SetfallDeathAABB(m_area.get());
 	GameContext::GetInstance().SetPlayerDeath(false);
 
+	//ステージマネージャー
 	std::unique_ptr<Actor> stageManager = std::make_unique<StageManager>(0);
 	stageManager->Initialize();
+	//シーングラフにステージマネージャーをアタッチする
 	m_sceneGraph->AttachNode(std::move(stageManager));
 
+	//敵マネージャー
 	std::unique_ptr<Actor> enemyManager = std::make_unique<EnemyManager>(0);
 	enemyManager->Initialize();
+	//シーングラフに敵マネージャーをアタッチする
 	m_sceneGraph->AttachNode(std::move(enemyManager));
 
-
+	//障害物マネージャー作成
 	std::unique_ptr<Actor> obstacleManager = std::make_unique<ObstacleManager>(0);
 	obstacleManager->Initialize();
+	//シーングラフに障害物マネージャーをアタッチする
 	m_sceneGraph->AttachNode(std::move(obstacleManager));
 
-
+	//キーマネージャー作成
 	std::unique_ptr<Actor> keyManager = std::make_unique<KeyManager>(0);
 	keyManager->Initialize();
+	//シーングラフにキーマネージャーをアタッチする
 	m_sceneGraph->AttachNode(std::move(keyManager));
 
 	//フェードの作成
@@ -108,15 +117,16 @@ void PlayScene::Initialize()
 --------------------------------------------------*/
 void PlayScene::Update(const DX::StepTimer& timer)
 {
+	//フェード更新
 	m_fade->Update(timer);
 
-	bool isopen = m_fade->ISOpen();
-
-	if (!isopen && m_actor->IsActive())
+	//フェードインしていない場合かつプレイヤーがアクティブである場合これ以降処理しない
+	if (!m_fade->ISOpen() && m_actor->IsActive())
 		return ;
-
+	//シーングラフ更新
 	m_sceneGraph->Update(timer);
 
+	//カメラ更新
 	m_camera->Update();
 
 	if (!m_actor->IsActive())

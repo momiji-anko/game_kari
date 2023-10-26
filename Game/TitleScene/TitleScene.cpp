@@ -101,6 +101,11 @@ void TitleScene::Update(const DX::StepTimer& timer)
 
 	m_fade->Update(timer);
 
+	//フェードアウトしている状態であればプレイシーン移行
+	if (m_fade->ISClose())
+		m_parent->ChengeScene(m_parent->GetPlayScene());
+
+	//フェードインしていない場合これ以降処理しない
 	if (!m_fade->ISOpen())
 		return;
 
@@ -130,12 +135,6 @@ void TitleScene::Update(const DX::StepTimer& timer)
 	{
 		m_fade->FadeOut();		
 	}
-
-	//フェードアウトしている状態であればプレイシーン移行
-	if (m_fade->ISClose())
-		m_parent->ChengeScene(m_parent->GetPlayScene());
-	
-
 }
 
 /*--------------------------------------------------

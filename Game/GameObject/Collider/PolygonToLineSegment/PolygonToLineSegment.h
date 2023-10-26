@@ -91,10 +91,10 @@ public:
 			float checkDot2 = cross2.Dot(cross3);
 			float checkDot3 = cross3.Dot(cross1);
 
-			float md = lineVec.Dot(normal);
+			float directionDot = lineVec.Dot(normal);
 
 			//ŽZo‚µ‚½“àÏ‚ðŠ|‚¯ŽZ‚µ‚OˆÈã‚Å‚ ‚ê‚Îƒ|ƒŠƒSƒ“‚Ì’†‚Éü•ª‚ª‚ ‚é
-			if ((checkDot1 * checkDot2 >= 0 && checkDot2 * checkDot3 >= 0 && checkDot3 * checkDot1 >= 0)&& md > 1.0)
+			if ((checkDot1 * checkDot2 >= 0 && checkDot2 * checkDot3 >= 0 && checkDot3 * checkDot1 >= 0)&& directionDot > 1.0)
 			{
 				normalVector = normal;
 				actorPos = ActorPolygonPenetration(endLine, vertices, normal);
