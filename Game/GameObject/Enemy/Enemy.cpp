@@ -9,108 +9,106 @@
 #include"Libraries/MyLibraries/Camera.h"
 #include<Effects.h>
 
-
+//索敵範囲の大きさ
 const float Enemy::ENEMY_SPEHERE_RADIUS = 20.0f;
+//縦の線分の長さ
 const float Enemy:: ENEMY_HEGHT_COLLISITION_LINE = 1.5f;
+//移動速度
 const float Enemy::MOVE_SPEED = 3.0f;
 
+/// <summary>
+/// コンストラクタ
+/// </summary>
+/// <param name="position">座標</param>
+/// <param name="velocity">移動量</param>
+/// <param name="scale">拡縮</param>
+/// <param name="rotation">スケール</param>
+/// <param name="model">モデル</param>
+/// <param name="active">アクティブ</param>
 Enemy::Enemy(
 	const DirectX::SimpleMath::Vector3& position,
 	const DirectX::SimpleMath::Vector3& velocity, 
 	const DirectX::SimpleMath::Vector3& scale,
 	const DirectX::SimpleMath::Vector3& rotation, 
 	DirectX::Model* model,
-	bool active,
-	std::vector<DirectX::SimpleMath::Vector3>& wanderPosition
-	)
+	bool active	
+)
 	:
 	Actor(position, velocity, scale, rotation, model, active),
 	m_sphere{position,ENEMY_SPEHERE_RADIUS },
-	m_wanderPosition{wanderPosition},
 	m_startPosition{position},
 	m_groundHit{false}
 {
 
 }
-
+/// <summary>
+/// デストラクタ
+/// </summary>
 Enemy::~Enemy()
 {
 	
 }
-
+/// <summary>
+/// 初期化	
+/// </summary>
 void Enemy::Initialize()
 {
+	//コリジョンマネージャーに敵のAABB当たり判定を追加する
 	GameContext::GetInstance().GetCollisionManager()->AddEnemiesAABB(GetAABB());
 
-
-	size_t nbones = GetModel()->bones.size();
-
-	m_animBone = DirectX::ModelBone::MakeArray(nbones);
-	GetModel()->CopyAbsoluteBoneTransformsTo(nbones, m_animBone.get());
-
-	for (size_t j = 0; j < nbones; ++j)
-	{
-		m_animBone[j] = DirectX::XMMatrixMultiply(GetModel()->invBindPoseMatrices[j], m_animBone[j]);
-	}
-
-	//アニメーション読み込み
-	DX::ThrowIfFailed(m_animSdk.Load(L"Resources/Models/EnemyWalking.sdkmesh_anim"));
-	DX::ThrowIfFailed(m_animIdleSdk.Load(L"Resources/Models/NeutralIdle.sdkmesh_anim"));
-
-
-	GetModel()->UpdateEffects([&](DirectX::IEffect* effect)
-		{
-			auto skin = dynamic_cast<DirectX::SkinnedEffect*>(effect);
-			if (skin)
-			{
-				skin->SetPerPixelLighting(true);
-			}
-		});
-
-	m_animSdk.Bind(*GetModel());
-	m_animIdleSdk.Bind(*GetModel());
-
+	//sdkmeshの作成
+	CreateSdkMesh();
+	//当たり判定更新
 	CollisionAreaUpdate();
 
 }
 
+/// <summary>
+/// 更新
+/// </summary>
+/// <param name="timer">タイマー</param>
 void Enemy::Update(const DX::StepTimer& timer)
 {
+	//非アクティブ状態かプレイヤーが死んでいる場合更新しない
 	if (!IsActive()||GameContext::GetInstance().IsPlayerDeath())
 		return;
 
+	//フレーム間秒数
 	float elapsedTime_s = static_cast<float>(timer.GetElapsedSeconds());
 
+	//毎フレーム地面についてない状態にする
 	m_groundHit = false;
-
-	m_sphere.centerPosition = GetPosition();
-
+	
+	//現在の座標取得
 	DirectX::SimpleMath::Vector3 nowPosition = GetPosition();
 
-
 	//アニメーションの更新
-	m_animSdk.Update(elapsedTime_s);
+	SdkMeshUpdate(&m_animSdk, elapsedTime_s);
 
-	size_t nbones = GetModel()->bones.size();
-	m_animSdk.Apply(*GetModel(), nbones, m_animBone.get());
-
+	//プレイヤーへの移動量
 	DirectX::SimpleMath::Vector3 moveVelocity = GameContext::GetInstance().GetPlayerPosition() - nowPosition;
 	
+	//ｙを０にする
 	moveVelocity.y = 0;
+	//正規化
 	moveVelocity.Normalize();
+	//スピードを掛ける
 	moveVelocity *= MOVE_SPEED * elapsedTime_s;
 
-	//当たっていた
+	//プレイヤーが索敵範囲にいる
 	if (GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayerSphere2EnemySphere(&m_sphere))
 	{
-
+		//移動できる量
 		moveVelocity = Move(moveVelocity, nowPosition);
 	}
-	else
+	else//範囲にいない場合元の場所に変える
 	{
+		//法線
 		DirectX::SimpleMath::Vector3 normal;
+		//ポリゴンと線分の貫通点
 		DirectX::SimpleMath::Vector3 pos;
 
+		//地面と当たっているか
 		m_groundHit = GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayerLine2Polygon
 		(
 			{
@@ -121,9 +119,11 @@ void Enemy::Update(const DX::StepTimer& timer)
 			pos
 		);
 		
+		//元の場所に変える用移動量
 		DirectX::SimpleMath::Vector3 startPositionVelocity = m_startPosition - nowPosition;
 		startPositionVelocity.y = 0;
 
+		//元の場所に
 		if (startPositionVelocity.Length() > MOVE_SPEED * elapsedTime_s)
 		{
 			startPositionVelocity.Normalize();
@@ -135,11 +135,9 @@ void Enemy::Update(const DX::StepTimer& timer)
 		else
 		{
 			//アニメーションの更新
-			m_animIdleSdk.Update(elapsedTime_s);
+			SdkMeshUpdate(&m_animIdleSdk, elapsedTime_s);
 
-			size_t nbones = GetModel()->bones.size();
-			m_animIdleSdk.Apply(*GetModel(), nbones, m_animBone.get());
-
+			//移動量を０にする
 			moveVelocity = DirectX::SimpleMath::Vector3::Zero;
 		}
 	}
@@ -184,6 +182,10 @@ void Enemy::Update(const DX::StepTimer& timer)
 	}
 }
 
+/// <summary>
+/// 描画
+/// </summary>
+/// <param name="camera">カメラの生ポインタ</param>
 void Enemy::Render(const Camera* camera)
 {
 	if (!IsActive())
@@ -209,14 +211,26 @@ void Enemy::Render(const Camera* camera)
 
 }
 
+/// <summary>
+/// 終了処理
+/// </summary>
 void Enemy::Finalize()
 {
 }
 
+/// <summary>
+/// リセット
+/// </summary>
 void Enemy::Reset()
 {
 }
 
+/// <summary>
+/// 移動できるか判定
+/// </summary>
+/// <param name="velocity">移動量</param>
+/// <param name="position">現在の座標</param>
+/// <returns>移動量</returns>
 DirectX::SimpleMath::Vector3 Enemy::Move(const DirectX::SimpleMath::Vector3& velocity, const DirectX::SimpleMath::Vector3& position)
 {
 	DirectX::SimpleMath::Vector3 normal;
@@ -264,13 +278,71 @@ DirectX::SimpleMath::Vector3 Enemy::Move(const DirectX::SimpleMath::Vector3& vel
 	return moveVelocity;
 }
 
+/// <summary>
+/// 当たり判定更新
+/// </summary>
 void Enemy::CollisionAreaUpdate()
 {
+	//AABB取得
 	AABBFor3D* aabb = GetAABB();
+	//現在の座標取得
 	DirectX::SimpleMath::Vector3 position = GetPosition();
+	//オブジェクトの中心点位置に移動
 	position.y += ENEMY_HEGHT_COLLISITION_LINE / 2.f;
+	//当たり判定エリア
 	DirectX::SimpleMath::Vector3 area{ 0.5f,1.5f,0.5f };
+	//当たり判定更新
 	aabb->SetData(position - area, position + area);
 
+	//
 	m_sphere.centerPosition = position;
+}
+
+/// <summary>
+/// sdkmeshの作成
+/// </summary>
+void Enemy::CreateSdkMesh()
+{
+	//モデルのボーンの数取得
+	size_t nbones = GetModel()->bones.size();
+	m_animBone = DirectX::ModelBone::MakeArray(nbones);
+	GetModel()->CopyAbsoluteBoneTransformsTo(nbones, m_animBone.get());
+	for (size_t j = 0; j < nbones; ++j)
+	{
+		m_animBone[j] = DirectX::XMMatrixMultiply(GetModel()->invBindPoseMatrices[j], m_animBone[j]);
+	}
+
+	//アニメーション読み込み
+	DX::ThrowIfFailed(m_animSdk.Load(L"Resources/Models/EnemyWalking.sdkmesh_anim"));
+	DX::ThrowIfFailed(m_animIdleSdk.Load(L"Resources/Models/NeutralIdle.sdkmesh_anim"));
+
+	//エフェクト更新
+	GetModel()->UpdateEffects([&](DirectX::IEffect* effect)
+		{
+			auto skin = dynamic_cast<DirectX::SkinnedEffect*>(effect);
+			if (skin)
+			{
+				skin->SetPerPixelLighting(true);
+			}
+		});
+
+	//アニメーションにモデルを設定
+	m_animSdk.Bind(*GetModel());
+	m_animIdleSdk.Bind(*GetModel());
+
+}
+
+/// <summary>
+/// sdkmesh更新
+/// </summary>
+/// <param name="sdkMeshAnimation">アニメーション</param>
+/// <param name="elapsedTime">フレーム間秒数</param>
+void Enemy::SdkMeshUpdate(DX::AnimationSDKMESH* sdkMeshAnimation, float elapsedTime)
+{
+	//更新
+	sdkMeshAnimation->Update(elapsedTime);
+
+	//モデルにアタッチする
+	size_t modelBone = GetModel()->bones.size();
+	sdkMeshAnimation->Apply(*GetModel(), modelBone, m_animBone.get());
 }

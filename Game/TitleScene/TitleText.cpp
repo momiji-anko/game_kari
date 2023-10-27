@@ -33,7 +33,7 @@ TitleText::TitleText()
 	m_titileTexture{},
 	m_titleTimer_s{ 0.0f },
 	m_titleRoutine{ 0 },
-	m_titlePosition{ DirectX::SimpleMath::Vector2::Zero,DirectX::SimpleMath::Vector2::Zero },
+	m_titlePosition{ DirectX::SimpleMath::Vector2(-1000.f,-1000.f),DirectX::SimpleMath::Vector2(-1000.f,-1000.f) },
 	m_titleRotetion{ 0.0f },
 	m_titleAlpha{ 0.0f }
 {
@@ -81,7 +81,7 @@ void TitleText::Update(const DX::StepTimer& timer)
 	m_titleTimer_s += elapsedTime_s;
 
 	//タイトルの移動前の座標
-	DirectX::SimpleMath::Vector2 titleStartPosition = DirectX::SimpleMath::Vector2(static_cast<float>(size.right), static_cast<float>(size.bottom / 3));
+	DirectX::SimpleMath::Vector2 titleStartPosition = DirectX::SimpleMath::Vector2(static_cast<float>(size.right*2), static_cast<float>(size.bottom / 3));
 	//タイトルの移動後の座標
 	DirectX::SimpleMath::Vector2 titleMovedPosition = DirectX::SimpleMath::Vector2(static_cast<float>(size.right / 2), static_cast<float>(size.bottom / 3));
 

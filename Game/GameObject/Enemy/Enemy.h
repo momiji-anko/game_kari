@@ -3,8 +3,18 @@
 #include"Game/GameObject/Collider/Sphere/Sphere.h"
 #include"Libraries/Animation/Animation.h"
 
+/// <summary>
+/// 敵
+/// </summary>
 class Enemy :public Actor
 {
+public:
+	//索敵範囲の大きさ
+	static const float ENEMY_SPEHERE_RADIUS;
+	//移動速度
+	static const float MOVE_SPEED;
+	//縦の線分の長さ
+	static const float ENEMY_HEGHT_COLLISITION_LINE;
 public:
 
 	/// <summary>
@@ -22,8 +32,7 @@ public:
 		const DirectX::SimpleMath::Vector3& scale,
 		const DirectX::SimpleMath::Vector3& rotation,
 		DirectX::Model* model,
-		bool active,
-		std::vector<DirectX::SimpleMath::Vector3>& wanderPosition
+		bool active
 	);
 	/// <summary>
 	/// デストラクタ
@@ -59,26 +68,34 @@ public:
 
 private:
 	/// <summary>
-	/// 
+	/// 移動できるか判定
 	/// </summary>
-	/// <param name="velocity"></param>
-	/// <param name="position"></param>
-	/// <returns></returns>
+	/// <param name="velocity">移動量</param>
+	/// <param name="position">現在の座標</param>
+	/// <returns>移動量</returns>
 	DirectX::SimpleMath::Vector3 Move(const DirectX::SimpleMath::Vector3& velocity, const DirectX::SimpleMath::Vector3& position);
 
 	/// <summary>
-	/// 
+	/// 当たり判定更新
 	/// </summary>
 	void CollisionAreaUpdate();
 
+	/// <summary>
+	/// sdkmeshの作成
+	/// </summary>
+	void CreateSdkMesh();
+	
+	/// <summary>
+	/// sdkmesh更新
+	/// </summary>
+	/// <param name="sdkMeshAnimation">アニメーション</param>
+	/// <param name="elapsedTime">フレーム間秒数</param>
+	void SdkMeshUpdate(DX::AnimationSDKMESH* sdkMeshAnimation, float elapsedTime);
+
+
+
 private:
-	static const float ENEMY_SPEHERE_RADIUS;
-
-	static const float MOVE_SPEED;
-
-	static const float ENEMY_HEGHT_COLLISITION_LINE;
-private:
-
+	//アニメーション
 	DX::AnimationSDKMESH  m_animSdk;
 	DX::AnimationSDKMESH  m_animIdleSdk;
 
@@ -88,12 +105,12 @@ private:
 	//スケルトン
 	DirectX::ModelBone::TransformArray m_bone;
 
+	//球の当たり判定
 	Sphere m_sphere;
 
-	std::vector<DirectX::SimpleMath::Vector3 >m_wanderPosition;
-
+	//初期位置
 	DirectX::SimpleMath::Vector3 m_startPosition;
 
-
+	//地面と当たっているか
 	bool m_groundHit;
 };

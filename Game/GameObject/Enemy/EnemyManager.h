@@ -7,6 +7,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
+	/// <param name="stageNum">ステージ番号</param>
 	EnemyManager(int stageNum);
 	/// <summary>
 	/// デストラクタ
@@ -40,6 +41,10 @@ public:
 	/// </summary>
 	void Reset()override;
 
+	/// <summary>
+	/// json読み込み
+	/// </summary>
+	/// <param name="jsonFilePath">jsonファイルパス</param>
 	void LoadEnemyJsonFile(std::wstring jsonFilePath);
 
 	/// <summary>
@@ -49,13 +54,23 @@ public:
 	/// <returns>変換した座標</returns>
 	DirectX::SimpleMath::Vector3 ConvertFloatArrayIntoVector3(const std::vector<float> nums);
 
-
+	/// <summary>
+	/// 敵の追加
+	/// </summary>
+	/// <param name="enemy">敵</param>
 	void AddEnemy(std::unique_ptr<Actor> enemy) { m_enemies.emplace_back(std::move(enemy)); }
 
+	/// <summary>
+	/// プレイヤーを追いかける敵の生成
+	/// </summary>
+	/// <param name="time">時間</param>
 	void CreatePlayerTrackingEnemy(float time);
-private:
 
+private:
+	//ステージ番号
 	int m_stageNum;
 
+	//敵配列
 	std::vector<std::unique_ptr<Actor>> m_enemies;
+
 };

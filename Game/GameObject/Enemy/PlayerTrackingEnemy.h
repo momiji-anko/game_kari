@@ -1,22 +1,25 @@
 #pragma once
+
 #include"Game/GameObject/Actor/Actor.h"
 #include"Game/GameObject/Collider/Sphere/Sphere.h"
 #include"Libraries/Animation/Animation.h"
 #include<Keyboard.h>
 
+/// <summary>
+/// プレイヤーを追いかける敵
+/// </summary>
 class PlayerTrackingEnemy :public Actor
 {
 public:
-
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="position">座標</param>
-	/// <param name="velocity">移動量</param>
-	/// <param name="scale">拡縮</param>
-	/// <param name="rotation">スケール</param>
+	/// <param name="velocity">速度</param>
+	/// <param name="scale">拡大率</param>
+	/// <param name="rotation">角度</param>
 	/// <param name="model">モデル</param>
-	/// <param name="second">秒数</param>
+	/// <param name="second">何秒前のプレイヤーの動きをコピーする秒数</param>
 	PlayerTrackingEnemy(
 		const DirectX::SimpleMath::Vector3& position,
 		const DirectX::SimpleMath::Vector3& velocity,
@@ -58,20 +61,28 @@ public:
 	void Reset()override;
 
 private:
+	/// <summary>
+	/// sdkmeshの作成
+	/// </summary>
 	void CreateSdkMesh();
 
+	/// <summary>
+	/// sdkmesh更新
+	/// </summary>
+	/// <param name="sdkMeshAnimation">アニメーション</param>
+	/// <param name="elapsedTime">フレーム間秒数</param>
 	void SdkMeshUpdate(DX::AnimationSDKMESH* sdkMeshAnimation, float elapsedTime);
-
+	
+	/// <summary>
+	/// 移動する
+	/// </summary>
+	/// <param name="timer">タイマー</param>
 	void Move(const DX::StepTimer& timer);
 
-private:
-	//定数=====================================================
-	//	1秒間に進むマスの数
-	static const float  MOVE_SPEED;
-	//	1秒間に落ちるマスの数
-	static const float GRAVITY_FORCE;
-	//	ジャンプ力
-	static const float JUMP_FORCE;
+	/// <summary>
+	/// 当たり判定更新
+	/// </summary>
+	void CollisionAreaUpdate();
 
 private:
 
@@ -81,16 +92,18 @@ private:
 	DX::AnimationSDKMESH  m_animJumpSdk;
 	DX::AnimationSDKMESH  m_animDieSdk;
 	DX::AnimationSDKMESH  m_animRunSdk;
-
 	//アニメーションスケルトン
 	DirectX::ModelBone::TransformArray m_animBone;
-
 	//スケルトン
 	DirectX::ModelBone::TransformArray m_bone;
-
+	
+	//動いていいか
 	bool m_isMove;
-
+	
+	//プレイヤーの座標を記録する配列
 	std::vector < DirectX::SimpleMath::Vector3 > m_playerPositions;
-	int m_nowIndex;
-	int m_index;
+	//プレイヤーの座標を記録するインデックス
+	int m_playerRecordIndex;
+	//プレイヤー追跡用インデックス
+	int m_playerTrackingIndex;
 };
