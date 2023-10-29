@@ -57,5 +57,4 @@ public:
 	void Reset()override;
 
 private:
-
 };

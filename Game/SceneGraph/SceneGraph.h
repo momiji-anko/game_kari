@@ -4,13 +4,7 @@
 
 class SceneGraph 
 {
-private:
-	//シーングラフ
-	std::vector<std::unique_ptr<Actor>> m_sceneGraph;
-	// 位置
-	DirectX::SimpleMath::Vector3 m_position;
-	// 回転角
-	float m_angle;
+
 public:
 	/// <summary>
 	/// コンテキスト
@@ -53,4 +47,9 @@ public:
 	/// </summary>
 	/// <param name="sceneNode">ノード</param>
 	void AttachNode(std::unique_ptr<Actor> sceneNode);
+private:
+	//シーングラフ
+	std::vector<std::unique_ptr<Actor>> m_sceneGraph;
+	// 位置
+	DirectX::SimpleMath::Vector3 m_position;
 };

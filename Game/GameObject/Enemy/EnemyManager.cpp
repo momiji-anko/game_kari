@@ -29,7 +29,8 @@ EnemyManager::EnemyManager(int stageNum)
 		true
 	),
 	m_enemies{},
-	m_stageNum{stageNum}
+	m_stageNum{stageNum},
+	m_trackStartTime{2.0f}
 {
 	
 }
@@ -55,6 +56,9 @@ void EnemyManager::Initialize()
 
 	//敵マネージャーの設定
 	GameContext::GetInstance().SetEnemyManager(this);
+
+	//何秒前のプレイヤーを追跡する時間を初期化	
+	m_trackStartTime = 2.0f;
 }
 
 
@@ -152,8 +156,7 @@ DirectX::SimpleMath::Vector3 EnemyManager::ConvertFloatArrayIntoVector3(const st
 /// <summary>
 /// プレイヤーを追いかける敵の生成
 /// </summary>
-/// <param name="time">時間</param>
-void EnemyManager::CreatePlayerTrackingEnemy(float time)
+void EnemyManager::CreatePlayerTrackingEnemy()
 {
 	//座標
 	DirectX::SimpleMath::Vector3 position = GameContext::GetInstance().GetPlayerPosition();
@@ -165,11 +168,14 @@ void EnemyManager::CreatePlayerTrackingEnemy(float time)
 	DirectX::SimpleMath::Vector3 scale = DirectX::SimpleMath::Vector3(0.02);
 	
 	//生成
-	std::unique_ptr<Actor> enemy = std::make_unique<PlayerTrackingEnemy>(position, DirectX::SimpleMath::Vector3::Zero, scale, rotation, ModelManager::GetInstance().LoadSdkmeshModel(L"enemy.sdkmesh"), time);
+	std::unique_ptr<Actor> enemy = std::make_unique<PlayerTrackingEnemy>(position, DirectX::SimpleMath::Vector3::Zero, scale, rotation, ModelManager::GetInstance().LoadSdkmeshModel(L"enemy.sdkmesh"), m_trackStartTime);
 	//初期化
 	enemy->Initialize();
 	
 	//追加
 	AddEnemy(std::move(enemy));
+
+	//時間を半分にする
+	m_trackStartTime /= 2.0f;
 
 }

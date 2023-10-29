@@ -8,7 +8,16 @@
 #include"Libraries/MyLibraries/ModelManager.h"
 #include"Game/GameContext/GameContext.h"
 #include"Libraries/MyLibraries/Camera.h"
-
+/// <summary>
+/// コンストラクタ
+/// </summary>
+/// <param name="position">座標</param>
+/// <param name="velocity">移動量</param>
+/// <param name="scale">拡縮</param>
+/// <param name="rotation">スケール</param>
+/// <param name="model">モデル</param>
+/// <param name="active">アクティブ</param>
+/// <param name="fireManager">エフェクト</param>
 Obstacle::Obstacle(
 	const DirectX::SimpleMath::Vector3& position,
 	const DirectX::SimpleMath::Vector3& velocity,
@@ -16,12 +25,10 @@ Obstacle::Obstacle(
 	const DirectX::SimpleMath::Vector3& rotation, 
 	DirectX::Model* model, 
 	bool active,
-	ObstacleManager* obstacleManager,
 	FireEffectManager* fireManager
 )
 	:
 	Actor{ position, velocity, scale, rotation, model, active },
-	m_obstacleManager{ obstacleManager },
 	m_deleteTime{3},
 	m_fireManager{fireManager}
 {

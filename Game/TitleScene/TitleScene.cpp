@@ -89,7 +89,6 @@ void TitleScene::Initialize()
 
 /*--------------------------------------------------
 更新
-戻り値	:次のシーン番号
 --------------------------------------------------*/
 void TitleScene::Update(const DX::StepTimer& timer)
 {

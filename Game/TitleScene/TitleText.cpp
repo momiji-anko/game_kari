@@ -1,9 +1,3 @@
-/*
-* 2023/06/12
-* TitleText.cpp
-* タイトルの文字
-* 麻生　楓
-*/
 #include"pch.h"
 #include"TitleText.h"
 #include"DeviceResources.h"

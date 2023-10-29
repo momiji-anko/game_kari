@@ -7,6 +7,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
+	/// <param name="stageNum">ステージ番号</param>
 	StageManager(int stageNum);
 
 	/// <summary>
@@ -41,10 +42,22 @@ public:
 	/// </summary>
 	void Reset()override;
 
+	/// <summary>
+	/// OBJファイル読み込み
+	/// </summary>
+	/// <param name="filePath">OBJファイルパス</param>
 	void LoadObjFile(const std::wstring& filePath);
 
+	/// <summary>
+	/// ステージ追加
+	/// </summary>
+	/// <param name="stage">ステージ</param>
 	void AddStage(std::unique_ptr<Actor>& stage) { m_stage.emplace_back(std::move(stage)); }
 
+	/// <summary>
+	/// ゴールJsonを読み込み
+	/// </summary>
+	/// <param name="filePath">ファイルパス</param>
 	void LoadGoalJsonFile(const std::wstring& filePath);
 
 	/// <summary>
@@ -55,10 +68,13 @@ public:
 	DirectX::SimpleMath::Vector3 ConvertFloatArrayIntoVector3(const std::vector<float> nums);
 
 private:
+	//ステージ
 	std::vector<std::unique_ptr<Actor>> m_stage;
 
-
+	//頂点座標
 	std::vector <DirectX::SimpleMath::Vector3> m_vertexesPosition;
+	//インデックス
 	std::vector<std::vector<int>> m_indexes;
+	//ステージ番号
 	int m_stageNum;
 };

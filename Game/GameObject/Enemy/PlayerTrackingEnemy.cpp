@@ -86,6 +86,12 @@ void PlayerTrackingEnemy::Update(const DX::StepTimer& timer)
 	if (m_isMove)
 	{
 		Move(timer);
+
+		//当たり判定更新
+		CollisionAreaUpdate();
+
+		//動いている場合当たり判定を追加
+		GameContext::GetInstance().GetCollisionManager()->AddEnemiesAABB(GetAABB());
 	}
 
 	//座標配列に全てに記録したら動く

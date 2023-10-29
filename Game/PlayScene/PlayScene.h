@@ -21,33 +21,6 @@ class GameMain;
 
 class PlayScene : public IScene
 {
-private:
-
-	std::unique_ptr<PlayerCamera> m_camera;
-
-	std::unique_ptr<Actor> m_player;
-
-	Actor* m_actor;
-
-	std::unique_ptr<Actor> m_goal;
-	//フェード
-	std::unique_ptr<Fade> m_fade;
-
-	std::unique_ptr<SceneGraph> m_sceneGraph;
-
-	std::unique_ptr<StageManager> m_stageManager;
-
-	std::unique_ptr<DirectX::CommonStates> m_commonState;
-
-	GameMain* m_parent;
-
-	std::unique_ptr<CollisionManager> m_collisionManager;
-
-	std::unique_ptr<AABBFor3D> m_area;
-
-	// スプライトバッチ
-	std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;
-
 
 public:
 
@@ -68,4 +41,31 @@ public:
 
 	// 終了処理
 	void Finalize() override;
+private:
+	//カメラ
+	std::unique_ptr<PlayerCamera> m_camera;
+
+	//プレイヤー
+	Actor* m_actor;
+
+	//親
+	GameMain* m_parent;
+
+	//フェード
+	std::unique_ptr<Fade> m_fade;
+	//コモンステート
+	std::unique_ptr<DirectX::CommonStates> m_commonState;
+	//シーングラフ
+	std::unique_ptr<SceneGraph> m_sceneGraph;
+	//コリジョンマネージャー
+	std::unique_ptr<CollisionManager> m_collisionManager;
+
+
+	//落下死亡エリア
+	std::unique_ptr<AABBFor3D> m_fallDeathArea;
+
+	// スプライトバッチ
+	std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;
+
+
 };

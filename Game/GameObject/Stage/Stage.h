@@ -23,6 +23,7 @@ public:
 		DirectX::Model* model,
 		bool active
 	);
+
 	/// <summary>
 	/// デストラクタ
 	/// </summary>

@@ -1,5 +1,5 @@
 #include"pch.h"
-#include"Key.h"
+#include"ClearKey.h"
 
 #include"Game/GameContext/GameContext.h"
 #include"DeviceResources.h"
@@ -61,13 +61,16 @@ void ClearKey::Update(const DX::StepTimer& timer)
 	//アクティブでなければ処理しない
 	if (!IsActive())
 		return;
+	//プレイヤーに当たっているか
 	bool isCollision = GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayer2Keys(GetAABB());
 
+	//当たっている状態であれば非アクティブになり鍵を取っていることになる
 	SetActive(!isCollision);
+
 
 	if (isCollision)
 	{
-		GameContext::GetInstance().GetEnemyManager() ->CreatePlayerTrackingEnemy(1.0f);
+		GameContext::GetInstance().GetEnemyManager() ->CreatePlayerTrackingEnemy();
 	}
 
 }

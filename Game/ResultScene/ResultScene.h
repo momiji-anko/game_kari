@@ -15,18 +15,6 @@ class GameMain;
 
 class ResultScene : public IScene
 {
-private:
-
-	// コモンステート
-	std::unique_ptr<DirectX::CommonStates> m_commonState;
-	// スプライトバッチ
-	std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;
-	// スプライトフォント
-	std::unique_ptr<DirectX::SpriteFont> m_spriteFont;
-	//フェード
-	std::unique_ptr<Fade> m_fade;
-	//親
-	GameMain* m_parent;
 
 public:
 
@@ -48,4 +36,17 @@ public:
 
 	// 終了処理
 	void Finalize() override;
+private:
+
+	// コモンステート
+	std::unique_ptr<DirectX::CommonStates> m_commonState;
+	// スプライトバッチ
+	std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;
+	// スプライトフォント
+	std::unique_ptr<DirectX::SpriteFont> m_spriteFont;
+	//フェード
+	std::unique_ptr<Fade> m_fade;
+	//親
+	GameMain* m_parent;
+
 };

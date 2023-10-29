@@ -44,20 +44,6 @@ private:
 
 private:
 
-	//タイトルの状態
-	enum class TitleState
-	{
-		//フェードイン
-		FADEIN,
-		//タイトル
-		TITLE,
-		//ステージセレクト
-		STAGESELECT,
-		//モードセレクト
-		MODESELECT,
-		//フェードアウト
-		FADEOUT,
-	};
 
 	// コモンステート
 	std::unique_ptr<DirectX::CommonStates> m_commonState;
@@ -72,31 +58,19 @@ private:
 	//フェード
 	std::unique_ptr<Fade> m_fade;
 
-	// テクスチャ
-	//PUSH_SPASE_KEYのテクスチャ
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_pushTexture;
-
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_texture;
-
-	//PUSH_SPASE_KEYのアルファ値
-	float m_alpha;
-	//PUSH_SPASE_KEYのアルファ変化速度
-	float m_alphaSpeed;
 
 	//タイトル文字
 	std::unique_ptr<TitleText> m_titleText;
 
-	//タイトルの状態
-	TitleState m_titleSelect;
-
+	//親
 	GameMain* m_parent;
-
+	//カメラ
 	std::unique_ptr<Camera> m_camera;
-
+	//ステートマネージャー
 	std::unique_ptr<Actor> m_stageManager;
-
+	//カメラ角度
 	float m_cameraAngle;
-
+	//前のステージ選択番号
 	int m_previousStageSelectNumber;
 
 

@@ -127,7 +127,7 @@ bool StageSelect::Update(const DX::StepTimer& timer)
 /// </summary>
 void StageSelect::Draw()
 {
-
+	//ステージ選択のUI表示
 	StageSelectUIDraw();
 }
 

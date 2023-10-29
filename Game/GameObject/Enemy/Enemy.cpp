@@ -106,7 +106,7 @@ void Enemy::Update(const DX::StepTimer& timer)
 		//法線
 		DirectX::SimpleMath::Vector3 normal;
 		//ポリゴンと線分の貫通点
-		DirectX::SimpleMath::Vector3 pos;
+		DirectX::SimpleMath::Vector3 polygonToLineHitPosition;
 
 		//地面と当たっているか
 		m_groundHit = GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayerLine2Polygon
@@ -116,7 +116,7 @@ void Enemy::Update(const DX::StepTimer& timer)
 				nowPosition - DirectX::SimpleMath::Vector3(0,ENEMY_HEGHT_COLLISITION_LINE,0)
 			},
 			normal,
-			pos
+			polygonToLineHitPosition
 		);
 		
 		//元の場所に変える用移動量
@@ -141,11 +141,12 @@ void Enemy::Update(const DX::StepTimer& timer)
 			moveVelocity = DirectX::SimpleMath::Vector3::Zero;
 		}
 	}
-
+	//ジャンプ力取得
 	DirectX::SimpleMath::Vector3 jumpVelocity = GetVelocity();
 	jumpVelocity.x = 0;
 	jumpVelocity.z = 0;
 
+	//地面についていない場合落下する
 	if (!m_groundHit)
 	{
 		
@@ -157,23 +158,22 @@ void Enemy::Update(const DX::StepTimer& timer)
 		jumpVelocity.y = 0;
 	}
 
+	//回転
 	DirectX::SimpleMath::Quaternion rotation = DirectX::SimpleMath::Quaternion::FromToRotation(DirectX::SimpleMath::Vector3::Forward, moveVelocity + DirectX::SimpleMath::Vector3(0, -moveVelocity.y, 0));
-
+	//回転設定
 	SetRotation(rotation);
-
+	//移動量設定
 	SetVelocity(moveVelocity+ jumpVelocity);
-
+	//座標更新
 	SetPosition(nowPosition+GetVelocity());
-
+	//当たり判定更新
 	CollisionAreaUpdate();
-
+	//プレイヤーの攻撃範囲に入っているか
 	if (GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayerAttackAABB2Enemies(GetAABB()))
 	{
-		DirectX::SimpleMath::Vector3 vel=GameContext::GetInstance().GetPlayerPosition()-GetPosition();
-		DirectX::SimpleMath::Vector3 v = DirectX::SimpleMath::Vector3::UnitY;
-
+		//死亡すｒ
 		SetActive(false);
-
+		//当たり判定をプレイヤーが当たらない場所に置く
 		AABBFor3D* aabb = GetAABB();
 		DirectX::SimpleMath::Vector3 position = GetPosition();
 		DirectX::SimpleMath::Vector3 area{10000 };
@@ -188,6 +188,7 @@ void Enemy::Update(const DX::StepTimer& timer)
 /// <param name="camera">カメラの生ポインタ</param>
 void Enemy::Render(const Camera* camera)
 {
+	//死亡している場合処理しない
 	if (!IsActive())
 		return;
 
@@ -196,8 +197,10 @@ void Enemy::Render(const Camera* camera)
 	//デバイスコンテキストの取得
 	ID3D11DeviceContext1* context = pDR->GetD3DDeviceContext();
 
+	//ワールド行列計算
 	CalculateWorldMatrix();
 
+	//モデル描画
 	GetModel()->DrawSkinned
 	(
 		context,
@@ -233,48 +236,55 @@ void Enemy::Reset()
 /// <returns>移動量</returns>
 DirectX::SimpleMath::Vector3 Enemy::Move(const DirectX::SimpleMath::Vector3& velocity, const DirectX::SimpleMath::Vector3& position)
 {
+	//法線
 	DirectX::SimpleMath::Vector3 normal;
-	DirectX::SimpleMath::Vector3 pos;
-
+	//ポリゴンと線分の当たった場所
+	DirectX::SimpleMath::Vector3 polygonToLineHitPosition;
+	//移動量
 	DirectX::SimpleMath::Vector3 moveVelocity;
 
 	float line = 1.5f;
 
+	//X軸で移動できるか確認
 	if (GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayerLine2Polygon(
 		{
 			position + DirectX::SimpleMath::Vector3(velocity.x,line*2,0),
 			position - DirectX::SimpleMath::Vector3(-velocity.x,0,0)
 		},
 		normal,
-		pos))
+		polygonToLineHitPosition))
 	{
-		DirectX::SimpleMath::Vector3 veloc = (pos);
-
-		moveVelocity.x = (veloc-position).x;
-		moveVelocity.y = (veloc - position).y;
-
+		//移動後の座標
+		DirectX::SimpleMath::Vector3 movedPosition = (polygonToLineHitPosition);
+		//移動できる量を計算
+		moveVelocity.x = (movedPosition - position).x;
+		moveVelocity.y = (movedPosition - position).y;
+		//地面を当たっている
 		m_groundHit = true;
 	}
-
+	//法線初期化
 	normal = DirectX::SimpleMath::Vector3::Zero;
-	pos = DirectX::SimpleMath::Vector3::Zero;
+	//ポリゴンと線分の当たった場所初期化
+	polygonToLineHitPosition = DirectX::SimpleMath::Vector3::Zero;
 
+	//Z軸で移動できるか確認
 	if (GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayerLine2Polygon(
 		{
 			position + DirectX::SimpleMath::Vector3(0,line * 2,velocity.z),
 			position - DirectX::SimpleMath::Vector3(0,0,-velocity.z)
 		},
 		normal,
-		pos))
+		polygonToLineHitPosition))
 	{
-		DirectX::SimpleMath::Vector3 veloc = (pos );
-		
-		moveVelocity.z = (veloc - position).z;
-		moveVelocity.y = (veloc - position).y;
-
+		//移動後の座標
+		DirectX::SimpleMath::Vector3 movedPosition = (polygonToLineHitPosition);
+		//移動できる量を計算		
+		moveVelocity.z = (movedPosition - position).z;
+		moveVelocity.y = (movedPosition - position).y;
+		//地面を当たっている
 		m_groundHit = true;
 	}
-	
+	//移動できる量を返す
 	return moveVelocity;
 }
 
@@ -294,7 +304,7 @@ void Enemy::CollisionAreaUpdate()
 	//当たり判定更新
 	aabb->SetData(position - area, position + area);
 
-	//
+	//球の中心座標を更新
 	m_sphere.centerPosition = position;
 }
 

@@ -261,7 +261,7 @@
     <ClInclude Include="Game\TitleScene\StageSelect.h">
       <Filter>Game\TitleScene</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameObject\Key\Key.h">
+    <ClInclude Include="Game\GameObject\Key\ClearKey.h">
       <Filter>Game\GameObject\Key</Filter>
     </ClInclude>
     <ClInclude Include="Game\GameObject\Key\KeyManager.h">
@@ -398,7 +398,7 @@
     <ClCompile Include="Game\TitleScene\StageSelect.cpp">
       <Filter>Game\TitleScene</Filter>
     </ClCompile>
-    <ClCompile Include="Game\GameObject\Key\Key.cpp">
+    <ClCompile Include="Game\GameObject\Key\ClearKey.cpp">
       <Filter>Game\GameObject\Key</Filter>
     </ClCompile>
     <ClCompile Include="Game\GameObject\Key\KeyManager.cpp">

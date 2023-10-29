@@ -202,7 +202,7 @@
     <ClInclude Include="Game\GameObject\Enemy\PlayerTrackingEnemy.h" />
     <ClInclude Include="Game\GameObject\Factory\IFactory.h" />
     <ClInclude Include="Game\GameObject\Goal\Goal.h" />
-    <ClInclude Include="Game\GameObject\Key\Key.h" />
+    <ClInclude Include="Game\GameObject\Key\ClearKey.h" />
     <ClInclude Include="Game\GameObject\Key\KeyManager.h" />
     <ClInclude Include="Game\GameObject\Obstacle\Obstacle.h" />
     <ClInclude Include="Game\GameObject\Obstacle\ObstacleManager.h" />
@@ -255,7 +255,7 @@
     <ClCompile Include="Game\GameObject\Enemy\PlayerTrackingEnemy.cpp" />
     <ClCompile Include="Game\GameObject\Factory\IFactory.cpp" />
     <ClCompile Include="Game\GameObject\Goal\Goal.cpp" />
-    <ClCompile Include="Game\GameObject\Key\Key.cpp" />
+    <ClCompile Include="Game\GameObject\Key\ClearKey.cpp" />
     <ClCompile Include="Game\GameObject\Key\KeyManager.cpp" />
     <ClCompile Include="Game\GameObject\Obstacle\Obstacle.cpp" />
     <ClCompile Include="Game\GameObject\Obstacle\ObstacleManager.cpp" />

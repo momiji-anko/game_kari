@@ -4,7 +4,9 @@
 #include"Game/Shader/FireEffectManager.h"
 
 class ObstacleManager;
-
+/// <summary>
+/// 障害物
+/// </summary>
 class Obstacle:public Actor
 {
 public:
@@ -18,6 +20,7 @@ public:
 	/// <param name="rotation">スケール</param>
 	/// <param name="model">モデル</param>
 	/// <param name="active">アクティブ</param>
+	/// <param name="fireManager">エフェクト</param>
 	Obstacle(
 		const DirectX::SimpleMath::Vector3& position,
 		const DirectX::SimpleMath::Vector3& velocity,
@@ -25,7 +28,6 @@ public:
 		const DirectX::SimpleMath::Vector3& rotation,
 		DirectX::Model* model,
 		bool active,
-		ObstacleManager* obstacleManager,
 		FireEffectManager* fireManager
 	);
 	/// <summary>
@@ -61,10 +63,13 @@ public:
 	void Reset()override;
 
 private:
+	/// <summary>
+	/// 当たり判定更新
+	/// </summary>
 	void CollisionAreaUpdate();
 
 private:
-	ObstacleManager* m_obstacleManager;
+	//障害物マネージャー
 
 	float m_deleteTime;
 

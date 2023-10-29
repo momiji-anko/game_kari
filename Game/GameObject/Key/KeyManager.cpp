@@ -7,7 +7,7 @@
 #include<string>
 #include<cstdlib>
 
-#include"Key.h"
+#include"ClearKey.h"
 #include"Libraries/MyLibraries/FileLoadManager.h"
 #include"Libraries/MyLibraries/ModelManager.h"
 #include"Libraries/MyLibraries/TextureManager.h"
@@ -18,6 +18,7 @@
 /// <summary>
 /// コンストラクタ
 /// </summary>
+/// <param name="stageNum">ステージ番号</param>
 KeyManager::KeyManager(int stageNum)
 	:
 	Actor{
@@ -28,7 +29,9 @@ KeyManager::KeyManager(int stageNum)
 		nullptr,
 		true
 	},
-	m_stageNum{ stageNum }
+	m_stageNum{ stageNum },
+	m_isAllGetKey{false},
+	m_keys{}
 {
 }
 
@@ -49,7 +52,7 @@ void KeyManager::Initialize()
 
 	//Jsonを読み込み鍵の作成
 	LoadKeyJsonFile(goalJsonFiles[m_stageNum]);
-
+	//すべての鍵を取っていない
 	GameContext::GetInstance().SetIsAllGetKey(false);
 }
 
@@ -59,10 +62,12 @@ void KeyManager::Initialize()
 /// <param name="timer">タイマー</param>
 void KeyManager::Update(const DX::StepTimer& timer)
 {
+	//鍵更新
 	for (std::unique_ptr<Actor>& key : m_keys)
 	{
 		key->Update(timer);
 	}
+
 	//すべての鍵を取得したか確認
 	CheckALLGetKey();
 }
@@ -73,40 +78,13 @@ void KeyManager::Update(const DX::StepTimer& timer)
 /// <param name="camera">カメラの生ポインタ</param>
 void KeyManager::Render(const Camera* camera)
 {
-	//鍵の描画
+	//鍵描画
 	for (std::unique_ptr<Actor>& key : m_keys)
 	{
 		key->Render(camera);
 	}
-
-	//スプライトバッチの取得
-	DirectX::SpriteBatch* spriteBatch = GameContext::GetInstance().GetSpriteBatch();
-	//描画開始
-	spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, GameContext::GetInstance().GetCommonState()->NonPremultiplied());
-
-	//テクスチャマネージャー取得
-	TextureManager& textureManager = TextureManager::GetInstance();
-	//鍵のテクスチャ取得
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> keyTex = textureManager.LoadTexture(L"key.png");
-	//鍵のテクスチャサイズ取得
-	DirectX::SimpleMath::Vector2 texSize = textureManager.GetTextureSize(L"key.png");
-	//鍵の大きさ
-	float keyTexScale = 0.3f;
-	//鍵の配列分、テクスチャ描画する
-	for (int i = 0; i < m_keys.size(); i++)
-	{
-		//取っている状態であれば何もしない
-		DirectX::SimpleMath::Color textureColor = DirectX::Colors::White;
-		//取られていない場合は灰色にする
-		if(m_keys[i]->IsActive())
-			textureColor = DirectX::Colors::Gray;
-
-		//鍵の描画
-		spriteBatch->Draw(keyTex.Get(), DirectX::SimpleMath::Vector2(texSize.x* keyTexScale * i, 0.0f), nullptr, textureColor, 0.0f, DirectX::SimpleMath::Vector2::Zero, keyTexScale);
-
-	}
-	
-	spriteBatch->End();
+	//鍵のUI描画
+	RenderKeyUI();
 }
 
 /// <summary>
@@ -178,6 +156,42 @@ void KeyManager::CheckALLGetKey()
 	//すべての鍵をゲットしたか
 	bool isAllGet = (getKeyNum == m_keys.size());
 	GameContext::GetInstance().SetIsAllGetKey(isAllGet);
+}
+
+/// <summary>
+/// 鍵のUI描画
+/// <summary>
+void KeyManager::RenderKeyUI()
+{
+	//スプライトバッチの取得
+	DirectX::SpriteBatch* spriteBatch = GameContext::GetInstance().GetSpriteBatch();
+	//描画開始
+	spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, GameContext::GetInstance().GetCommonState()->NonPremultiplied());
+
+	//テクスチャマネージャー取得
+	TextureManager& textureManager = TextureManager::GetInstance();
+	//鍵のテクスチャ取得
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> keyTex = textureManager.LoadTexture(L"key.png");
+	//鍵のテクスチャサイズ取得
+	DirectX::SimpleMath::Vector2 texSize = textureManager.GetTextureSize(L"key.png");
+	//鍵の大きさ
+	float keyTexScale = 0.3f;
+	//鍵の配列分、テクスチャ描画する
+	for (int i = 0; i < m_keys.size(); i++)
+	{
+		//取っている状態であれば何もしない
+		DirectX::SimpleMath::Color textureColor = DirectX::Colors::White;
+		//取られていない場合は灰色にする
+		if (m_keys[i]->IsActive())
+			textureColor = DirectX::Colors::Gray;
+
+		//鍵の描画
+		spriteBatch->Draw(keyTex.Get(), DirectX::SimpleMath::Vector2(texSize.x * keyTexScale * i, 0.0f), nullptr, textureColor, 0.0f, DirectX::SimpleMath::Vector2::Zero, keyTexScale);
+
+	}
+
+	spriteBatch->End();
+
 }
 
 

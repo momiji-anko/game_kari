@@ -14,6 +14,10 @@
 #include"Game/GameContext/GameContext.h"
 #include"Libraries/Json/json.hpp"
 
+/// <summary>
+/// コンストラクタ
+/// </summary>
+/// <param name="stageNum">ステージ番号</param>
 StageManager::StageManager(int stageNum)
 	:
 	Actor(
@@ -26,22 +30,30 @@ StageManager::StageManager(int stageNum)
 	),
 	m_stageNum(stageNum)
 {
-
+	//OBJファイル読み込み
 	std::vector<std::wstring> objFiles = FileLoadManager::GetInstance().LoadFile(L"Resources/Stage/Obj/");
+	//Jsonファイル読み込み
 	std::vector<std::wstring> goalJsonFiles = FileLoadManager::GetInstance().LoadFile(L"Resources/Stage/Json/");
-
+	
+	//OBJファイル読み込みステージの当たり判定作成
 	LoadObjFile(objFiles[m_stageNum]);
-
+	//ゴール読み込み
 	LoadGoalJsonFile(goalJsonFiles[m_stageNum]);
 }
 
+/// <summary>
+/// デストラクタ
+/// </summary>
 StageManager::~StageManager()
 {
 }
 
+/// <summary>
+/// 初期化	
+/// </summary>
 void StageManager::Initialize()
 {
-
+	//ステージの生成
 	std::unique_ptr<Actor> stage = std::make_unique<Stage>(
 		DirectX::SimpleMath::Vector3::Zero, 
 		DirectX::SimpleMath::Vector3::Zero, 
@@ -50,42 +62,69 @@ void StageManager::Initialize()
 		ModelManager::GetInstance().LoadCmoModel(L"stage1.cmo"),
 		true
 		);
-
+	//ステージ追加
 	AddStage(stage);
 
 }
 
+/// <summary>
+/// 更新
+/// </summary>
+/// <param name="timer">タイマー</param>
 void StageManager::Update(const DX::StepTimer& timer)
 {
+	//ステージ更新
 	for (std::unique_ptr<Actor>& stage : m_stage)
 	{
 		stage->Update(timer);
 	}
 }
 
+/// <summary>
+/// 描画
+/// </summary>
+/// <param name="camera">カメラの生ポインタ</param>
 void StageManager::Render(const Camera* camera)
 {
+	//ステージ描画
 	for (std::unique_ptr<Actor>& stage : m_stage)
 	{
 		stage->Render(camera);
 	}
 }
 
+/// <summary>
+/// 終了処理
+/// </summary>
 void StageManager::Finalize()
 {
 }
+
+/// <summary>
+/// リセット
+/// </summary>
 void StageManager::Reset()
 {
 }
 
+/// <summary>
+/// OBJファイル読み込み
+/// </summary>
+/// <param name="filePath">OBJファイルパス</param>
 void StageManager::LoadObjFile(const std::wstring& filePath)
 {
 	// obj形式のファイル読み込み
+	//頂点座標
 	std::vector<DirectX::SimpleMath::Vector3> vertexes;
+	//インデックス
 	std::vector<int> indexes;
+
+	//OBJファイル
 	std::ifstream ifs(filePath);
 
+	//読み込んだ文字列
 	std::string str;
+	//一列読み込む
 	while (getline(ifs, str))
 	{
 		// 頂点であれば座標を抜き取る
@@ -119,17 +158,21 @@ void StageManager::LoadObjFile(const std::wstring& filePath)
 			}
 		}
 	}
+	//終わったらファイルを閉じる
 	ifs.close();
-	std::vector<std::vector<int>> inde;
 
+	
+	//インデックス代入
 	for (int i = 0; i < indexes.size() / 3; i++)
 	{
 		m_indexes.push_back({ indexes[i * 3], indexes[i * 3 + 1],indexes[i * 3 + 2] });
 	}
+	//頂点座標代入
 	m_vertexesPosition = vertexes;
 
 	//コリジョンマネージャー取得
 	CollisionManager* collisionManager = GameContext::GetInstance().GetCollisionManager();
+
 	//コリジョンマネージャーがNULLでなければコリジョンマネージャーに当たり判定を登録
 	if (collisionManager != nullptr)
 	{
@@ -139,6 +182,10 @@ void StageManager::LoadObjFile(const std::wstring& filePath)
 	
 }
 
+/// <summary>
+/// ゴールJsonを読み込み
+/// </summary>
+/// <param name="filePath">ファイルパス</param>
 void StageManager::LoadGoalJsonFile(const std::wstring& filePath)
 {
 	//fstream作成
@@ -147,11 +194,13 @@ void StageManager::LoadGoalJsonFile(const std::wstring& filePath)
 	nlohmann::json stageJson = nlohmann::json::parse(file);
 	//ファイルを閉じる
 	file.close();
-
+	//座標取得
 	DirectX::SimpleMath::Vector3 position = ConvertFloatArrayIntoVector3(stageJson["Goal"]["Position"]);
+	//スケール読み込み
 	DirectX::SimpleMath::Vector3 scale = ConvertFloatArrayIntoVector3(stageJson["Goal"]["Scale"]);
+	//角度読み込み
 	DirectX::SimpleMath::Vector3 rotation = ConvertFloatArrayIntoVector3(stageJson["Goal"]["Rotation"]);
-
+	//生成
 	std::unique_ptr<Actor> goal = std::make_unique<Goal>(
 		position,
 		DirectX::SimpleMath::Vector3::Zero,
@@ -161,13 +210,18 @@ void StageManager::LoadGoalJsonFile(const std::wstring& filePath)
 		true
 		);
 
-
+	//初期化
 	goal->Initialize();
-	
+	//追加
 	AddStage(std::move(goal));
 
 }
 
+/// <summary>
+/// jsonで読み込んだ座標をVector3に変換
+/// </summary>
+/// <param name="nums">jsonで読み込んだ座標</param>
+/// <returns>変換した座標</returns>
 DirectX::SimpleMath::Vector3 StageManager::ConvertFloatArrayIntoVector3(const std::vector<float> nums)
 {
 	return DirectX::SimpleMath::Vector3(nums[0], nums[1], nums[2]);

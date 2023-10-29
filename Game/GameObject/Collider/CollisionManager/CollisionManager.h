@@ -11,11 +11,20 @@
 #include"Game/GameObject/Collider/Sphere/Sphere.h"
 
 class Camera;
-
+/// <summary>
+/// コリジョンマネージャー
+/// </summary>
 class CollisionManager
 {
 public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	CollisionManager();
+	
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	~CollisionManager();
 
 	/// <summary>
@@ -23,25 +32,54 @@ public:
 	/// </summary>
 	void Initialize();
 
-
-
 	/// <summary>
 	/// 終了処理
 	/// </summary>
 	void Finalize();
 
-
+	/// <summary>
+	/// 解放
+	/// </summary>
 	void Release();
 
 	/// <summary>
 	/// 当たり判定
 	/// </summary>
 	
+	/// <summary>
+	/// プレイヤーとゴールの当たり判定
+	/// </summary>
+	/// <returns>当たっているか</returns>
 	bool DetectCollisionPlayer2Goal();
+
+	/// <summary>
+	/// プレイヤーと敵のAABB当たり判定
+	/// </summary>
+	/// <returns>当たっているか</returns>
 	bool DetectCollisionPlayer2Enemies();
+	/// <summary>
+	/// プレイヤーと敵の球の当たり判定
+	/// </summary>
+	/// <param name="enemySphere">敵の球</param>
+	/// <returns>当たっているか</returns>
 	bool DetectCollisionPlayerSphere2EnemySphere(Sphere* enemySphere);
+	/// <summary>
+	/// プレイヤーの攻撃判定と敵のAABB当たり判定
+	/// </summary>
+	/// <param name="aabb">敵のAABB</param>
+	/// <returns>当たっているか</returns>
 	bool DetectCollisionPlayerAttackAABB2Enemies(AABBFor3D* aabb);
+	/// <summary>
+	/// プレイヤーと鍵の当たり判定
+	/// </summary>
+	/// <param name="aabb">鍵の球</param>
+	/// <returns>当たっているか</returns>
 	bool DetectCollisionPlayer2Keys(AABBFor3D* aabb);
+	/// <summary>
+	/// プレイヤーと敵の当たり判定
+	/// </summary>
+	/// <param name="aabb">敵のAABB</param>
+	/// <returns>当たっているか</returns>
 	bool DetectCollisionPlayer2Enemies(AABBFor3D* aabb);
 
 

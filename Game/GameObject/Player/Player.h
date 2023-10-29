@@ -4,16 +4,19 @@
 #include"Libraries/Animation/Animation.h"
 #include<Keyboard.h>
 
-
+/// <summary>
+/// プレイヤー
+/// </summary>
 class Player :public Actor
 {
 public:
+	//線分の長さ
 	static const float COLLISION_LINE_LENGTH;
 
-	//	1秒間に落ちるマスの数
+	//1秒間に落ちるマスの数
 	static const float GRAVITY_FORCE;
 
-	//	1秒間に進むマスの数
+	//1秒間に進むマスの数
 	static const float  MOVE_SPEED;
 
 public:
@@ -34,6 +37,7 @@ public:
 		DirectX::Model* model,
 		bool active
 	);
+
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
@@ -67,19 +71,43 @@ public:
 	 void Reset()override;
 
 private:
+
+	/// <summary>
+	/// 移動
+	/// </summary>
+	/// <param name="timer">タイマー</param>
 	void PlayerMove(const DX::StepTimer& timer);
 
+	/// <summary>
+	/// 当たり判定更新
+	/// </summary>
 	void CollisionAreaUpdate();
 
+	/// <summary>
+	/// SDKMESH更新
+	/// </summary>
+	/// <param name="sdkMeshAnimation">アニメーション</param>
+	/// <param name="elapsedTime">フレーム間時間</param>
 	void SdkMeshUpdate(DX::AnimationSDKMESH* sdkMeshAnimation,float elapsedTime);
 
+	/// <summary>
+	/// 攻撃判定更新
+	/// </summary>
+	/// <param name="isGroundHit">着地しているか</param>
 	void AttackAreaUpdate(bool isGroundHit);
 
+	/// <summary>
+	/// プレイヤーの移動方向
+	/// </summary>
+	/// <param name="keyState">キー</param>
+	/// <returns>方向</returns>
 	float PlayerMoveAngle(DirectX::Keyboard::State& keyState);
 
+	/// <summary>
+	/// SDKMESH作成
+	/// </summary>
 	void CreateSdkMesh();
 
-	void CreateShader();
 
 private:
 	//定数=====================================================
@@ -94,8 +122,9 @@ private:
 
 
 private:
+	//球の当たり判定
 	Sphere m_sphere;
-
+	//攻撃範囲
 	std::unique_ptr<AABBFor3D> m_attackAABB;
 
 	//アニメーション
@@ -115,6 +144,7 @@ private:
 	//移動ボタンを押したか
 	bool m_isMoveKey;
 
+	//死亡タイム
 	float m_deathTime;
 
 };

@@ -61,21 +61,22 @@ void PlayScene::Initialize()
 	GameContext().GetInstance().SetCommonState(m_commonState.get());
 
 	//プレイヤー作成
-	m_player = std::make_unique<Player>(DirectX::SimpleMath::Vector3(0, 3, 0), DirectX::SimpleMath::Vector3(0, 0, 0), DirectX::SimpleMath::Vector3(0.02f, 0.02f, 0.02f), DirectX::SimpleMath::Vector3(0, 0, 0), ModelManager::GetInstance().LoadSdkmeshModel(L"Walking.sdkmesh"), true);
-	m_player->Initialize();
-	m_actor = m_player.get();
+	
+	std::unique_ptr<Actor> player = std::make_unique<Player>(DirectX::SimpleMath::Vector3(0, 3, 0), DirectX::SimpleMath::Vector3(0, 0, 0), DirectX::SimpleMath::Vector3(0.02f, 0.02f, 0.02f), DirectX::SimpleMath::Vector3(0, 0, 0), ModelManager::GetInstance().LoadSdkmeshModel(L"Walking.sdkmesh"), true);
+	player->Initialize();
+	m_actor = player.get();
 
 	//シーングラフ作成
 	m_sceneGraph = std::make_unique<SceneGraph>();
 	m_sceneGraph->Initialize();
 	//シーングラフにプレイヤーをアタッチする
-	m_sceneGraph->AttachNode(std::move(m_player));
+	m_sceneGraph->AttachNode(std::move(player));
 
-	//落下死亡エリア
-	m_area = std::make_unique<AABBFor3D>();
-	m_area->Initialize();
-	m_area->SetData(DirectX::SimpleMath::Vector3(-10000.f,-10000.0f,-10000.f), DirectX::SimpleMath::Vector3(10000.f,-50.f,10000.f));
-	GameContext::GetInstance().GetCollisionManager()->SetfallDeathAABB(m_area.get());
+	//落下死亡エリア作成
+	m_fallDeathArea = std::make_unique<AABBFor3D>();
+	m_fallDeathArea->Initialize();
+	m_fallDeathArea->SetData(DirectX::SimpleMath::Vector3(-10000.f,-10000.0f,-10000.f), DirectX::SimpleMath::Vector3(10000.f,-50.f,10000.f));
+	GameContext::GetInstance().GetCollisionManager()->SetfallDeathAABB(m_fallDeathArea.get());
 	GameContext::GetInstance().SetPlayerDeath(false);
 
 	//ステージマネージャー
@@ -123,16 +124,21 @@ void PlayScene::Update(const DX::StepTimer& timer)
 	//フェードインしていない場合かつプレイヤーがアクティブである場合これ以降処理しない
 	if (!m_fade->ISOpen() && m_actor->IsActive())
 		return ;
+
 	//シーングラフ更新
 	m_sceneGraph->Update(timer);
 
 	//カメラ更新
 	m_camera->Update();
 
+	//プレイヤーが死亡している場合リザルトシーンに以降
 	if (!m_actor->IsActive())
 	{
+		//フェードアウトする
 		m_fade->FadeOut();
 
+
+		//フェードアウトし終わったらリザルトへ以降
 		if(m_fade->ISClose())
 			m_parent->ChengeScene(m_parent->GetResultScene());
 	}
@@ -146,11 +152,12 @@ void PlayScene::Draw()
 	DX::DeviceResources* pDR = DX::DeviceResources::GetInstance();
 
 
-
+	//シーングラフ描画
 	m_sceneGraph->Render(m_camera.get());
 
-	if (!m_fade->ISOpen())
-		m_fade->Render();
+
+	//フェード描画
+	m_fade->Render();
 }
 
 /*--------------------------------------------------

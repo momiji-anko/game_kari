@@ -9,6 +9,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
+	/// <param name="stageNum">ステージ番号</param>
 	KeyManager(int stageNum);
 
 	/// <summary>
@@ -60,6 +61,10 @@ public:
 	/// </summary>
 	void CheckALLGetKey();
 
+	/// <summary>
+	/// 鍵のUI描画
+	/// </summary>
+	void RenderKeyUI();
 private:
 	//鍵
 	std::vector<std::unique_ptr<Actor>> m_keys;
@@ -67,7 +72,4 @@ private:
 	int m_stageNum;
 	//鍵をすべて取ったか
 	bool m_isAllGetKey;
-
-	EnemyManager* m_enemyManager;
-
 };

@@ -63,8 +63,7 @@ public:
 	/// <summary>
 	/// プレイヤーを追いかける敵の生成
 	/// </summary>
-	/// <param name="time">時間</param>
-	void CreatePlayerTrackingEnemy(float time);
+	void CreatePlayerTrackingEnemy();
 
 private:
 	//ステージ番号
@@ -72,5 +71,9 @@ private:
 
 	//敵配列
 	std::vector<std::unique_ptr<Actor>> m_enemies;
+
+	//何秒前のプレイヤーを追跡する時間
+	float m_trackStartTime;
+
 
 };

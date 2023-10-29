@@ -1,6 +1,9 @@
 #pragma once 
 #include"Game/GameObject/Actor/Actor.h"
 
+/// <summary>
+/// 障害物マネージャー
+/// </summary>
 class ObstacleManager : public Actor
 {
 public:
@@ -80,12 +83,13 @@ private:
 	void ObstacleSpawnerRender(const Camera* camera);
 
 private:
+	//障害物
 	std::vector<std::unique_ptr<Actor>> m_obstacle;
-
+	//障害物のスポーン座標
 	std::vector<DirectX::SimpleMath::Vector3> m_obstacleSpawnPosition;
-
+	//ステージ番号
 	int m_stageNum;
 
-
+	//スポナー
 	std::vector<std::unique_ptr<Actor>> m_obstacleSpawner;
 };
