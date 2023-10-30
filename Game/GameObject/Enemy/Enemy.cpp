@@ -171,7 +171,7 @@ void Enemy::Update(const DX::StepTimer& timer)
 	//プレイヤーの攻撃範囲に入っているか
 	if (GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayerAttackAABB2Enemies(GetAABB()))
 	{
-		//死亡すｒ
+		//死亡する
 		SetActive(false);
 		//当たり判定をプレイヤーが当たらない場所に置く
 		AABBFor3D* aabb = GetAABB();
@@ -243,12 +243,10 @@ DirectX::SimpleMath::Vector3 Enemy::Move(const DirectX::SimpleMath::Vector3& vel
 	//移動量
 	DirectX::SimpleMath::Vector3 moveVelocity;
 
-	float line = 1.5f;
-
 	//X軸で移動できるか確認
 	if (GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayerLine2Polygon(
 		{
-			position + DirectX::SimpleMath::Vector3(velocity.x,line*2,0),
+			position + DirectX::SimpleMath::Vector3(velocity.x,ENEMY_HEGHT_COLLISITION_LINE *2,0),
 			position - DirectX::SimpleMath::Vector3(-velocity.x,0,0)
 		},
 		normal,
@@ -270,7 +268,7 @@ DirectX::SimpleMath::Vector3 Enemy::Move(const DirectX::SimpleMath::Vector3& vel
 	//Z軸で移動できるか確認
 	if (GameContext::GetInstance().GetCollisionManager()->DetectCollisionPlayerLine2Polygon(
 		{
-			position + DirectX::SimpleMath::Vector3(0,line * 2,velocity.z),
+			position + DirectX::SimpleMath::Vector3(0,ENEMY_HEGHT_COLLISITION_LINE * 2,velocity.z),
 			position - DirectX::SimpleMath::Vector3(0,0,-velocity.z)
 		},
 		normal,

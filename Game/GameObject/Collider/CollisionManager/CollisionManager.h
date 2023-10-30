@@ -82,12 +82,33 @@ public:
 	/// <returns>当たっているか</returns>
 	bool DetectCollisionPlayer2Enemies(AABBFor3D* aabb);
 
-
+	/// <summary>
+	/// プレイヤーとステージポリゴンと当たり判定
+	/// </summary>
+	/// <param name="line">プレイヤーの線分</param>
+	/// <param name="normal">法線</param>
+	/// <param name="actorPos">めり込み判定後の座標</param>
+	/// <returns>当たっているか</returns>
 	bool DetectCollisionPlayerLine2Polygon(const std::vector<DirectX::SimpleMath::Vector3>& line, DirectX::SimpleMath::Vector3& normal, DirectX::SimpleMath::Vector3& actorPos);
+	/// <summary>
+	/// カメラとステージポリゴンと当たり判定
+	/// </summary>
+	/// <param name="line">カメラの線分</param>
+	/// <param name="normal">法線</param>
+	/// <param name="actorPos">当たっていた場合のカメラの場所</param>
+	/// <returns>当たっているか</returns>
 	bool DetectCollisionCameraLine2Polygon(const std::vector<DirectX::SimpleMath::Vector3>& line, DirectX::SimpleMath::Vector3& normal, DirectX::SimpleMath::Vector3& actorPos);
 
+	/// <summary>
+	/// プレイヤーと落下エリアの当たり判定
+	/// </summary>
+	/// <returns>当たっているか</returns>
 	bool DetectCollisionPlayer2FallDeathAABB();
 
+	/// <summary>
+	/// プレイヤー攻撃判定の設定
+	/// </summary>
+	/// <param name="aabb"></param>
 	void SetPlayerAttackAABB(AABBFor3D* aabb) { m_playerAttackAABB = aabb; }
 
 	void SetPlayerAABB(AABBFor3D* aabb) { m_playerAABB = aabb; }
