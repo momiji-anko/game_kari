@@ -6,7 +6,7 @@
 #include "Game.h"
 
 // 静的データメンバの定義
-const wchar_t* Game::TITLE = L"3DPG_GS";
+const wchar_t* Game::TITLE = L"FindEscapeKey";
 const int Game::SCREEN_W = 1280;
 const int Game::SCREEN_H = 720;
 

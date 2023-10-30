@@ -66,22 +66,70 @@ public:
 	/// <returns>敵マネージャー生ポインタ</returns>
 	EnemyManager* GetEnemyManager() { return m_enemyManager; }
 
+	/// <summary>
+	/// プレイヤーの座標設定
+	/// </summary>
+	/// <param name="position">座標</param>
 	void SetPlayerPosition(const DirectX::SimpleMath::Vector3& position) { m_playerPosition = position; }
+	/// <summary>
+	/// プレイヤーの座標取得
+	/// </summary>
+	/// <returns>座標</returns>
 	DirectX::SimpleMath::Vector3 GetPlayerPosition() { return m_playerPosition; }
 
+	/// <summary>
+	/// カメラのY軸角度を設定
+	/// </summary>
+	/// <param name="angle">角度</param>
 	void SetCameraAngleY(float angle) { m_angleY = angle; }
+	/// <summary>
+	/// カメラのY軸角度取得
+	/// </summary>
+	/// <returns>角度</returns>
 	float GetCmeraAngleY() { return m_angleY; }
 
+	/// <summary>
+	/// プレイヤーが死亡しているか設定
+	/// </summary>
+	/// <param name="flag">死亡しているか</param>
 	void SetPlayerDeath(bool flag) { m_playerDeath = flag; }
+	/// <summary>
+	/// プレイヤーが死亡しているか取得
+	/// </summary>
+	/// <returns>死亡しているか</returns>
 	bool IsPlayerDeath() { return m_playerDeath; }
 
+	/// <summary>
+	/// 選択したステージ番号
+	/// </summary>
+	/// <param name="stageNum">ステージ番号</param>
 	void SetSelectStageNum(int stageNum) { m_selectStage = stageNum; }
+	/// <summary>
+	/// ステージ番号取得
+	/// </summary>
+	/// <returns>ステージ番号</returns>
 	int GetSelectStageNum() { return m_selectStage; }
 
+	/// <summary>
+	/// クリアしているか設定
+	/// </summary>
+	/// <param name="isClear">クリアしているか</param>
 	void SetIsClear(bool isClear) { m_isClear = isClear; }
+	/// <summary>
+	/// クリアしているか取得
+	/// </summary>
+	/// <returns>クリアしているか</returns>
 	bool ISClear() { return m_isClear; }
 
+	/// <summary>
+	/// すべての鍵を取得しているか設定
+	/// </summary>
+	/// <param name="isAllGetKeys">すべて取得しているか</param>
 	void SetIsAllGetKey(bool isAllGetKeys) { m_isAllGetKeys = isAllGetKeys; }
+	/// <summary>
+	/// すべての鍵を取得しているか取得
+	/// </summary>
+	/// <returns>すべて取得しているか</returns>
 	bool GetIsAllGetKey() { return m_isAllGetKeys; }
 
 	/// <summary>
@@ -105,15 +153,16 @@ private:
 
 	DirectX::SimpleMath::Vector3 m_playerPosition;
 
+	//カメラのY軸角度
 	float m_angleY;
-
+	//プレイヤーが死亡しているか
 	bool m_playerDeath;
-
+	//選択しているステージの番号
 	int m_selectStage;
-
+	//クリアしているか
 	bool m_isClear;
-
+	//すべての鍵を取得しているか
 	bool m_isAllGetKeys;
-
+	//敵のマネージャー
 	EnemyManager* m_enemyManager;
 };

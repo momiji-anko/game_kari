@@ -115,7 +115,7 @@ bool StageSelect::Update(const DX::StepTimer& timer)
 	//スペースキーを押すと次の選択画面に行くに移動
 	if (keyboard->IsKeyPressed(DirectX::Keyboard::Keys::Space))
 	{
-
+		gameContext.SetSelectStageNum(m_selectStageNum);
 		return true;
 	}
 

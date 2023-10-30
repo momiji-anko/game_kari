@@ -79,26 +79,28 @@ void PlayScene::Initialize()
 	GameContext::GetInstance().GetCollisionManager()->SetfallDeathAABB(m_fallDeathArea.get());
 	GameContext::GetInstance().SetPlayerDeath(false);
 
+	int stageNum = GameContext::GetInstance().GetSelectStageNum();
+
 	//ステージマネージャー
-	std::unique_ptr<Actor> stageManager = std::make_unique<StageManager>(0);
+	std::unique_ptr<Actor> stageManager = std::make_unique<StageManager>(stageNum);
 	stageManager->Initialize();
 	//シーングラフにステージマネージャーをアタッチする
 	m_sceneGraph->AttachNode(std::move(stageManager));
 
 	//敵マネージャー
-	std::unique_ptr<Actor> enemyManager = std::make_unique<EnemyManager>(0);
+	std::unique_ptr<Actor> enemyManager = std::make_unique<EnemyManager>(stageNum);
 	enemyManager->Initialize();
 	//シーングラフに敵マネージャーをアタッチする
 	m_sceneGraph->AttachNode(std::move(enemyManager));
 
 	//障害物マネージャー作成
-	std::unique_ptr<Actor> obstacleManager = std::make_unique<ObstacleManager>(0);
+	std::unique_ptr<Actor> obstacleManager = std::make_unique<ObstacleManager>(stageNum);
 	obstacleManager->Initialize();
 	//シーングラフに障害物マネージャーをアタッチする
 	m_sceneGraph->AttachNode(std::move(obstacleManager));
 
 	//キーマネージャー作成
-	std::unique_ptr<Actor> keyManager = std::make_unique<KeyManager>(0);
+	std::unique_ptr<Actor> keyManager = std::make_unique<KeyManager>(stageNum);
 	keyManager->Initialize();
 	//シーングラフにキーマネージャーをアタッチする
 	m_sceneGraph->AttachNode(std::move(keyManager));

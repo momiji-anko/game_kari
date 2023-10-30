@@ -98,7 +98,11 @@ void TitleScene::Update(const DX::StepTimer& timer)
 	// マウス入力情報を取得する
 	DirectX::Mouse::State mouseState = DirectX::Mouse::Get().GetState();
 
+	//フェード更新
 	m_fade->Update(timer);
+
+	//カメラを回転させる
+	m_cameraAngle += 0.001f;
 
 	//フェードアウトしている状態であればプレイシーン移行
 	if (m_fade->ISClose())
@@ -126,8 +130,7 @@ void TitleScene::Update(const DX::StepTimer& timer)
 	//ステージマネージャー更新
 	m_stageManager->Update(timer);
 
-	//カメラを回転させる
-	m_cameraAngle += 0.001f;
+
 
 	//ステージが選ばれたらフェードアウトする
 	if (m_stageSelect->Update(timer))

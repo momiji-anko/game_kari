@@ -37,6 +37,11 @@ public:
 	// 終了処理
 	void Finalize() override;
 private:
+	//アルファの最大値
+	static const float ALPHA_MAX_NUM;
+	//アルファの最小値
+	static const float ALPHA_MIN_NUM;
+private:
 
 	// コモンステート
 	std::unique_ptr<DirectX::CommonStates> m_commonState;
@@ -49,4 +54,8 @@ private:
 	//親
 	GameMain* m_parent;
 
+	//PUSH_SPASE_KEYのアルファ値
+	float m_alpha;
+	//PUSH_SPASE_KEYのアルファ変化速度
+	float m_alphaSpeed;
 };

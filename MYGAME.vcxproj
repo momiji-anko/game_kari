@@ -200,7 +200,6 @@
     <ClInclude Include="Game\GameObject\Enemy\Enemy.h" />
     <ClInclude Include="Game\GameObject\Enemy\EnemyManager.h" />
     <ClInclude Include="Game\GameObject\Enemy\PlayerTrackingEnemy.h" />
-    <ClInclude Include="Game\GameObject\Factory\IFactory.h" />
     <ClInclude Include="Game\GameObject\Goal\Goal.h" />
     <ClInclude Include="Game\GameObject\Key\ClearKey.h" />
     <ClInclude Include="Game\GameObject\Key\KeyManager.h" />
@@ -253,7 +252,6 @@
     <ClCompile Include="Game\GameObject\Enemy\Enemy.cpp" />
     <ClCompile Include="Game\GameObject\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Game\GameObject\Enemy\PlayerTrackingEnemy.cpp" />
-    <ClCompile Include="Game\GameObject\Factory\IFactory.cpp" />
     <ClCompile Include="Game\GameObject\Goal\Goal.cpp" />
     <ClCompile Include="Game\GameObject\Key\ClearKey.cpp" />
     <ClCompile Include="Game\GameObject\Key\KeyManager.cpp" />
@@ -311,7 +309,6 @@
     <None Include="Resources\Fonts\myfile.spritefont" />
     <None Include="Resources\Fonts\SegoeUI_18.spritefont" />
     <None Include="Resources\Stage\Json\Stage1.json" />
-    <None Include="Resources\Stage\Json\Stage2.json" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Resources\Assets\dice.FBX">

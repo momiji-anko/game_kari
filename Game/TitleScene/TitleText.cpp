@@ -23,7 +23,7 @@ const float TitleText::MOVEING_TEXTURE_ALPHA = 0.7f;
 /// </summary>
 TitleText::TitleText()
 	:
-	m_titleTextureFilePath{ L"Resources/Textures/DODGETitle.png" },
+	m_titleTextureFilePath{ L"Resources/Textures/Title.png" },
 	m_titileTexture{},
 	m_titleTimer_s{ 0.0f },
 	m_titleRoutine{ 0 },

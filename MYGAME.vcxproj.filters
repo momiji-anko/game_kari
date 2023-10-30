@@ -77,9 +77,6 @@
     <Filter Include="Game\SceneGraph">
       <UniqueIdentifier>{cefda376-32c6-47b8-bed2-8ff151b7021d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\GameObject\Factory">
-      <UniqueIdentifier>{9abd4a90-2fcb-4891-bb17-12a695ad9ee3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\GameObject\Collider\CollisionManager">
       <UniqueIdentifier>{239f4795-9560-441d-8545-7a082f1a9d38}</UniqueIdentifier>
     </Filter>
@@ -215,9 +212,6 @@
     </ClInclude>
     <ClInclude Include="Game\SceneGraph\SceneGraph.h">
       <Filter>Game\SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameObject\Factory\IFactory.h">
-      <Filter>Game\GameObject\Factory</Filter>
     </ClInclude>
     <ClInclude Include="Game\GameObject\Collider\CollisionManager\CollisionManager.h">
       <Filter>Game\GameObject\Collider\CollisionManager</Filter>
@@ -356,9 +350,6 @@
     <ClCompile Include="Game\SceneGraph\SceneGraph.cpp">
       <Filter>Game\SceneGraph</Filter>
     </ClCompile>
-    <ClCompile Include="Game\GameObject\Factory\IFactory.cpp">
-      <Filter>Game\GameObject\Factory</Filter>
-    </ClCompile>
     <ClCompile Include="Game\GameObject\Collider\CollisionManager\CollisionManager.cpp">
       <Filter>Game\GameObject\Collider\CollisionManager</Filter>
     </ClCompile>
@@ -444,9 +435,6 @@
       <Filter>Resources\Fonts</Filter>
     </None>
     <None Include="Resources\Stage\Json\Stage1.json">
-      <Filter>Resources\Stage\Json</Filter>
-    </None>
-    <None Include="Resources\Stage\Json\Stage2.json">
       <Filter>Resources\Stage\Json</Filter>
     </None>
   </ItemGroup>

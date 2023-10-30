@@ -15,7 +15,11 @@
 #include"Libraries/MyLibraries/TextureManager.h"
 #include"Game/GameContext/GameContext.h"
 
-using namespace DirectX;
+
+//アルファの最大値
+const float ResultScene::ALPHA_MAX_NUM = 1.0f;
+//アルファの最小値
+const float ResultScene::ALPHA_MIN_NUM = 0.0f;
 
 /*--------------------------------------------------
 コンストラクタ
@@ -26,7 +30,9 @@ ResultScene::ResultScene(GameMain* parent)
 	m_commonState{},
 	m_fade{},
 	m_spriteBatch{},
-	m_spriteFont{}
+	m_spriteFont{},
+	m_alpha{1.0f},
+	m_alphaSpeed{-0.01f}
 {
 }
 
@@ -81,8 +87,18 @@ void ResultScene::Update(const DX::StepTimer& timer)
 	//フェード更新
 	m_fade->Update(timer);
 
+	//アルファをアルファスピードで足す
+	m_alpha += m_alphaSpeed;
+
+	//アルファが０か１になったらアルファスピードを反転させる
+	if (m_alpha < ALPHA_MIN_NUM || m_alpha > ALPHA_MAX_NUM)
+	{
+		//アルファスピードを反転させる
+		m_alphaSpeed *= -1.0f;
+	}
+
 	//フェードアウトするか
-	if (m_fade->ISOpen()&&keyState.Space)
+	if (m_fade->ISOpen() && keyState.Space)
 	{
 		m_fade->FadeOut();		
 	}
@@ -101,7 +117,7 @@ void ResultScene::Draw()
 	DX::DeviceResources* pDR = DX::DeviceResources::GetInstance();
 	
 	//画像描画開始
-	m_spriteBatch->Begin(SpriteSortMode_Deferred, m_commonState->NonPremultiplied());
+	m_spriteBatch->Begin(DirectX::SpriteSortMode_Deferred, m_commonState->NonPremultiplied());
 	//テクスチャマネージャー取得
 	TextureManager& textureManager = TextureManager::GetInstance();
 	//画像のファイル名
@@ -123,8 +139,15 @@ void ResultScene::Draw()
 	DirectX::SimpleMath::Vector2 windowCenterPosition(size.right / 2.0f, size.bottom / 2.0f);
 	
 	//画像描画
-	m_spriteBatch->Draw(clearTexture.Get(), windowCenterPosition, nullptr, DirectX::Colors::White, 0.0f, texSize/2.0f);
+	m_spriteBatch->Draw(clearTexture.Get(), windowCenterPosition, nullptr, DirectX::Colors::White, 0.0f, texSize/2.0f,2.0f);
 	
+	//PUSH_SPASE_KEYの表示座標
+	DirectX::SimpleMath::Vector2 pushSpeseKeyPos = DirectX::SimpleMath::Vector2::Zero;
+	//PUSH_SPASE_KEYの色
+	DirectX::SimpleMath::Vector4 pushColor{ 1.0f,1.0f,1.0f,m_alpha };
+	//PUSH_SPASE_KEYの表示
+	m_spriteBatch->Draw(textureManager.LoadTexture(L"PushSpaceKey.png").Get(), pushSpeseKeyPos, nullptr, pushColor, 0.0f, DirectX::SimpleMath::Vector2::Zero);
+
 	//画像描画終了
 	m_spriteBatch->End();
 
